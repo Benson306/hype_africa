@@ -41,7 +41,7 @@ function Sidebar() {
     }
 
   return (
-    <div className='min-h-screen bg-gradient-to-l from-slate-800 via-slate-800 to-slate-900' style={{ width: isOpen ? '320px': '50px'}} >
+    <div className='min-h-screen bg-gradient-to-l from-slate-800 via-slate-800 to-slate-900' style={{ width: isOpen ? '320px': '50px', transition: 'width 0.5s ease'}} >
         { isOpen && <Link to={"/all_campaigns"} >
             <h1 className='text-white text-2xl text-center mt-5'>HypeAfrica</h1></Link> }
 
@@ -54,7 +54,7 @@ function Sidebar() {
             </Link>
             {
                 sidebarCampaignItems.map(item=>(
-                    <Link className="flex text-white py-2 mx-5 align-middle gap-4 hover:text-blue-200" to={item.route}>
+                    <Link onClick={() => handleSidebar()} className="flex text-white py-2 mx-5 align-middle gap-4 hover:text-blue-200" to={item.route}>
 
                         {item.icon}
                     <div style={{display: isOpen ? 'block' : 'none'}}>{item.label}</div> 

@@ -1,7 +1,4 @@
-import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
-import Navbar from './components/brands/Navbar';
-import { Switch } from '@mui/material';
-import Home from './components/brands/pages/Home';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Sidebar from './components/brands/Sidebar';
 import AllCampaigns from './components/brands/pages/AllCampaigns';
 import ActiveCampaigns from './components/brands/pages/ActiveCampaigns';
@@ -9,6 +6,7 @@ import ExpiredCampaigns from './components/brands/pages/ExpiredCampaigns';
 import ScheduledCampaigns from './components/brands/pages/ScheduledCampaigns';
 import CompletedCampaigns from './components/brands/pages/CompletedCampaigns';
 import Drafts from './components/brands/pages/Drafts';
+import AddCampaign from './components/brands/pages/AddCampaign';
 
 function App() {
   return (
@@ -17,6 +15,11 @@ function App() {
 
         <div className="flex">
           <Routes>
+          <Route path='/create_campaign' element={
+              <>
+                <AddCampaign />
+              </>
+            }/>
             <Route path='/all_campaigns' element={
               <>
                 <Sidebar />
