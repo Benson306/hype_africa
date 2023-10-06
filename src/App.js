@@ -27,6 +27,11 @@ function App() {
                 <SignUp />
               </>
             }/>
+            <Route path='/create_profile' element={
+              <>
+                <SignUp />
+              </>
+            }/>
           <Route path='/create_campaign' element={
               <>
                 <AddCampaign />

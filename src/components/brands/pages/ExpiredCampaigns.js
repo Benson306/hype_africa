@@ -7,7 +7,7 @@ function ExpiredCampaigns() {
         <Navbar />
         <div className='p-2 ml-16'>
 
-            <h1>Expired Campaigns</h1>
+            <h1 className='text-sm mb-3 p-3 uppercase font-bold text-gray-700'>Expired Campaigns</h1>
 
         </div>
     </div>
