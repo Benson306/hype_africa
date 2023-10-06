@@ -5,7 +5,11 @@ function ExpiredCampaigns() {
   return (
     <div className='w-full min-h-screen bg-neutral-300'>
         <Navbar />
-      <h1>Expired campaigns</h1>
+        <div className='p-2 ml-16'>
+
+            <h1>Expired Campaigns</h1>
+
+        </div>
     </div>
   )
 }

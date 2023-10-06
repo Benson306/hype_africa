@@ -7,6 +7,8 @@ import ScheduledCampaigns from './components/brands/pages/ScheduledCampaigns';
 import CompletedCampaigns from './components/brands/pages/CompletedCampaigns';
 import Drafts from './components/brands/pages/Drafts';
 import AddCampaign from './components/brands/pages/AddCampaign';
+import Login from './components/brands/pages/Login';
+import SignUp from './components/brands/pages/SignUp';
 
 function App() {
   return (
@@ -15,6 +17,16 @@ function App() {
 
         <div className="flex">
           <Routes>
+          <Route path='/brand_login' element={
+              <>
+                <Login />
+              </>
+            }/>
+            <Route path='/brand_signup' element={
+              <>
+                <SignUp />
+              </>
+            }/>
           <Route path='/create_campaign' element={
               <>
                 <AddCampaign />

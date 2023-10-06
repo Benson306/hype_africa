@@ -47,11 +47,11 @@ function AddCampaign() {
                 <h1>HypeAfrica</h1>
             </div>
             <div className='gap-4 lg:gap-8 flex justify-end mr-5'>
-                <Link to={""} className='bg-sky-900 text-white p-1 lg:p-2 rounded-md lg:rounded-lg flex gap-1  align-middle text-sm'>
+                <Link to={""} className='hover:border-2 border-slate-900 hover:bg-transparent hover:text-sky-900 bg-sky-900 text-white p-1 lg:p-2 rounded-md lg:rounded-lg flex gap-1  align-middle text-sm'>
                     SAVE AS DRAFT
                 </Link>
 
-                <Link to={"/all_campaigns"} className='text-sky-900 border-2 border-sky-900 border-solid p-1 lg:p-2 rounded-md lg:rounded-lg flex gap-1  align-middle text-sm'>
+                <Link to={"/all_campaigns"} className='hover:bg-sky-900 hover:text-white text-sky-900 border-2 border-sky-900 border-solid p-1 lg:p-2 rounded-md lg:rounded-lg flex gap-1  align-middle text-sm'>
                     CLOSE
                 </Link>
             </div>
@@ -329,7 +329,7 @@ function AddCampaign() {
         <div class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">{endDate.toISOString().split('T')[0]}</div>
 
         <div className='flex justify-center'>
-            <input type="submit" value="SUBMIT" className='border-2 border-slate-900 text-bold rounded p-2 mt-10 '/>
+            <input type="submit" value="SUBMIT" className='border-2 border-slate-900 text-bold rounded p-2 mt-10 hover:bg-sky-900 hover:text-white '/>
         </div>
 
 
