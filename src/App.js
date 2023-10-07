@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import {  Route, Router, Routes } from 'react-router-dom';
 import Sidebar from './components/brands/Sidebar';
 import AllCampaigns from './components/brands/pages/AllCampaigns';
 import ActiveCampaigns from './components/brands/pages/ActiveCampaigns';
@@ -14,7 +14,7 @@ import CompleteProfile from './components/brands/pages/CompleteProfile';
 function App() {
   return (
     <div className="App">
-      <BrowserRouter>
+      <Router>
 
         <div className="flex">
           <Routes>
@@ -85,7 +85,7 @@ function App() {
         </div>
         
 
-      </BrowserRouter>
+      </Router>
     </div>
   );
 }
