@@ -9,6 +9,7 @@ import Drafts from './components/brands/pages/Drafts';
 import AddCampaign from './components/brands/pages/AddCampaign';
 import Login from './components/brands/pages/Login';
 import SignUp from './components/brands/pages/SignUp';
+import CompleteProfile from './components/brands/pages/CompleteProfile';
 
 function App() {
   return (
@@ -27,9 +28,9 @@ function App() {
                 <SignUp />
               </>
             }/>
-            <Route path='/create_profile' element={
+            <Route path='/complete_profile' element={
               <>
-                <SignUp />
+                <CompleteProfile />
               </>
             }/>
           <Route path='/create_campaign' element={
