@@ -110,7 +110,7 @@ function SignUp() {
                     });
 
                     setTimeout(() => {
-                        navigate('/complete_profile');
+                        navigate('/login');
                       }, 2000);
             }else if(response === "Failed"){
                 toast.error('Failed. Server Error!', {

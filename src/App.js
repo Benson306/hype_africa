@@ -10,80 +10,100 @@ import AddCampaign from './components/brands/pages/AddCampaign';
 import Login from './components/brands/pages/Login';
 import SignUp from './components/brands/pages/SignUp';
 import CompleteProfile from './components/brands/pages/CompleteProfile';
+import { useContext } from 'react';
+import { AuthContext } from './utils/AuthContext';
 
 function App() {
+
+  const { id } = useContext(AuthContext);
+
   return (
     <div className="App">
       <Router>
 
         <div className="flex">
-          <Routes>
-          <Route path='/brand_login' element={
-              <>
-                <Login />
-              </>
-            }/>
-            <Route path='/brand_signup' element={
-              <>
-                <SignUp />
-              </>
-            }/>
-            <Route path='/complete_profile' element={
-              <>
-                <CompleteProfile />
-              </>
-            }/>
-          <Route path='/create_campaign' element={
-              <>
-                <AddCampaign />
-              </>
-            }/>
-            <Route path='/all_campaigns' element={
-              <>
-                <Sidebar />
-                <AllCampaigns />
-              </>
-            }/>
 
-            <Route path='/active_campaigns' element={
-              <>
-                <Sidebar />
-                <ActiveCampaigns />
-              </>
-            }/>
+            {
+              id == null ?
+              <Routes>
 
-            <Route path='/expired_campaigns' element={
-              <>
-                <Sidebar />
-                <ExpiredCampaigns />
-              </>
-            }/>
+                <Route path='/brand_login' element={
+                  <>
+                    <Login />
+                  </>
+                }/>
+                <Route path='/brand_signup' element={
+                  <>
+                    <SignUp />
+                  </>
+                }/>
+                <Route path='/*' element={
+                  <>
+                    <Login />
+                  </>
+                }/>
 
-            <Route path='/scheduled_campaigns' element={
-              <>
-                <Sidebar />
-                <ScheduledCampaigns />
-              </>
-            }/>
+              </Routes>
 
-            <Route path='/completed_campaigns' element={
-              <>
-                <Sidebar />
-                <CompletedCampaigns />
-              </>
-            }/>
+              :
 
-            <Route path='/draft_campaigns' element={
-              <>
-                <Sidebar />
-                <Drafts />
-              </>
-            }/>
+              <Routes>
+                <Route path='/complete_profile' element={
+                    <>
+                      <CompleteProfile />
+                    </>
+                  }/>
+                <Route path='/create_campaign' element={
+                    <>
+                      <AddCampaign />
+                    </>
+                  }/>
+                  <Route path='/all_campaigns' element={
+                    <>
+                      <Sidebar />
+                      <AllCampaigns />
+                    </>
+                  }/>
 
-          </Routes>
+                  <Route path='/active_campaigns' element={
+                    <>
+                      <Sidebar />
+                      <ActiveCampaigns />
+                    </>
+                  }/>
+
+                  <Route path='/expired_campaigns' element={
+                    <>
+                      <Sidebar />
+                      <ExpiredCampaigns />
+                    </>
+                  }/>
+
+                  <Route path='/scheduled_campaigns' element={
+                    <>
+                      <Sidebar />
+                      <ScheduledCampaigns />
+                    </>
+                  }/>
+
+                  <Route path='/completed_campaigns' element={
+                    <>
+                      <Sidebar />
+                      <CompletedCampaigns />
+                    </>
+                  }/>
+
+                  <Route path='/draft_campaigns' element={
+                    <>
+                      <Sidebar />
+                      <Drafts />
+                    </>
+                  }/>
+
+              </Routes>
+            }
           
         </div>
-        
 
       </Router>
     </div>

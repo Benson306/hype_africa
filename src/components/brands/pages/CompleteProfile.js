@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthContext } from '../../../utils/AuthContext';
 
 function CompleteProfile() {
 
@@ -12,6 +13,8 @@ function CompleteProfile() {
     const [brandName, setBrandName] = useState(null);
 
     const [about, setAbout] = useState(null);
+
+    const { id } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -55,6 +58,7 @@ function CompleteProfile() {
     formData.append('brandName', brandName);
     formData.append('about', about);
     formData.append('image', imageSrc); 
+    formData.append('user_id', id);
 
 
     fetch(`${process.env.REACT_APP_API_URL}/complete_profile`,{

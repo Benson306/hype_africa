@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthContext } from '../../../utils/AuthContext';
 
 function Login() {
     const [email,setEmail] = useState(null);
     const [password, setPassword] = useState(null);
+
+    const { id, addId } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -52,6 +55,8 @@ function Login() {
                     progress: undefined,
                     theme: "colored"
                     });
+
+                    addId(response.uid);
 
                     if(response.isComplete){
                         setTimeout(() => {
