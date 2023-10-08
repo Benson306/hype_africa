@@ -12,6 +12,7 @@ import SignUp from './components/brands/pages/SignUp';
 import CompleteProfile from './components/brands/pages/CompleteProfile';
 import { useContext } from 'react';
 import { AuthContext } from './utils/AuthContext';
+import ViewProfile from './components/brands/pages/ViewProfile';
 
 function App() {
 
@@ -48,6 +49,12 @@ function App() {
               :
 
               <Routes>
+                <Route path='/view_profile' element={
+                    <>
+                      <Sidebar />
+                      <ViewProfile />
+                    </>
+                  }/>
                 <Route path='/complete_profile' element={
                     <>
                       <CompleteProfile />
