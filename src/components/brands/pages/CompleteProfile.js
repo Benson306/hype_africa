@@ -1,9 +1,116 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function CompleteProfile() {
+
+    const [imageSrc, setImageSrc] = useState(null);
+
+    const [imageUrl, setImageUrl] = useState(null);
+
+    const [brandName, setBrandName] = useState(null);
+
+    const [about, setAbout] = useState(null);
+
+    const navigate = useNavigate();
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const file = e.target.files[0];
+    setImageSrc(file);
+    setImageUrl(URL.createObjectURL(file))
+    
+  };
+
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDelete = () => {
+    setImageSrc(null);
+  };
+
+
+  const handleSubmit = (e) =>{
+    e.preventDefault();
+
+    if(brandName === null || imageSrc === null || about === null){
+        toast.error('All Fields Must Be Filled', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            });
+        return;
+    }
+
+
+    // Create a FormData object to send the data
+    const formData = new FormData();
+    formData.append('brandName', brandName);
+    formData.append('about', about);
+    formData.append('image', imageSrc); 
+
+
+    fetch(`${process.env.REACT_APP_API_URL}/complete_profile`,{
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(response =>{
+        if(response.status == 'success'){
+            toast.success('Success!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored"
+                });
+
+                setTimeout(() => {
+                    navigate('/all_campaigns');
+                  }, 2000);
+        }else{
+            toast.error('Failed. Server Error!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        }
+    })
+    .catch(err =>{
+        toast.error('Failed. Server Error!', {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+            });
+    })
+
+
+   
+  }
+
     return (
         <div className='w-full min-h-screen bg-neutral-300'>
+            <ToastContainer />
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto  my-10 lg:py-0 ">
                 <div class="flex items-center mb-6 text-2xl font-semibold text-gray-900 ">
                     {/* <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" /> */}
@@ -14,21 +121,96 @@ function CompleteProfile() {
                         <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl text-white">
                             Complete Your Profile
                         </h1>
-                        <form class="space-y-4 md:space-y-6" action="#">
+                        <form class="space-y-4 md:space-y-6">
                             <div>
                                 <label for="email" class="block mb-2 text-sm font-medium text-white">Brand Name</label>
-                                <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="" />
+                                <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Hype Africa" required="" 
+                                onChange={(e)=> setBrandName(e.target.value)}
+                                />
                             </div>
                             <div>
                                 <label for="email" class="block mb-2 text-sm font-medium text-white">Brand Logo</label>
-                                <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="+254 707357072" required="" />
-                            </div>
+                                {/* <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="+254 707357072" required="" /> */}
+
+                                <div
+                                    className="flex items-center justify-center w-full"
+                                    onDrop={handleDrop}
+                                    onDragOver={handleDragOver}
+                                    >
+                                    {imageSrc ? (
+                                        <div className="w-full h-64 relative">
+                                        <img
+                                            src={imageUrl}
+                                            alt="Preview"
+                                            className="w-full h-full object-contain rounded-lg"
+                                        />
+                                        <button
+                                            className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-2"
+                                            onClick={handleDelete}
+                                        >
+                                            <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="w-4 h-4"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M6 18L18 6M6 6l12 12"
+                                            />
+                                            </svg>
+                                        </button>
+                                        </div>
+                                    ) : (
+                                        <label
+                                        htmlFor="dropzone-file"
+                                        className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+                                        >
+                                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                            <svg
+                                            className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 20 16"
+                                            >
+                                            <path
+                                                stroke="currentColor"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                            />
+                                            </svg>
+                                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                            <span className="font-semibold">Click to upload</span> or drag and
+                                            drop
+                                            </p>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                                            SVG, PNG, JPG or GIF (MAX. 800x400px)
+                                            </p>
+                                        </div>
+                                        <input
+                                            id="dropzone-file"
+                                            type="file"
+                                            className="hidden"
+                                            onChange={(e) =>{ setImageSrc(e.target.files[0]); setImageUrl(URL.createObjectURL(e.target.files[0]) )}}
+                                        />
+                                        </label>
+                                    )}
+                                    </div>
+                                    </div>
                             <div>
                                 <label for="email" class="block mb-2 text-sm font-medium text-white">About Your Brand</label>
-                                <textarea type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Short Description about your brand" required="" ></textarea>
+                                <textarea type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Short Description about your brand" required="" 
+                                onChange={(e)=>setAbout(e.target.value)}
+                                ></textarea>
                             </div>
 
-                            <h1 class="text-lg font-bold leading-tight tracking-tight md:text-xl text-white">
+                            {/* <h1 class="text-lg font-bold leading-tight tracking-tight md:text-xl text-white">
                                 Card Details To Process Payment:
                             </h1>
 
@@ -66,11 +248,13 @@ function CompleteProfile() {
                                     </svg>
                                 </label>
                                 
-                            </div>
+                            </div> */}
     
-                            <Link to="/all_campaigns" >
-                                <div className="w-full text-white bg-sky-700 hover:bg-sky-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 focus:ring-primary-800 mt-5">Complete Profile</div>
-                            </Link>
+                            <button className="w-full text-white bg-sky-700 hover:bg-sky-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 focus:ring-primary-800 mt-5"
+                            onClick={(e)=>handleSubmit(e)}
+                            >
+                                    Complete Profile
+                            </button>
                             <p class="text-sm  text-gray-100">
                                 Go to Home? <Link to="/" className="font-medium hover:underline text-sky-500"> Homepage</Link>
                             </p>
