@@ -78,7 +78,6 @@ function SignUp() {
             return;
         }
 
-        console.log(process.env.REACT_APP_API_URL);
 
         fetch(`${process.env.REACT_APP_API_URL}/brand_signup`,{
             method:'POST',
