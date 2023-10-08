@@ -1,4 +1,4 @@
-import {  Route, Router, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route,  Routes } from 'react-router-dom';
 import Sidebar from './components/brands/Sidebar';
 import AllCampaigns from './components/brands/pages/AllCampaigns';
 import ActiveCampaigns from './components/brands/pages/ActiveCampaigns';

@@ -1,4 +1,3 @@
-import { response } from 'express';
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
@@ -79,7 +78,7 @@ function SignUp() {
             return;
         }
 
-        fetch(`https://localhost:5000/brand_signup`,{
+        fetch(`http://localhost:5000/brand_signup`,{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -96,8 +95,24 @@ function SignUp() {
         })
         .then(response => response.json())
         .then((response)=>{
-            if(response === "OK"){
+
+            if(response === "success"){
                 toast.success('Success!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored"
+                    });
+
+                    setTimeout(() => {
+                        navigate('/complete_profile');
+                      }, 2000);
+            }else if(response === "Failed"){
+                toast.error('Failed. Server Error!', {
                     position: "top-right",
                     autoClose: 5000,
                     hideProgressBar: false,
@@ -107,17 +122,38 @@ function SignUp() {
                     progress: undefined,
                     theme: "colored",
                     });
-                    //navigate('/complete_profile');
+            }else{
+                toast.error('Email Has Been Used!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    });
             }
         })
-        //toast("SO EAzy");
+        .catch(err =>{
+            toast.error('Failed. Server Error!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+        })
         
     }
 
   return (
     <div className='w-full min-h-screen bg-neutral-300'>
         <ToastContainer />
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto  my-10 lg:py-0 mb-44">
+        <div class="flex flex-col items-center justify-center px-0 py-8 mx-auto  my-10 lg:py-0 mb-44">
             <div class="flex items-center mb-6 text-2xl font-semibold text-gray-900 ">
                 {/* <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" /> */}
                 Hype Africa    
