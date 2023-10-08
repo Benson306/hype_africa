@@ -78,7 +78,9 @@ function SignUp() {
             return;
         }
 
-        fetch(`http://localhost:5000/brand_signup`,{
+        console.log(process.env.REACT_APP_API_URL);
+
+        fetch(`${process.env.REACT_APP_API_URL}/brand_signup`,{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
