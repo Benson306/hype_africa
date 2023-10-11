@@ -13,6 +13,7 @@ import CompleteProfile from './components/brands/pages/CompleteProfile';
 import { useContext } from 'react';
 import { AuthContext } from './utils/AuthContext';
 import ViewProfile from './components/brands/pages/ViewProfile';
+import EditProfile from './components/brands/pages/EditProfile';
 
 function App() {
 
@@ -49,10 +50,26 @@ function App() {
               :
 
               <Routes>
+                <Route path='/brand_login' element={
+                  <>
+                    <Login />
+                  </>
+                }/>
+                <Route path='/brand_signup' element={
+                  <>
+                    <SignUp />
+                  </>
+                }/>
                 <Route path='/view_profile' element={
                     <>
                       <Sidebar />
                       <ViewProfile />
+                    </>
+                  }/>
+                  <Route path='/edit_profile' element={
+                    <>
+                      <Sidebar />
+                      <EditProfile />
                     </>
                   }/>
                 <Route path='/complete_profile' element={

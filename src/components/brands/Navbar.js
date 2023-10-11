@@ -30,6 +30,7 @@ function Navbar() {
       fetch(`${process.env.REACT_APP_API_URL}/profile/${id}`)
       .then((response)=> response.json())
       .then(response => setData(response))
+      .catch(err => console.log(err))
   },[])
 
   

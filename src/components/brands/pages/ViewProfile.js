@@ -4,11 +4,14 @@ import { AuthContext } from '../../../utils/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from 'react-router-dom';
 
 function ViewProfile() {
     const [data, setData] = useState(null);
 
     const { id } = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     useEffect(()=>{
         fetch(`${process.env.REACT_APP_API_URL}/profile/${id}`)
@@ -31,7 +34,7 @@ function ViewProfile() {
     <div className='w-full min-h-screen bg-neutral-300'>
         <ToastContainer />
         <Navbar />
-        <div className='p-2 ml-16 mb-48 lg:ml-0 flex justify-center'>
+        <div className='p-2 ml-12 mb-48 lg:ml-0 flex justify-center'>
 
             <div> 
                 <h1 className='flex justify-center text-sm mb-3 p-3 uppercase font-bold text-gray-700'>My Profile</h1>
@@ -79,12 +82,9 @@ function ViewProfile() {
 
 
                     <div className='flex justify-center mt-4'>
-                        <button className='w-full bg-sky-700 p-2 lg:p-4 rounded-xl text-white hover:bg-sky-500 flex justify-center items-center gap-4'> 
+                        <button onClick={()=>{navigate("/edit_profile")}} className='w-full bg-sky-700 p-2 lg:p-4 rounded-xl text-white hover:bg-sky-500 flex justify-center items-center gap-4'> 
                         <EditIcon /> Edit Profile</button>
                     </div>
-
-
-                    
 
                 </div> }
 

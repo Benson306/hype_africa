@@ -83,11 +83,11 @@ function Sidebar() {
         { isOpen && <Link to={"/all_campaigns"} >
             <h1 className='text-white text-2xl text-center mt-5'>HypeAfrica</h1></Link> }
 
-        <MenuIcon htmlColor="#0284c7" style={{float: 'right', marginRight: 12, marginTop: 50, marginBottom: 20}} onClick={handleSidebar}/>
+        <MenuIcon htmlColor="#0284c7" style={{float: 'right', marginRight: 22, marginTop: 50, marginBottom: 20}} onClick={handleSidebar}/>
 
         {/* <div className="mt-28" style={{marginLeft: isOpen ? '30px' : '10px', marginRight:'10px'}}> */}
         <div
-        className={`mt-28 ml-7 lg:ml-${isOpen ? '12' : '8'} `}
+        className={`mt-28 ml-4 lg:ml-${isOpen ? '12' : '8'} `}
       >
             
 
