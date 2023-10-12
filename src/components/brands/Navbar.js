@@ -4,6 +4,9 @@ import AddIcon from '@mui/icons-material/Add';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
 import { AuthContext } from '../../utils/AuthContext';
+import ChangePasswordModal from './pages/ChangePasswordModal';
+
+ 
 
 function Navbar() {
 
@@ -13,6 +16,7 @@ function Navbar() {
 
   const [data, setData] = useState({});
 
+ 
   const navigate = useNavigate();
 
   const handleShow = () =>{
@@ -24,7 +28,16 @@ function Navbar() {
     addId(null);
   }
 
+  const [isModalOpen, setModalOpen] = useState(false);
 
+  const openModal = () => {
+    
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
 
   useEffect(()=>{
       fetch(`${process.env.REACT_APP_API_URL}/profile/${id}`)
@@ -69,11 +82,25 @@ function Navbar() {
 
             </div>
             <button onClick={()=>{ handleShow(); navigate('/view_profile')}} className='flex justify-center bg-neutal-100 border-2 border-sky-900 hover:bg-sky-900 hover:text-white text-sm  p-2  mx-auto w-3/4 rounded-2xl'>View Profile</button>
+
+                <button
+                    type="button"
+                    className="flex justify-center text-red-700 w-full px-4 py-2 text-left text-sm hover:text-red-500 mt-2"
+                    onClick={() => { openModal() ; handleShow() } }
+                  >
+                    Change Password
+                </button>
+
+              
+
             <button onClick={()=> handleLogout()} class="flex justify-center text-gray-700 w-full px-4 py-2 text-left text-sm hover:text-sky-900" role="menuitem" tabindex="-1" id="menu-item-3">Sign out</button>
           </div>
         </div>
 
       }
+
+    <ChangePasswordModal isOpen={isModalOpen} onRequestClose={closeModal}  />
+           
     </div>
   )
 }
