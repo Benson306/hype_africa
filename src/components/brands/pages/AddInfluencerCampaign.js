@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import { Link } from 'react-router-dom';
-function AddCampaign() {
+function AddInfluencerCampaign() {
 
     const [rangeValue, setRangeValue] = useState(0);
 
@@ -344,4 +344,4 @@ function AddCampaign() {
   )
 }
 
-export default AddCampaign
+export default AddInfluencerCampaign

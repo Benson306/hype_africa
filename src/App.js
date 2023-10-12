@@ -6,7 +6,6 @@ import ExpiredCampaigns from './components/brands/pages/ExpiredCampaigns';
 import ScheduledCampaigns from './components/brands/pages/ScheduledCampaigns';
 import CompletedCampaigns from './components/brands/pages/CompletedCampaigns';
 import Drafts from './components/brands/pages/Drafts';
-import AddCampaign from './components/brands/pages/AddCampaign';
 import Login from './components/brands/pages/Login';
 import SignUp from './components/brands/pages/SignUp';
 import CompleteProfile from './components/brands/pages/CompleteProfile';
@@ -14,6 +13,9 @@ import { useContext } from 'react';
 import { AuthContext } from './utils/AuthContext';
 import ViewProfile from './components/brands/pages/ViewProfile';
 import EditProfile from './components/brands/pages/EditProfile';
+import ChooseCampaign from './components/brands/pages/ChooseCampaign';
+import AddInfluencerCampaign from './components/brands/pages/AddInfluencerCampaign';
+import AddContentCampaign from './components/brands/pages/AddContentCampaign';
 
 function App() {
 
@@ -77,9 +79,19 @@ function App() {
                       <CompleteProfile />
                     </>
                   }/>
-                <Route path='/create_campaign' element={
+                  <Route path='/choose_campaign' element={
                     <>
-                      <AddCampaign />
+                      <ChooseCampaign />
+                    </>
+                  }/>
+                <Route path='/create_influencer_campaign' element={
+                    <>
+                      <AddInfluencerCampaign />
+                    </>
+                  }/>
+                  <Route path='/create_content_campaign' element={
+                    <>
+                      <AddContentCampaign />
                     </>
                   }/>
                   <Route path='/all_campaigns' element={

@@ -18,7 +18,7 @@ function ViewProfile() {
         .then((response)=> response.json())
         .then(response => setData(response))
         .catch(err =>{
-            toast.error('All Fields Must Be Filled', {
+            toast.error('Server Error. Try Again', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -30,6 +30,8 @@ function ViewProfile() {
                 });
         })
     },[])
+
+    
   return (
     <div className='w-full min-h-screen bg-neutral-300'>
         <ToastContainer />
