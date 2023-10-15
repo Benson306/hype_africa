@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ClearIcon from '@mui/icons-material/Clear';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,6 +11,8 @@ function AddInfluencerCampaign() {
     const { id } = useContext(AuthContext);
 
     const [rangeValue, setRangeValue] = useState(1);
+
+    const navigate = useNavigate();
 
     // Define minimum and maximum values
     const minValue = 1;
@@ -272,11 +274,130 @@ function AddInfluencerCampaign() {
                         progress: undefined,
                         theme: "colored"
                     });
+
+                    
+                    setTimeout(() => {
+                        navigate('/all_campaigns');
+                      }, 2000);
                 }
             })
             .catch(err => console.log(err))
 
    
+    }
+
+    const handleDraft = (e) => {
+        e.preventDefault();
+
+        if(title == null){
+            toast.error('Give the campaign a title to be able to save as a Draft', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+                return;
+        }
+
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('title', title);
+        formData.append('cover', imageSrc);
+        formData.append('objective', objective);
+        formData.append('industry', industry);
+        formData.append('call_to_action', callToAction);
+        formData.append('dos', dos);
+        formData.append('donts', donts);
+        formData.append('instagramTags', instaTags);
+        formData.append('xTags', xTags);
+        formData.append('fbTags', fbTags);
+        formData.append('gender', preferedGender);
+        formData.append('minAge', minAge);
+        formData.append('maxAge', maxAge);
+        formData.append('instaFollowers', InstaFollowersNeeded);
+        formData.append('xFollowers',xFollowersNeeded);
+        formData.append('fbFollowers', fbFollowersNeeded);
+        formData.append('location', location);
+        formData.append('budget', rangeValue);
+        formData.append('startDate', startDate)
+        formData.append('endDate', endDate);
+        formData.append('numberOfDays', numOfDays);
+
+        
+
+        if(imageSrc == null){
+
+            const formDataObject = {};
+
+            formData.forEach((value, key) => {
+                formDataObject[key] = value;
+            });
+            
+            fetch(`${process.env.REACT_APP_API_URL}/add_influencer_draft_without_image`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(formDataObject)
+            })
+            .then(response => response.json())
+            .then((response)=>{
+                if(response == 'success'){
+                    toast.success('Success!', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored"
+                    });
+
+                    setTimeout(() => {
+                        navigate('/all_campaigns');
+                      }, 2000);
+                }
+            })
+            .catch(err => console.log(err))
+
+        }else{
+
+
+            fetch(`${process.env.REACT_APP_API_URL}/add_influencer_draft_with_image`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then((response)=>{
+                if(response == 'success'){
+                    toast.success('Success!', {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored"
+                    });
+
+                    setTimeout(() => {
+                        navigate('/all_campaigns');
+                      }, 2000);
+                }
+            })
+            .catch(err => console.log(err))
+
+        }
+
     }
 
   return (
@@ -286,11 +407,7 @@ function AddInfluencerCampaign() {
                 <h1>HypeAfrica</h1>
             </div>
             <div className='gap-4 lg:gap-8 flex justify-end mr-5'>
-                <Link to={""} className='hover:border-2 border-slate-900 hover:bg-transparent hover:text-sky-900 bg-sky-900 text-white p-1 lg:p-2 rounded-md lg:rounded-lg flex gap-1  align-middle text-sm'>
-                    SAVE AS DRAFT
-                </Link>
-
-                <Link to={"/all_campaigns"} className='hover:bg-sky-900 hover:text-white text-sky-900 border-2 border-sky-900 border-solid p-1 lg:p-2 rounded-md lg:rounded-lg flex gap-1  align-middle text-sm'>
+                <Link to={"/all_campaigns"} className='bg-red-600 hover:bg-transparent text-white hover:text-red-700 border-2 border-red-600 border-solid p-1 lg:p-2 rounded-md lg:rounded-lg flex gap-1  align-middle text-sm'>
                     CLOSE
                 </Link>
             </div>
@@ -725,10 +842,33 @@ function AddInfluencerCampaign() {
             Ending Date
         </label>
 
-        <div class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">{endDate.toISOString().split('T')[0]}</div>
+        <div class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+            {endDate.toISOString().split('T')[0]}
+        </div>
 
-        <div className='flex justify-center'>
-            <button className='border-2 border-slate-900 text-bold rounded p-2 mt-10 hover:bg-sky-900 hover:text-white' onClick={(e)=> handleSubmit(e)}>SUBMIT</button>
+        <div className='flex justify-center gap-4 lg:gap-10 flex-wrap'>
+
+            <button 
+            className='border-2 border-slate-600 hover:border-slate-600 text-bold rounded p-2 mt-10 bg-sky-900 hover:bg-lime-600 text-white' 
+            onClick={(e)=> handleSubmit(e)}
+            >
+                PUBLISH NOW
+            </button>
+
+            <button 
+            className='border-2 border-blue-300 text-bold rounded p-2 mt-10 hover:bg-blue-400 bg-blue-500 text-white' 
+            onClick={(e)=> handleSubmit(e)}
+            >
+                SCHEDULE
+            </button>
+
+            <button 
+            className='border-2 border-red-700 text-bold rounded p-2 lg:mt-10 bg-red-700 hover:bg-red-900 text-white' 
+            onClick={(e)=> handleDraft(e)}
+            >
+                Save To Drafts
+            </button>
+
         </div>
 
 
