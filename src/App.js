@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Route,  Routes } from 'react-router-dom';
 import Sidebar from './components/brands/Sidebar';
 import AllCampaigns from './components/brands/pages/AllCampaigns';
 import ActiveCampaigns from './components/brands/pages/ActiveCampaigns';
-import ExpiredCampaigns from './components/brands/pages/ExpiredCampaigns';
 import ScheduledCampaigns from './components/brands/pages/ScheduledCampaigns';
 import CompletedCampaigns from './components/brands/pages/CompletedCampaigns';
 import Drafts from './components/brands/pages/Drafts';
@@ -17,6 +16,7 @@ import ChooseCampaign from './components/brands/pages/ChooseCampaign';
 import AddInfluencerCampaign from './components/brands/pages/AddInfluencerCampaign';
 import AddContentCampaign from './components/brands/pages/AddContentCampaign';
 import ViewCampaign from './components/brands/pages/ViewCampaign';
+import EditCampaign from './components/brands/pages/EditCampaign';
 
 function App() {
 
@@ -102,6 +102,13 @@ function App() {
                     </>
                   }/>
 
+                  <Route path='/edit_influencer_campaign/:user_id/:campaign_id' element={
+                    <>
+                      <Sidebar />
+                      <EditCampaign />
+                    </>
+                  }/>
+
                   <Route path='/view_campaign/:url' element={
                     <>
                       <Sidebar />
@@ -112,13 +119,6 @@ function App() {
                     <>
                       <Sidebar />
                       <ActiveCampaigns />
-                    </>
-                  }/>
-
-                  <Route path='/expired_campaigns' element={
-                    <>
-                      <Sidebar />
-                      <ExpiredCampaigns />
                     </>
                   }/>
 

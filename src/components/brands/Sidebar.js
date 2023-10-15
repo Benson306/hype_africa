@@ -14,11 +14,6 @@ function Sidebar() {
             route: '/active_campaigns'
         },
         {
-            label:'Expired Campaigns',
-            //icon: <ExpiredCampaigns />,
-            route: '/expired_campaigns'
-        },
-        {
             label:'Scheduled Campaigns',
             //icon: <ScheduledCampaigns />,
             route: '/scheduled_campaigns'
