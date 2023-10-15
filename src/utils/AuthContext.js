@@ -12,6 +12,11 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem('id', id);
     }
 
+    const logout = () => {
+        setId(null);
+        localStorage.removeItem('id');
+    }
+
     const isIdSet = async () => {
         try {
             let id = localStorage.getItem('id');
@@ -30,7 +35,7 @@ export const AuthProvider = ({ children }) => {
     },[]);
 
     return (
-        <AuthContext.Provider value={{ id, addId}}>
+        <AuthContext.Provider value={{ id, addId, logout}}>
             { children }
         </AuthContext.Provider>
     )

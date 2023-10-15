@@ -16,6 +16,7 @@ import EditProfile from './components/brands/pages/EditProfile';
 import ChooseCampaign from './components/brands/pages/ChooseCampaign';
 import AddInfluencerCampaign from './components/brands/pages/AddInfluencerCampaign';
 import AddContentCampaign from './components/brands/pages/AddContentCampaign';
+import ViewCampaign from './components/brands/pages/ViewCampaign';
 
 function App() {
 
@@ -101,6 +102,12 @@ function App() {
                     </>
                   }/>
 
+                  <Route path='/view_campaign/:url' element={
+                    <>
+                      <Sidebar />
+                      <ViewCampaign />
+                    </>
+                  }/>
                   <Route path='/active_campaigns' element={
                     <>
                       <Sidebar />

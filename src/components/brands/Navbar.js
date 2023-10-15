@@ -10,7 +10,7 @@ import ChangePasswordModal from './pages/ChangePasswordModal';
 
 function Navbar() {
 
-  const { id, addId } = useContext(AuthContext);
+  const { id, addId, logout } = useContext(AuthContext);
 
   const [show, setShow] = useState(false);
 
@@ -25,7 +25,8 @@ function Navbar() {
 
   const handleLogout = () =>{
     handleShow();
-    addId(null);
+    logout();
+    navigate("/brand_login")
   }
 
   const [isModalOpen, setModalOpen] = useState(false);

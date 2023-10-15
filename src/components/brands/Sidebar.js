@@ -91,7 +91,7 @@ function Sidebar() {
       >
             
 
-            <Link className="flex text-white py-2 align-middle gap-4 hover:text-blue-400" to={"/all_campaigns"}>
+            <Link onClick={handleSidebar} className="flex text-white py-2 align-middle gap-4 hover:text-blue-400" to={"/all_campaigns"}>
                 <CampaignIcon />
                 <div style={{display: isOpen ? 'block' : 'none'}}>CAMPAIGNS</div> 
             </Link>
