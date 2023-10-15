@@ -15,7 +15,6 @@ function CompletedCampaigns() {
         fetch(`${process.env.REACT_APP_API_URL}/get_campaigns/${id}/complete`)
         .then(response => response.json())
         .then(result => {
-            console.log(result);
             setData(result);
         })
 
@@ -33,7 +32,7 @@ function CompletedCampaigns() {
                   data.length > 0 && data.map( item => (
                       <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                       <a href="#">
-                          <img src={`${process.env.REACT_APP_API_URL}/uploads/${item.cover}`} class="p-0 rounded-t-lg"  alt="product image" />
+                          <img src={`${process.env.REACT_APP_API_URL}/uploads/${item.cover}`} class="p-0 rounded-t-lg"  alt="No image Uploaded" />
                       </a>
                       <div class="px-5 pb-5">
                           <div className='flex justify-between items-center'>
