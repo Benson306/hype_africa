@@ -370,9 +370,6 @@ function AddInfluencerCampaign() {
 
             fetch(`${process.env.REACT_APP_API_URL}/add_influencer_draft_with_image`,{
                 method: 'POST',
-                headers: {
-                    'Content-Type':'application/json'
-                },
                 body: formData
             })
             .then(response => response.json())

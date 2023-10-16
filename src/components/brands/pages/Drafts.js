@@ -1,8 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Navbar from '../Navbar'
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../../utils/AuthContext';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Drafts() {
 
@@ -15,21 +16,52 @@ function Drafts() {
         fetch(`${process.env.REACT_APP_API_URL}/get_campaigns/${id}/draft`)
         .then(response => response.json())
         .then(result => {
-          console.log(result)
             setData(result);
         })
         .catch(err => {
             console.log(err)
         })
-    },[])
+    },[data])
+
+    const handleDelete = (campaign_id) => {
+      fetch(`${process.env.REACT_APP_API_URL}/del_campaign/${id}/${campaign_id}`,{
+        method:'DELETE'
+      })
+      .then((res)=> res.json())
+      .then((response)=>{
+        if(response == 'success'){
+          toast.success('Success!', {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored"
+          });
+
+          setTimeout(() => {
+              navigate('/draft_campaigns');
+            }, 2000);
+          }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    }
 
   return (
     <div className='w-full min-h-screen bg-neutral-300'>
         <Navbar />
         <div className='p-4 ml-16'>
+          <ToastContainer />
             <h1 className='text-sm mb-3 p-3 uppercase font-bold text-gray-700 text-center'>Drafts</h1>
 
               <div class="relative overflow-x-auto shadow-md sm:rounded-lg lg:w-3/4 flex lg:mx-auto">
+
+                  
+
                 <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">                      
                         <tr>
@@ -70,7 +102,7 @@ function Drafts() {
                               </Link>
                           </td>
                           <td scope="col" class="px-3 py-1 lg:px-6 lg:py-3">
-                          <button className='bg-red-600 hover:bg-red-500 text-white rounded-lg shadow-md p-4'>Delete</button>
+                          <button onClick={() => handleDelete(item._id)} className='bg-red-600 hover:bg-red-500 text-white rounded-lg shadow-md p-4'>Delete</button>
                           </td>
                       </tr>
                 ))
@@ -79,6 +111,12 @@ function Drafts() {
                   </tbody>
               </table>
           </div>
+
+                    {
+                      data.length < 1 && <div className='p-8 text-sky-900 text-lg text-center'>
+                        You Have No Drafts
+                      </div>
+                    }
         
             
         </div>
