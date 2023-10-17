@@ -22,6 +22,7 @@ import PageNotFound from './components/PageNotFound';
 import CreatorLogin from './components/creators/pages/CreatorLogin';
 import DiscoverCampaigns from './components/creators/pages/DiscoverCampaigns';
 import CreatorSidebar from './components/creators/CreatorSidebar';
+import CreatorSignUp from './components/creators/pages/CreatorSignUp';
 
 function App() {
 
@@ -40,6 +41,13 @@ function App() {
                 <Route path='/creator_login' element={
                   <>
                   <CreatorLogin />
+                  </>
+                }>
+                </Route>
+
+                <Route path='/creator_signup' element={
+                  <>
+                  <CreatorSignUp />
                   </>
                 }>
                 </Route>
