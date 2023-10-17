@@ -17,18 +17,52 @@ import AddInfluencerCampaign from './components/brands/pages/AddInfluencerCampai
 import AddContentCampaign from './components/brands/pages/AddContentCampaign';
 import ViewCampaign from './components/brands/pages/ViewCampaign';
 import EditCampaign from './components/brands/pages/EditCampaign';
+import { CreatorAuthContext } from './utils/CreatorAuthContext';
+import PageNotFound from './components/PageNotFound';
+import CreatorLogin from './components/creators/pages/CreatorLogin';
+import DiscoverCampaigns from './components/creators/pages/DiscoverCampaigns';
+import CreatorSidebar from './components/creators/CreatorSidebar';
 
 function App() {
 
   const { id } = useContext(AuthContext);
+
+  const { creatorId } = useContext(CreatorAuthContext);
 
   return (
     <div className="App">
       <Router>
 
         <div className="flex">
+          {
+            creatorId == null ? 
+            <Routes>
+                <Route path='/creator_login' element={
+                  <>
+                  <CreatorLogin />
+                  </>
+                }>
+                </Route>
 
-            {
+                <Route path="/discover_campaigns" element={
+                  <>
+                  <CreatorSidebar />
+                  <DiscoverCampaigns />
+                  </>
+                }>
+                </Route>
+
+            </Routes>
+
+            :
+            <Routes>
+
+              
+              
+            </Routes>
+          }
+
+            {/* {
               id == null ?
               <Routes>
 
@@ -44,7 +78,7 @@ function App() {
                 }/>
                 <Route path='/*' element={
                   <>
-                    <Login />
+                    <PageNotFound />
                   </>
                 }/>
 
@@ -144,7 +178,7 @@ function App() {
                   }/>
 
               </Routes>
-            }
+            } */}
           
         </div>
 
