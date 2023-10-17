@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom'
@@ -6,14 +6,23 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
 import PaidIcon from '@mui/icons-material/Paid';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { CreatorAuthContext } from '../../utils/CreatorAuthContext';
 
 function CreatorSidebar() {
     
     const [isOpen, setIsOpen] = useState(false);
 
+    const { logoutCreator } = useContext(CreatorAuthContext);
+
     const handleSidebar = () =>{
          
         setIsOpen(!isOpen);
+    }
+
+    const handleLogout = (e) => {
+      e.preventDefault();
+
+      logoutCreator();
     }
 
   return (
@@ -54,7 +63,7 @@ function CreatorSidebar() {
                 <div style={{display: isOpen ? 'block' : 'none'}}>Wallet</div> 
             </Link>
 
-            <button className='absolute bottom-10 left-0 p-4 flex  align-middle gap-4 hover:text-blue-400 bg-black text-red-700 w-full justify-center place-items-center' >
+            <button onClick={(e)=> handleLogout(e)} className='absolute bottom-10 left-0 p-4 flex  align-middle gap-4 hover:text-blue-400 bg-black text-red-700 w-full justify-center place-items-center' >
               <LogoutIcon />
               <div className='text-lg' style={{display: isOpen ? 'block' : 'none'}}>Sign Out</div> 
             </button>

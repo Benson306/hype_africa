@@ -52,10 +52,9 @@ function App() {
                 }>
                 </Route>
 
-                <Route path="/discover_campaigns" element={
+                <Route path='/*' element={
                   <>
-                  <CreatorSidebar />
-                  <DiscoverCampaigns />
+                  <CreatorLogin />
                   </>
                 }>
                 </Route>
@@ -65,7 +64,15 @@ function App() {
             :
             <Routes>
 
-              
+                <Route path="/discover_campaigns" element={
+                  <>
+                  <CreatorSidebar />
+                  <DiscoverCampaigns />
+                  </>
+                }>
+                </Route>
+
+                
               
             </Routes>
           }
