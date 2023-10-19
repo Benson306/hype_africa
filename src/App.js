@@ -1,85 +1,42 @@
 import { BrowserRouter as Router, Route,  Routes } from 'react-router-dom';
-import Sidebar from './components/brands/Sidebar';
-import AllCampaigns from './components/brands/pages/AllCampaigns';
-import ActiveCampaigns from './components/brands/pages/ActiveCampaigns';
-import ScheduledCampaigns from './components/brands/pages/ScheduledCampaigns';
-import CompletedCampaigns from './components/brands/pages/CompletedCampaigns';
-import Drafts from './components/brands/pages/Drafts';
-import Login from './components/brands/pages/Login';
-import SignUp from './components/brands/pages/SignUp';
-import CompleteProfile from './components/brands/pages/CompleteProfile';
+import Sidebar from './components/Sidebar';
+import AllCampaigns from './components/pages/AllCampaigns';
+import ActiveCampaigns from './components/pages/ActiveCampaigns';
+import ScheduledCampaigns from './components/pages/ScheduledCampaigns';
+import CompletedCampaigns from './components/pages/CompletedCampaigns';
+import Drafts from './components/pages/Drafts';
+import Login from './components/pages/Login';
+import SignUp from './components/pages/SignUp';
+import CompleteProfile from './components/pages/CompleteProfile';
 import { useContext } from 'react';
 import { AuthContext } from './utils/AuthContext';
-import ViewProfile from './components/brands/pages/ViewProfile';
-import EditProfile from './components/brands/pages/EditProfile';
-import ChooseCampaign from './components/brands/pages/ChooseCampaign';
-import AddInfluencerCampaign from './components/brands/pages/AddInfluencerCampaign';
-import AddContentCampaign from './components/brands/pages/AddContentCampaign';
-import ViewCampaign from './components/brands/pages/ViewCampaign';
-import EditCampaign from './components/brands/pages/EditCampaign';
-import { CreatorAuthContext } from './utils/CreatorAuthContext';
+import ViewProfile from './components/pages/ViewProfile';
+import EditProfile from './components/pages/EditProfile';
+import ChooseCampaign from './components/pages/ChooseCampaign';
+import AddInfluencerCampaign from './components/pages/AddInfluencerCampaign';
+import AddContentCampaign from './components/pages/AddContentCampaign';
+import ViewCampaign from './components/pages/ViewCampaign';
+import EditCampaign from './components/pages/EditCampaign';
 import PageNotFound from './components/PageNotFound';
-import CreatorLogin from './components/creators/pages/CreatorLogin';
-import DiscoverCampaigns from './components/creators/pages/DiscoverCampaigns';
-import CreatorSidebar from './components/creators/CreatorSidebar';
-import CreatorSignUp from './components/creators/pages/CreatorSignUp';
 
 function App() {
 
   const { id } = useContext(AuthContext);
 
-  const { creatorId } = useContext(CreatorAuthContext);
-
   return (
     <div className="App">
+      
       <Router>
 
-        <div className="flex">
-          {
-            creatorId == null ? 
-            <Routes>
-                <Route path='/creator_login' element={
-                  <>
-                  <CreatorLogin />
-                  </>
-                }>
-                </Route>
-
-                <Route path='/creator_signup' element={
-                  <>
-                  <CreatorSignUp />
-                  </>
-                }>
-                </Route>
-
-                <Route path='/*' element={
-                  <>
-                  <CreatorLogin />
-                  </>
-                }>
-                </Route>
-
-            </Routes>
-
-            :
-            <Routes>
-
-                <Route path="/discover_campaigns" element={
-                  <>
-                  <CreatorSidebar />
-                  <DiscoverCampaigns />
-                  </>
-                }>
-                </Route>
-
-                
-              
-            </Routes>
-          }
-
-            {/* {
+      <div className="flex">
+            {
               id == null ?
               <Routes>
+                <Route exact path='/' element={
+                  <>
+                    <Login />
+                  </>
+                }/>
 
                 <Route path='/brand_login' element={
                   <>
@@ -102,6 +59,13 @@ function App() {
               :
 
               <Routes>
+                <Route exact path='/' element={
+                  <>
+                  <Sidebar />
+                  <AllCampaigns />
+                </>
+                }/>
+
                 <Route path='/brand_login' element={
                   <>
                     <Login />
@@ -193,7 +157,7 @@ function App() {
                   }/>
 
               </Routes>
-            } */}
+            }
           
         </div>
 

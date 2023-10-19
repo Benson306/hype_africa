@@ -20,7 +20,7 @@ function ChooseCampaign() {
         </div>
 
         <div className='mt-44 lg:mt-12 m-auto p-8'>
-            <img src={require('../../../images/campaign.jpg')} className='w-3/4 lg:w-1/2 flex m-auto mb-5 rounded-lg' />
+            <img src={require('../../images/campaign.jpg')} className='w-3/4 lg:w-1/2 flex m-auto mb-5 rounded-lg' />
             <div className='flex justify-center text-center mb-10 font-extrabold text-2xl font-serif tracking-wide'>
                 What Type Of Campaign Would You Like To Create?
             </div>

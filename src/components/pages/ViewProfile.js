@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Navbar from '../Navbar'
-import { AuthContext } from '../../../utils/AuthContext';
+import { AuthContext } from '../../utils/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import EditIcon from '@mui/icons-material/Edit';

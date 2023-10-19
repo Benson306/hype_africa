@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Navbar from '../Navbar'
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../utils/AuthContext';
+import { AuthContext } from '../../utils/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

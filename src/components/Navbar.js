@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import AddIcon from '@mui/icons-material/Add';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import CircleNotificationsIcon from '@mui/icons-material/CircleNotifications';
-import { AuthContext } from '../../utils/AuthContext';
+import { AuthContext } from '../utils/AuthContext';
 import ChangePasswordModal from './pages/ChangePasswordModal';
 
  

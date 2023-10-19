@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import ClearIcon from '@mui/icons-material/Clear';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AuthContext } from '../../../utils/AuthContext';
+import { AuthContext } from '../../utils/AuthContext';
 
 function AddInfluencerCampaign() {
 

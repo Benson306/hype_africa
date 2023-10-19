@@ -2,11 +2,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import Navbar from '../Navbar'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../../utils/AuthContext';
+import { AuthContext } from '../../utils/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function CompletedCampaigns() {
+function AllCampaigns() {
 
     const { id } = useContext(AuthContext);
     const navigate =  useNavigate('navigate');
@@ -104,4 +104,4 @@ function CompletedCampaigns() {
   )
 }
 
-export default CompletedCampaigns;
+export default AllCampaigns;

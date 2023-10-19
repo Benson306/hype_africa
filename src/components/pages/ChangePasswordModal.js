@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import Modal from 'react-modal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AuthContext } from '../../../utils/AuthContext';
+import { AuthContext } from '../../utils/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
 Modal.setAppElement('#root'); // Set the root element for accessibility

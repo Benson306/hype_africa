@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import Navbar from '../Navbar';
 import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
-import { AuthContext } from '../../../utils/AuthContext';
+import { AuthContext } from '../../utils/AuthContext';
 
 function ViewCampaign() {
     const { url } = useParams();
