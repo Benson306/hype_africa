@@ -151,7 +151,7 @@ function CreatorSignUp() {
     }
   return (
     <div className='w-full min-h-screen bg-neutral-300'>
-      <div className='lg:w-2/6 mx-2 lg:mx-auto bg-white shadow-2xl items-center p-4 mt-32 rounded'>
+      <div className='lg:w-2/6 mx-2 lg:mx-auto bg-white shadow-2xl items-center p-4 mb-5 mt-12 lg:mt-32 rounded'>
         <ToastContainer />
         <div className='text-center text-lg font-bold'>Hype Africa</div>
         <div className='text-center text-2xl mt-3 '>Create your Creator Account</div>
