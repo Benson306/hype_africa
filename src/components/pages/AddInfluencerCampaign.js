@@ -201,7 +201,7 @@ function AddInfluencerCampaign() {
         setFbTags(updatedFbTags);
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e, type) => {
         e.preventDefault();
 
         if(title == null || imageSrc == null || objective == null ||
@@ -285,6 +285,7 @@ function AddInfluencerCampaign() {
 
    
     }
+
 
     const handleDraft = (e) => {
         e.preventDefault();
@@ -396,6 +397,8 @@ function AddInfluencerCampaign() {
         }
 
     }
+
+    const [schedule, setSchedule] = useState(false);
 
   return (
     <div className='w-full min-h-screen bg-neutral-300'>
@@ -789,28 +792,12 @@ function AddInfluencerCampaign() {
             <p>Amount: $<b> {rangeValue}</b></p>
         </div>
 
-        <div className='flex gap-4'>
-            <div class="w-full md:w-1/3 mb-6 ">
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
-                    Start Date
-                </label>
-                <input
-                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                type="date"
-                id="startDate"
-                value={startDate.toISOString().split('T')[0]}
-                onChange={handleStartDateChange}
-                min={new Date().toISOString().split('T')[0]}
-                />
+        <div class="w-3/4 lg::w-1/4 mb-6 ">
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
+                Number of Days
+            </label>
 
-            </div>
-
-            <div>
-                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
-                    Number of Days
-                </label>
-
-                <div className="flex">
+            <div className="flex">
                 <button 
                 className='bg-sky-900 w-8 p-1 flex justify-center text-center text-white' 
                 onClick={(e) => { e.preventDefault() ;decrement() }}
@@ -831,33 +818,64 @@ function AddInfluencerCampaign() {
                 >+</button>
                 
             </div>
+        </div>
+        
+        {
+            schedule && 
+        
+        <div>
+
+            <div class="w-full md:w-1/3 mb-6 ">
+                <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
+                    Start Date
+                </label>
+                <input
+                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                type="date"
+                id="startDate"
+                value={startDate.toISOString().split('T')[0]}
+                onChange={handleStartDateChange}
+                min={new Date().toISOString().split('T')[0]}
+                />
+
             </div>
+
+
+            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
+                Ending Date
+            </label>
+
+            <div class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+                {endDate.toISOString().split('T')[0]}
+            </div>
+
         </div>
 
-
-        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
-            Ending Date
-        </label>
-
-        <div class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
-            {endDate.toISOString().split('T')[0]}
-        </div>
+        }
+        
 
         <div className='flex justify-center gap-4 lg:gap-10 flex-wrap'>
 
-            <button 
+            {!schedule && <button 
             className='border-2 border-slate-600 hover:border-slate-600 text-bold rounded p-2 mt-10 bg-sky-900 hover:bg-lime-600 text-white' 
-            onClick={(e)=> handleSubmit(e)}
+            onClick={(e)=> handleSubmit(e, "publish")}
             >
                 PUBLISH NOW
-            </button>
+            </button> }
 
-            <button 
+            { !schedule && <button 
             className='border-2 border-blue-300 text-bold rounded p-2 mt-10 hover:bg-blue-400 bg-blue-500 text-white' 
-            onClick={(e)=> handleSubmit(e)}
+            onClick={(e)=>{ e.preventDefault(); setSchedule(true)}}
             >
                 SCHEDULE
-            </button>
+            </button> }
+
+            { schedule && <button 
+            className='border-2 border-lime-600 shadow-md text-bold rounded p-2 mt-10 hover:bg-lime-800 bg-lime-600 text-white' 
+            onClick={(e)=>{ handleSubmit(e, "schedule")}}
+            >
+                SCHEDULE
+            </button> }
 
             <button 
             className='border-2 border-red-700 text-bold rounded p-2 lg:mt-10 bg-red-700 hover:bg-red-900 text-white' 

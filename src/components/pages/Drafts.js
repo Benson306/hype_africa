@@ -98,7 +98,7 @@ function Drafts() {
                           </td>
                           <td scope="col" class="px-3 py-1 lg:px-6 lg:py-3">
                               <Link to={`/edit_influencer_campaign/${id}/${item._id}`} className='bg-blue-600 hover:bg-blue-500 text-white rounded-lg shadow-md p-4'>
-                                Edit
+                                Complete Creation
                               </Link>
                           </td>
                           <td scope="col" class="px-3 py-1 lg:px-6 lg:py-3">
