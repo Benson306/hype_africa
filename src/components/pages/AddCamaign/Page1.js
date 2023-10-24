@@ -186,7 +186,7 @@ function Page1() {
             
         </div>
 
-        <div className='flex justify-between mx-5'>
+        <div className='flex justify-between mx-2 lg:mx-5'>
             <button className='p-4 bg-red-600 hover:bg-red-400 text-white rounded-lg'>
                 Save As Draft
             </button>
