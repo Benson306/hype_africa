@@ -5,6 +5,10 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../utils/AuthContext';
+import Page1 from './AddCamaign/Page1';
+import Page2 from './AddCamaign/Page2';
+import Page3 from './AddCamaign/Page3';
+import Page4 from './AddCamaign/Page4';
 
 function AddInfluencerCampaign() {
 
@@ -402,6 +406,25 @@ function AddInfluencerCampaign() {
 
   return (
     <div className='w-full min-h-screen bg-neutral-300'>
+
+        <div className="fixed bg-gray-200 shadow-md p-2 w-full flex justify-between">
+                <div className='align-middle p-1 ml-5 lg:ml-10'>
+                    <h1>HypeAfrica</h1>
+                </div>
+                <div className='gap-4 lg:gap-8 flex justify-end mr-5'>
+                    <Link to={"/all_campaigns"} className='bg-red-600 hover:bg-transparent text-white hover:text-red-700 border-2 border-red-600 border-solid p-1 lg:p-2 rounded-md lg:rounded-lg flex gap-1  align-middle text-sm'>
+                            CLOSE
+                    </Link>
+                </div>
+
+        </div>
+        <Page1 />
+        <Page2 />
+        <Page4 />
+        
+            <Page4 />
+    
+    {/* <div className='w-full min-h-screen bg-neutral-300'>
       <div className="fixed bg-gray-200 shadow-md p-2 w-full flex justify-between">
             <div className='align-middle p-1 ml-5 lg:ml-10'>
                 <h1>HypeAfrica</h1>
@@ -892,6 +915,7 @@ function AddInfluencerCampaign() {
         <br /><br /> <br />
         <br />
 
+    </div> */}
     </div>
   )
 }
