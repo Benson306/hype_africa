@@ -59,7 +59,7 @@ function AllCampaigns() {
             <div className='flex flex-wrap gap-4'>
             { 
                 data.length > 0 && data.map( item => {
-                    if(item.status == "complete" || item.status == "scheduled"){
+                    if(item.status == "complete" || item.status == "scheduled" || item.status == "publish"){
                         return (
                             <Link to={`/view_campaign/${item._id}`}>
                             <div class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
