@@ -5,8 +5,11 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../../utils/AuthContext';
+import { InfluencerCampaignContext } from '../../../utils/InfluencerCampaignContext';
 
 function Page4() {
+
+    const { updateBudget, updateStartDate, updateEndDate, updateNumOfDays, handleSubmit } = useContext(InfluencerCampaignContext);
 
     // Define minimum and maximum values
     const minValue = 1;
@@ -64,10 +67,20 @@ function Page4() {
     const [schedule, setSchedule] = useState(false);
 
 
-    const handleSubmit = (e, type) => {
+    const handleSubmitForm = (e, type) => {
         e.preventDefault();
 
-   
+        updateBudget(rangeValue);
+        updateStartDate(startDate);
+        updateEndDate(endDate);
+        updateNumOfDays(numOfDays);
+
+        handleSubmit(type);
+
+    }
+
+    const handleSchedule = (e) => {
+        e.preventDefault();
     }
     
   return (
@@ -198,14 +211,14 @@ function Page4() {
 
             {!schedule && <button 
             className='border-2 border-slate-600 hover:border-slate-600 text-bold rounded p-2 mt-10 bg-sky-900 hover:bg-lime-600 text-white' 
-            onClick={(e)=> handleSubmit(e, "publish")}
+            onClick={(e)=> handleSubmitForm(e, "publish")}
             >
                 PUBLISH NOW
             </button> }
 
             { schedule && <button 
             className='border-2 border-lime-600 shadow-md text-bold rounded p-2 mt-10 hover:bg-lime-800 bg-lime-600 text-white' 
-            onClick={(e)=>{ handleSubmit(e, "schedule")}}
+            onClick={(e)=>{ handleSubmitForm(e, "schedule")}}
             >
                 SCHEDULE
             </button> }

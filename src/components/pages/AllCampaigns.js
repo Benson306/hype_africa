@@ -22,7 +22,7 @@ function AllCampaigns() {
         .catch(err => {
             console.log(err)
         })
-    },[data])
+    },[])
 
     const handleDelete = (campaign_id) => {
         fetch(`${process.env.REACT_APP_API_URL}/del_campaign/${id}/${campaign_id}`,{

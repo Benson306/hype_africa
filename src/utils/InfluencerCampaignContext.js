@@ -55,7 +55,19 @@ export const InfluencerCampaignProvider = ({ children }) => {
 
     const updateImageSrc = (newImageSrc) => {
         setImageSrc(newImageSrc);
-        localStorage.setItem('imageSrc', newImageSrc);
+
+        // Convert the File to a Data URL
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const dataURL = e.target.result;
+
+            // Save the Data URL to localStorage
+            localStorage.setItem('imageSrc', dataURL);
+        };
+
+        // Read the File as a Data URL
+        reader.readAsDataURL(newImageSrc);
+        //localStorage.setItem('imageSrc', newImageSrc);
     };
 
     const updateImageUrl = (newImageUrl) => {
@@ -193,8 +205,6 @@ export const InfluencerCampaignProvider = ({ children }) => {
         localStorage.setItem('page', newPage);
     }
 
-
-
     useEffect(() => {
         // Retrieve values from local storage and set them as the initial state
         const savedBudget = localStorage.getItem('budget');
@@ -317,9 +327,10 @@ export const InfluencerCampaignProvider = ({ children }) => {
 
     //const navigate = useNavigate();
 
-    const handleSubmit = () => {
+    const handleSubmit = (type) => {
 
         const formData = new FormData();
+        formData.append('status',type);
         formData.append('id', id);
         formData.append('title', title);
         formData.append('cover', imageSrc);
