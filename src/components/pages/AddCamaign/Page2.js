@@ -8,86 +8,51 @@ import { AuthContext } from '../../../utils/AuthContext';
 import { InfluencerCampaignContext } from '../../../utils/InfluencerCampaignContext';
 
 function Page2() {
+    const { updateCallToAction, updateLocation, dos, addDo, removeDo, donts, addDont, removeDont } = useContext(InfluencerCampaignContext);
 
     const [callToAction, setCallToAction] = useState(null);
 
-    const [dos, setDos] = useState([]);
     const [newDo, setNewDo] = useState('');
 
-    const [donts, setDonts] = useState([]);
-    const [newDonts, setNewDonts] = useState('');
+    const [newDont, setNewDont] = useState('');
 
     const [location, setLocation] = useState(null);
-
-    const handleAddDo = () => {
-        if (newDo.trim() !== '') {
-            // Create a new array with the added item
-            const updatedDos = [...dos, newDo];
-            // Update the state
-            setDos(updatedDos);
-            // Clear the input field
-            setNewDo('');
-        }
-    };
-
-    const handleDeleteDo = (index) => {
-        // Create a new array without the item to be deleted
-        const updatedDos = dos.filter((_, i) => i !== index);
-        // Update the state
-        setDos(updatedDos);
-    };
-
-    const handleAddDont = () => {
-        if (newDonts.trim() !== '') {
-            // Create a new array with the added item
-            const updatedDonts = [...donts, newDonts];
-            // Update the state
-            setDonts(updatedDonts);
-            // Clear the input field
-            setNewDonts('');
-        }
-    };
-
-    const handleDeleteDont = (index) => {
-        // Create a new array without the item to be deleted
-        const updatedDonts = donts.filter((_, i) => i !== index);
-        // Update the state
-        setDonts(updatedDonts);
-    };
 
     const { updatePage } = useContext(InfluencerCampaignContext);
 
     const handleSubmit = (e, type) => {
         e.preventDefault();
     
-        // if(callToAction == null){
-        //     toast.error('All required Fields Must be filled', {
-        //         position: "top-right",
-        //         autoClose: 5000,
-        //         hideProgressBar: false,
-        //         closeOnClick: true,
-        //         pauseOnHover: true,
-        //         draggable: true,
-        //         progress: undefined,
-        //         theme: "colored",
-        //         });
-        //     return;
-        // }
+        if(callToAction == null){
+            toast.error('All required Fields Must be filled', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+            return;
+        }
 
-        // if(dos.length < 1 || donts.length < 1){
-        //     toast.error('You Should Have At least 1 Do and 1 Dont', {
-        //         position: "top-right",
-        //         autoClose: 5000,
-        //         hideProgressBar: false,
-        //         closeOnClick: true,
-        //         pauseOnHover: true,
-        //         draggable: true,
-        //         progress: undefined,
-        //         theme: "colored",
-        //         });
-        //     return;
-        // }
+        if(dos.length < 1 || donts.length < 1){
+            toast.error('You Should Have At least 1 Do and 1 Dont', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+            return;
+        }
 
+        updateCallToAction(callToAction)
+        updateLocation(location);
         updatePage(2)
     
     }
@@ -116,11 +81,11 @@ function Page2() {
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                     DO's<i className='text-red-500 text-xl'>*</i>
                 </label>
-                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Post Early" value={newDo}
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Post Early" 
             onChange={(e) => setNewDo(e.target.value)} />
             </div>
             <div className='w-1/6 m-auto flex align-middle'>
-                <button className='border-solid border-2 border-sky-900 p-1 rounded-lg mt-3 text-sm hover:bg-sky-900 hover:text-white' onClick={(e)=> {e.preventDefault(); handleAddDo()}}><AddIcon /></button>
+                <button className='border-solid border-2 border-sky-900 p-1 rounded-lg mt-3 text-sm hover:bg-sky-900 hover:text-white' onClick={(e)=> {e.preventDefault(); addDo(newDo); setNewDo('')}}><AddIcon /></button>
             </div>
         </div>
 
@@ -130,7 +95,7 @@ function Page2() {
                     <div className='bg-sky-700 mb-1 p-2 text-white w-1/2 flex justify-between' key={index}>
                         { item }
 
-                        <button onClick={(e)=> { e.preventDefault(); handleDeleteDo(index)}}>
+                        <button onClick={(e)=> { e.preventDefault(); removeDo(index)}}>
                             <ClearIcon />
                         </button>
 
@@ -144,11 +109,11 @@ function Page2() {
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                     DONT's<i className='text-red-500 text-xl'>*</i>
                 </label>
-                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Post Early" value={newDonts}
-            onChange={(e) => setNewDonts(e.target.value)} />
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Post Early" 
+            onChange={(e) => setNewDont(e.target.value)} />
             </div>
             <div className='w-1/6 m-auto flex align-middle'>
-                <button className='border-solid border-2 border-sky-900 p-1 rounded-lg mt-3 text-sm hover:bg-sky-900 hover:text-white' onClick={(e)=> {e.preventDefault(); handleAddDont()}}><AddIcon /></button>
+                <button className='border-solid border-2 border-sky-900 p-1 rounded-lg mt-3 text-sm hover:bg-sky-900 hover:text-white' onClick={(e)=> {e.preventDefault(); addDont(newDont); setNewDont('')}}><AddIcon /></button>
             </div>
         </div>
 
@@ -158,7 +123,7 @@ function Page2() {
                     <div className='bg-sky-700 mb-1 p-2 text-white w-1/2 flex justify-between' key={index}>
                         { item }
 
-                        <button onClick={(e)=> { e.preventDefault(); handleDeleteDont(index)}}>
+                        <button onClick={(e)=> { e.preventDefault(); removeDont(index)}}>
                             <ClearIcon />
                         </button>
 
