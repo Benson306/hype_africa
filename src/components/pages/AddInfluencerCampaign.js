@@ -9,400 +9,122 @@ import Page1 from './AddCamaign/Page1';
 import Page2 from './AddCamaign/Page2';
 import Page3 from './AddCamaign/Page3';
 import Page4 from './AddCamaign/Page4';
+import { InfluencerCampaignContext } from '../../utils/InfluencerCampaignContext';
 
 function AddInfluencerCampaign() {
 
-    const { id } = useContext(AuthContext);
+    // const handleDraft = (e) => {
+    //     e.preventDefault();
 
-    const [rangeValue, setRangeValue] = useState(1);
+    //     if(title == null){
+    //         toast.error('Give the campaign a title to be able to save as a Draft', {
+    //             position: "top-right",
+    //             autoClose: 5000,
+    //             hideProgressBar: false,
+    //             closeOnClick: true,
+    //             pauseOnHover: true,
+    //             draggable: true,
+    //             progress: undefined,
+    //             theme: "colored",
+    //             });
+    //             return;
+    //     }
 
-    const navigate = useNavigate();
-
-    // Define minimum and maximum values
-    const minValue = 1;
-    const maxValue = 250;
-
-    // Event handler for the range input change
-    const handleRangeChange = (event) => {
-        const newValue = event.target.value;
-        setRangeValue(newValue);
-    };
-
-    // Initialize state for start date and number of days
-    const [startDate, setStartDate] = useState(new Date());
-    const [numOfDays, setNumOfDays] = useState(1);
-    const [endDate, setEndDate] = useState(new Date());
-
-    // Calculate the ending date based on the start date and number of days
-    useEffect(() => {
-        const calculatedEndDate = new Date(startDate);
-        calculatedEndDate.setDate(startDate.getDate() + numOfDays - 1);
-        setEndDate(calculatedEndDate);
-    }, [startDate, numOfDays]);
-
-    // Event handler for changing the start date
-    const handleStartDateChange = (event) => {
-        const selectedStartDate = new Date(event.target.value);
-        if (selectedStartDate >= new Date()) {
-        setStartDate(selectedStartDate);
-        }
-    };
-
-    // Event handler for changing the number of days
-    const handleNumOfDaysChange = (event) => {
-        const selectedNumOfDays = parseInt(event.target.value, 10);
-        setNumOfDays(selectedNumOfDays);
-    };
-
-    const increment = () => {
-        setNumOfDays(numOfDays + 1);
-    };
-
-    const decrement = () => {
-        if (numOfDays > 1) {
-        setNumOfDays(numOfDays - 1);
-        }
-    };
-
-
-    const [title, setTitle] = useState(null);
-    const [objective, setObjective] = useState(null);
-    const [industry, setIndustry] = useState(null);
-    const [callToAction, setCallToAction] = useState(null);
-
-    const [dos, setDos] = useState([]);
-    const [newDo, setNewDo] = useState('');
-
-    const [donts, setDonts] = useState([]);
-    const [newDonts, setNewDonts] = useState('');
-
-    const [instaTags, setInstaTags] = useState([]);
-    const [newInstaTags, setNewInstaTags] = useState('');
-
-    const [xTags, setXTags]= useState([]);
-    const [newXTags, setNewXTags]= useState('');
-
-    const [fbTags, setFbTags] = useState([]);
-    const [newFbTags, setNewFbTags] = useState('');
-
-    const [preferedGender, setPreferedGender] = useState(null);
-    const [minAge, setMinAge] = useState(0);
-    const [maxAge, setMaxAge] = useState(0);
-    const [InstaFollowersNeeded, setInstaFollowersNeeded] = useState(null);
-    const [xFollowersNeeded, setXFollowersNeeded] = useState(null);
-    const [fbFollowersNeeded, setFbFollowersNeeded] = useState(null);
-    const [location, setLocation] = useState(null);
-
-
-
-    const [imageSrc, setImageSrc] = useState(null);
-
-    const [imageUrl, setImageUrl] = useState(null);
-
-    const handleDrop = (e) => {
-        e.preventDefault();
-        const file = e.target.files[0];
-        setImageSrc(file);
-        setImageUrl(URL.createObjectURL(file))
-
-    };
-
-    const handleDragOver = (e) => {
-        e.preventDefault();
-    };
-
-    const handleDelete = () => {
-        setImageSrc(null);
-    };
-
-    const handleAddDo = () => {
-        if (newDo.trim() !== '') {
-            // Create a new array with the added item
-            const updatedDos = [...dos, newDo];
-            // Update the state
-            setDos(updatedDos);
-            // Clear the input field
-            setNewDo('');
-        }
-    };
-
-    const handleDeleteDo = (index) => {
-        // Create a new array without the item to be deleted
-        const updatedDos = dos.filter((_, i) => i !== index);
-        // Update the state
-        setDos(updatedDos);
-    };
-
-    const handleAddDont = () => {
-        if (newDonts.trim() !== '') {
-            // Create a new array with the added item
-            const updatedDonts = [...donts, newDonts];
-            // Update the state
-            setDonts(updatedDonts);
-            // Clear the input field
-            setNewDonts('');
-        }
-    };
-
-    const handleDeleteDont = (index) => {
-        // Create a new array without the item to be deleted
-        const updatedDonts = donts.filter((_, i) => i !== index);
-        // Update the state
-        setDonts(updatedDonts);
-    };
-
-    const handleAddInstaTag = () => {
-        if (newInstaTags.trim() !== '') {
-            // Create a new array with the added item
-            const updatedInstaTags = [...instaTags, newInstaTags];
-            // Update the state
-            setInstaTags(updatedInstaTags);
-            // Clear the input field
-            setNewInstaTags('');
-        }
-    };
-
-    const handleDeleteInstaTags = (index) => {
-        // Create a new array without the item to be deleted
-        const updatedInstaTags = instaTags.filter((_, i) => i !== index);
-        // Update the state
-        setInstaTags(updatedInstaTags);
-    };
-
-    const handleAddXTag = () => {
-        if (newXTags.trim() !== '') {
-            // Create a new array with the added item
-            const updatedXTags = [...xTags, newXTags];
-            // Update the state
-            setXTags(updatedXTags);
-            // Clear the input field
-            setNewXTags('');
-        }
-    };
-
-    const handleDeleteXTags = (index) => {
-        // Create a new array without the item to be deleted
-        const updatedXTags = xTags.filter((_, i) => i !== index);
-        // Update the state
-        setXTags(updatedXTags);
-    };
-
-    const handleAddFbTag = () => {
-        if (newFbTags.trim() !== '') {
-            // Create a new array with the added item
-            const updatedFbTags = [...fbTags, newFbTags];
-            // Update the state
-            setFbTags(updatedFbTags);
-            // Clear the input field
-            setNewFbTags('');
-        }
-    };
-
-    const handleDeleteFbTags = (index) => {
-        // Create a new array without the item to be deleted
-        const updatedFbTags = fbTags.filter((_, i) => i !== index);
-        // Update the state
-        setFbTags(updatedFbTags);
-    };
-
-    const handleSubmit = (e, type) => {
-        e.preventDefault();
-
-        if(title == null || imageSrc == null || objective == null ||
-            industry == null || callToAction == null || industry.length < 1 ){
-                toast.error('All required Fields Must be filled', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                    });
-                return;
-            }
-
-            if(dos.length < 1 || donts.length < 1){
-                toast.error('You Should Have At least 1 Do and 1 Dont', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                    });
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append('id', id);
-            formData.append('title', title);
-            formData.append('cover', imageSrc);
-            formData.append('objective', objective);
-            formData.append('industry', industry);
-            formData.append('call_to_action', callToAction);
-            formData.append('dos', dos);
-            formData.append('donts', donts);
-            formData.append('instagramTags', instaTags);
-            formData.append('xTags', xTags);
-            formData.append('fbTags', fbTags);
-            formData.append('gender', preferedGender);
-            formData.append('minAge', minAge);
-            formData.append('maxAge', maxAge);
-            formData.append('instaFollowers', InstaFollowersNeeded);
-            formData.append('xFollowers',xFollowersNeeded);
-            formData.append('fbFollowers', fbFollowersNeeded);
-            formData.append('location', location);
-            formData.append('budget', rangeValue);
-            formData.append('startDate', startDate)
-            formData.append('endDate', endDate);
-            formData.append('numberOfDays', numOfDays);
-
-            fetch(`${process.env.REACT_APP_API_URL}/add_influencer_campaign`,{
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then((response)=>{
-                if(response == 'success'){
-                    toast.success('Success!', {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored"
-                    });
-
-                    
-                    setTimeout(() => {
-                        navigate('/all_campaigns');
-                      }, 2000);
-                }
-            })
-            .catch(err => console.log(err))
-
-   
-    }
-
-
-    const handleDraft = (e) => {
-        e.preventDefault();
-
-        if(title == null){
-            toast.error('Give the campaign a title to be able to save as a Draft', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-                });
-                return;
-        }
-
-        const formData = new FormData();
-        formData.append('id', id);
-        formData.append('title', title);
-        formData.append('cover', imageSrc);
-        formData.append('objective', objective);
-        formData.append('industry', industry);
-        formData.append('call_to_action', callToAction);
-        formData.append('dos', dos);
-        formData.append('donts', donts);
-        formData.append('instagramTags', instaTags);
-        formData.append('xTags', xTags);
-        formData.append('fbTags', fbTags);
-        formData.append('gender', preferedGender);
-        formData.append('minAge', minAge);
-        formData.append('maxAge', maxAge);
-        formData.append('instaFollowers', InstaFollowersNeeded);
-        formData.append('xFollowers',xFollowersNeeded);
-        formData.append('fbFollowers', fbFollowersNeeded);
-        formData.append('location', location);
-        formData.append('budget', rangeValue);
-        formData.append('startDate', startDate)
-        formData.append('endDate', endDate);
-        formData.append('numberOfDays', numOfDays);
+    //     const formData = new FormData();
+    //     formData.append('id', id);
+    //     formData.append('title', title);
+    //     formData.append('cover', imageSrc);
+    //     formData.append('objective', objective);
+    //     formData.append('industry', industry);
+    //     formData.append('call_to_action', callToAction);
+    //     formData.append('dos', dos);
+    //     formData.append('donts', donts);
+    //     formData.append('instagramTags', instaTags);
+    //     formData.append('xTags', xTags);
+    //     formData.append('fbTags', fbTags);
+    //     formData.append('gender', preferedGender);
+    //     formData.append('minAge', minAge);
+    //     formData.append('maxAge', maxAge);
+    //     formData.append('instaFollowers', InstaFollowersNeeded);
+    //     formData.append('xFollowers',xFollowersNeeded);
+    //     formData.append('fbFollowers', fbFollowersNeeded);
+    //     formData.append('location', location);
+    //     formData.append('budget', rangeValue);
+    //     formData.append('startDate', startDate)
+    //     formData.append('endDate', endDate);
+    //     formData.append('numberOfDays', numOfDays);
 
         
 
-        if(imageSrc == null){
+    //     if(imageSrc == null){
 
-            const formDataObject = {};
+    //         const formDataObject = {};
 
-            formData.forEach((value, key) => {
-                formDataObject[key] = value;
-            });
+    //         formData.forEach((value, key) => {
+    //             formDataObject[key] = value;
+    //         });
             
-            fetch(`${process.env.REACT_APP_API_URL}/add_influencer_draft_without_image`,{
-                method: 'POST',
-                headers: {
-                    'Content-Type':'application/json'
-                },
-                body: JSON.stringify(formDataObject)
-            })
-            .then(response => response.json())
-            .then((response)=>{
-                if(response == 'success'){
-                    toast.success('Success!', {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored"
-                    });
+    //         fetch(`${process.env.REACT_APP_API_URL}/add_influencer_draft_without_image`,{
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type':'application/json'
+    //             },
+    //             body: JSON.stringify(formDataObject)
+    //         })
+    //         .then(response => response.json())
+    //         .then((response)=>{
+    //             if(response == 'success'){
+    //                 toast.success('Success!', {
+    //                     position: "top-right",
+    //                     autoClose: 5000,
+    //                     hideProgressBar: false,
+    //                     closeOnClick: true,
+    //                     pauseOnHover: true,
+    //                     draggable: true,
+    //                     progress: undefined,
+    //                     theme: "colored"
+    //                 });
 
-                    setTimeout(() => {
-                        navigate('/all_campaigns');
-                      }, 2000);
-                }
-            })
-            .catch(err => console.log(err))
+    //                 setTimeout(() => {
+    //                     navigate('/all_campaigns');
+    //                   }, 2000);
+    //             }
+    //         })
+    //         .catch(err => console.log(err))
 
-        }else{
+    //     }else{
 
 
-            fetch(`${process.env.REACT_APP_API_URL}/add_influencer_draft_with_image`,{
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then((response)=>{
-                if(response == 'success'){
-                    toast.success('Success!', {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored"
-                    });
+    //         fetch(`${process.env.REACT_APP_API_URL}/add_influencer_draft_with_image`,{
+    //             method: 'POST',
+    //             body: formData
+    //         })
+    //         .then(response => response.json())
+    //         .then((response)=>{
+    //             if(response == 'success'){
+    //                 toast.success('Success!', {
+    //                     position: "top-right",
+    //                     autoClose: 5000,
+    //                     hideProgressBar: false,
+    //                     closeOnClick: true,
+    //                     pauseOnHover: true,
+    //                     draggable: true,
+    //                     progress: undefined,
+    //                     theme: "colored"
+    //                 });
 
-                    setTimeout(() => {
-                        navigate('/all_campaigns');
-                      }, 2000);
-                }
-            })
-            .catch(err => console.log(err))
+    //                 setTimeout(() => {
+    //                     navigate('/all_campaigns');
+    //                   }, 2000);
+    //             }
+    //         })
+    //         .catch(err => console.log(err))
 
-        }
+    //     }
 
-    }
+    // }
 
-    const [schedule, setSchedule] = useState(false);
+    const { page, updatePage } = useContext(InfluencerCampaignContext);
 
   return (
     <div className='w-full min-h-screen bg-neutral-300'>
@@ -412,17 +134,20 @@ function AddInfluencerCampaign() {
                     <h1>HypeAfrica</h1>
                 </div>
                 <div className='gap-4 lg:gap-8 flex justify-end mr-5'>
-                    <Link to={"/all_campaigns"} className='bg-red-600 hover:bg-transparent text-white hover:text-red-700 border-2 border-red-600 border-solid p-1 lg:p-2 rounded-md lg:rounded-lg flex gap-1  align-middle text-sm'>
+                    <Link onClick={()=> updatePage(0)} to={"/all_campaigns"} className='bg-red-600 hover:bg-transparent text-white hover:text-red-700 border-2 border-red-600 border-solid p-1 lg:p-2 rounded-md lg:rounded-lg flex gap-1  align-middle text-sm'>
                             CLOSE
                     </Link>
                 </div>
 
         </div>
-        <Page1 />
-        <Page2 />
-        <Page4 />
-        
-            <Page4 />
+
+        {
+            page == 0 ? <Page1 /> 
+            : page == 1 ? <Page2 />
+            : page == 2 ? <Page3 />
+            : page == 3 ? <Page4 />
+            : <Page1 />
+        }
     
     {/* <div className='w-full min-h-screen bg-neutral-300'>
       <div className="fixed bg-gray-200 shadow-md p-2 w-full flex justify-between">

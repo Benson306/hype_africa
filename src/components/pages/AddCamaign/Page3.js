@@ -5,6 +5,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../../utils/AuthContext';
+import { InfluencerCampaignContext } from '../../../utils/InfluencerCampaignContext';
 
 function Page3() {
 
@@ -78,10 +79,12 @@ function Page3() {
         setFbTags(updatedFbTags);
     };
 
+    const { updatePage } = useContext(InfluencerCampaignContext);
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
-   
+        updatePage(3);
     }
   return (
     <div className='w-full min-h-screen bg-neutral-300'>

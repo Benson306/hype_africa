@@ -5,6 +5,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../../utils/AuthContext';
+import { InfluencerCampaignContext } from '../../../utils/InfluencerCampaignContext';
 
 function Page1() {
     const [title, setTitle] = useState(null);
@@ -31,29 +32,27 @@ function Page1() {
         setImageSrc(null);
     };
 
+    const { updatePage } = useContext(InfluencerCampaignContext);
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if(title == null || imageSrc == null || objective == null ||
-            industry == null || industry.length < 1 ){
-                toast.error('All required Fields Must be filled', {
-                    position: "top-right",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                    });
-                return;
-            }
+        // if(title == null || imageSrc == null || objective == null ||
+        //     industry == null || industry.length < 1 ){
+        //         toast.error('All required Fields Must be filled', {
+        //             position: "top-right",
+        //             autoClose: 5000,
+        //             hideProgressBar: false,
+        //             closeOnClick: true,
+        //             pauseOnHover: true,
+        //             draggable: true,
+        //             progress: undefined,
+        //             theme: "colored",
+        //             });
+        //         return;
+        //     }
 
-            console.log({
-                title, imageSrc, objective, industry
-            })
-
-            
+            updatePage(1);
    
     }
 

@@ -5,6 +5,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../../utils/AuthContext';
+import { InfluencerCampaignContext } from '../../../utils/InfluencerCampaignContext';
 
 function Page2() {
 
@@ -54,36 +55,40 @@ function Page2() {
         setDonts(updatedDonts);
     };
 
+    const { updatePage } = useContext(InfluencerCampaignContext);
+
     const handleSubmit = (e, type) => {
         e.preventDefault();
     
-        if(callToAction == null){
-            toast.error('All required Fields Must be filled', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-                });
-            return;
-        }
+        // if(callToAction == null){
+        //     toast.error('All required Fields Must be filled', {
+        //         position: "top-right",
+        //         autoClose: 5000,
+        //         hideProgressBar: false,
+        //         closeOnClick: true,
+        //         pauseOnHover: true,
+        //         draggable: true,
+        //         progress: undefined,
+        //         theme: "colored",
+        //         });
+        //     return;
+        // }
 
-        if(dos.length < 1 || donts.length < 1){
-            toast.error('You Should Have At least 1 Do and 1 Dont', {
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "colored",
-                });
-            return;
-        }
+        // if(dos.length < 1 || donts.length < 1){
+        //     toast.error('You Should Have At least 1 Do and 1 Dont', {
+        //         position: "top-right",
+        //         autoClose: 5000,
+        //         hideProgressBar: false,
+        //         closeOnClick: true,
+        //         pauseOnHover: true,
+        //         draggable: true,
+        //         progress: undefined,
+        //         theme: "colored",
+        //         });
+        //     return;
+        // }
+
+        updatePage(2)
     
     }
 
