@@ -372,13 +372,37 @@ export const InfluencerCampaignProvider = ({ children }) => {
                     theme: "colored"
                 });
 
+                clearStorage();
                 
-                setTimeout(() => {
-                    //navigate('/all_campaigns');
-                  }, 2000);
             }
         })
         .catch(err => console.log(err))
+    }
+
+    const clearStorage = () => {
+        localStorage.removeItem('budget')
+        localStorage.removeItem('startDate')
+        localStorage.removeItem('endDate')
+        localStorage.removeItem('numOfDays')
+        localStorage.removeItem('imageSrc')
+        localStorage.removeItem('imageUrl')
+        localStorage.removeItem('title')
+        localStorage.removeItem('objective')
+        localStorage.removeItem('industry')
+        localStorage.removeItem('callToAction')
+        localStorage.removeItem('dos')
+        localStorage.removeItem('donts')
+        localStorage.removeItem('instaTags')
+        localStorage.removeItem('xTags')
+        localStorage.removeItem('fbTags')
+        localStorage.removeItem('preferedGender')
+        localStorage.removeItem('minAge')
+        localStorage.removeItem('maxAge')
+        localStorage.removeItem('InstaFollowersNeeded')
+        localStorage.removeItem('xFollowersNeeded')
+        localStorage.removeItem('fbFollowersNeeded')
+        localStorage.removeItem('location')
+        localStorage.removeItem('page')
     }
 
     return <InfluencerCampaignContext.Provider value={{
@@ -420,7 +444,8 @@ export const InfluencerCampaignProvider = ({ children }) => {
         updateLocation,
         updateImageSrc,
         updateImageUrl,
-        handleSubmit
+        handleSubmit,
+        clearStorage
 
     }}>
         < ToastContainer />

@@ -11,6 +11,8 @@ function Page4() {
 
     const { updateBudget, updateStartDate, updateEndDate, updateNumOfDays, handleSubmit } = useContext(InfluencerCampaignContext);
 
+    const { navigate } = useNavigate();
+
     // Define minimum and maximum values
     const minValue = 1;
     const maxValue = 250;
@@ -70,6 +72,31 @@ function Page4() {
     const handleSubmitForm = (e, type) => {
         e.preventDefault();
 
+        const currentDate = new Date();
+
+        const isSameDate = (
+            startDate.getFullYear() === currentDate.getFullYear() &&
+            startDate.getMonth() === currentDate.getMonth() &&
+            startDate.getDate() === currentDate.getDate()
+          );
+
+        if(type == "schedule" && isSameDate){
+            toast.error('You cannot schedule a campaign for today. Publish Instead', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+            });
+
+            setSchedule(false);
+
+            return;
+        }
+
         updateBudget(rangeValue);
         updateStartDate(startDate);
         updateEndDate(endDate);
@@ -77,12 +104,11 @@ function Page4() {
 
         handleSubmit(type);
 
+        setTimeout(() => {
+            navigate('/all_campaigns');
+          }, 1000);
     }
 
-    const handleSchedule = (e) => {
-        e.preventDefault();
-    }
-    
   return (
     <div className='w-full min-h-screen bg-neutral-300'>
       <ToastContainer />

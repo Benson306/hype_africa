@@ -124,7 +124,7 @@ function AddInfluencerCampaign() {
 
     // }
 
-    const { page, updatePage } = useContext(InfluencerCampaignContext);
+    const { page, updatePage, clearStorage } = useContext(InfluencerCampaignContext);
 
   return (
     <div className='w-full min-h-screen bg-neutral-300'>
@@ -134,7 +134,7 @@ function AddInfluencerCampaign() {
                     <h1>HypeAfrica</h1>
                 </div>
                 <div className='gap-4 lg:gap-8 flex justify-end mr-5'>
-                    <Link onClick={()=> updatePage(0)} to={"/all_campaigns"} className='bg-red-600 hover:bg-transparent text-white hover:text-red-700 border-2 border-red-600 border-solid p-1 lg:p-2 rounded-md lg:rounded-lg flex gap-1  align-middle text-sm'>
+                    <Link onClick={()=> {updatePage(0); clearStorage()}} to={"/all_campaigns"} className='bg-red-600 hover:bg-transparent text-white hover:text-red-700 border-2 border-red-600 border-solid p-1 lg:p-2 rounded-md lg:rounded-lg flex gap-1  align-middle text-sm'>
                             CLOSE
                     </Link>
                 </div>
