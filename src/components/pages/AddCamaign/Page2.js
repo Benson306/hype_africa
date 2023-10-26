@@ -81,7 +81,8 @@ function Page2() {
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                     DO's<i className='text-red-500 text-xl'>*</i>
                 </label>
-                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Post Early" 
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Post Early"
+                value={newDo}
             onChange={(e) => setNewDo(e.target.value)} />
             </div>
             <div className='w-1/6 m-auto flex align-middle'>
@@ -109,7 +110,8 @@ function Page2() {
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                     DONT's<i className='text-red-500 text-xl'>*</i>
                 </label>
-                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Post Early" 
+                <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="Dont Post Late" 
+                value={newDont}
             onChange={(e) => setNewDont(e.target.value)} />
             </div>
             <div className='w-1/6 m-auto flex align-middle'>
