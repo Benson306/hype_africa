@@ -57,9 +57,7 @@ function Page1() {
             updateImageUrl(imageUrl);
             updateObjective(objective);
             updateIndustry(industry);
-
-
-
+            
             updatePage(1);
    
     }

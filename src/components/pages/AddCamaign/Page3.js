@@ -9,14 +9,19 @@ import { InfluencerCampaignContext } from '../../../utils/InfluencerCampaignCont
 
 function Page3() {
 
-    const [instaTags, setInstaTags] = useState([]);
-    const [newInstaTags, setNewInstaTags] = useState('');
+    const { instaTags, addInstaTag, removeInstaTag,
+    xTags, addXTag, removeXTag,
+    fbTags, addFbTag, removeFbTag,
+    updatePreferedGender, updateMinAge, updateMaxAge, 
+    updateInstaFollowersNeeded, updateXFollowersNeeded, updateFbFollowersNeeded,
+    updatePage
+    } = useContext(InfluencerCampaignContext);
 
-    const [xTags, setXTags]= useState([]);
-    const [newXTags, setNewXTags]= useState('');
+    const [newInstaTag, setNewInstaTag] = useState('');
 
-    const [fbTags, setFbTags] = useState([]);
-    const [newFbTags, setNewFbTags] = useState('');
+    const [newXTag, setNewXTag]= useState('');
+
+    const [newFbTag, setNewFbTag] = useState('');
 
     const [preferedGender, setPreferedGender] = useState(null);
     const [minAge, setMinAge] = useState(0);
@@ -25,64 +30,30 @@ function Page3() {
     const [xFollowersNeeded, setXFollowersNeeded] = useState(null);
     const [fbFollowersNeeded, setFbFollowersNeeded] = useState(null);
 
-    const handleAddInstaTag = () => {
-        if (newInstaTags.trim() !== '') {
-            // Create a new array with the added item
-            const updatedInstaTags = [...instaTags, newInstaTags];
-            // Update the state
-            setInstaTags(updatedInstaTags);
-            // Clear the input field
-            setNewInstaTags('');
-        }
-    };
-
-    const handleDeleteInstaTags = (index) => {
-        // Create a new array without the item to be deleted
-        const updatedInstaTags = instaTags.filter((_, i) => i !== index);
-        // Update the state
-        setInstaTags(updatedInstaTags);
-    };
-
-    const handleAddXTag = () => {
-        if (newXTags.trim() !== '') {
-            // Create a new array with the added item
-            const updatedXTags = [...xTags, newXTags];
-            // Update the state
-            setXTags(updatedXTags);
-            // Clear the input field
-            setNewXTags('');
-        }
-    };
-
-    const handleDeleteXTags = (index) => {
-        // Create a new array without the item to be deleted
-        const updatedXTags = xTags.filter((_, i) => i !== index);
-        // Update the state
-        setXTags(updatedXTags);
-    };
-
-    const handleAddFbTag = () => {
-        if (newFbTags.trim() !== '') {
-            // Create a new array with the added item
-            const updatedFbTags = [...fbTags, newFbTags];
-            // Update the state
-            setFbTags(updatedFbTags);
-            // Clear the input field
-            setNewFbTags('');
-        }
-    };
-
-    const handleDeleteFbTags = (index) => {
-        // Create a new array without the item to be deleted
-        const updatedFbTags = fbTags.filter((_, i) => i !== index);
-        // Update the state
-        setFbTags(updatedFbTags);
-    };
-
-    const { updatePage } = useContext(InfluencerCampaignContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if(maxAge > 0 && maxAge < minAge){
+            toast.error('Maximum age cannot be less than minimum age', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                });
+            return;
+        }
+
+        updatePreferedGender(preferedGender);
+        updateMinAge(minAge);
+        updateMaxAge(maxAge);
+        updateInstaFollowersNeeded(InstaFollowersNeeded);
+        updateXFollowersNeeded(xFollowersNeeded);
+        updateFbFollowersNeeded(fbFollowersNeeded);
 
         updatePage(3);
     }
@@ -107,19 +78,19 @@ function Page3() {
                     Instagram
                 </label>
                 <div className='flex'>
-                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="@MaryJane or #Rocking" value={newInstaTags}
-            onChange={(e) => setNewInstaTags(e.target.value)} />
-                    <button className='bg-gray-600 p-1 text-sm hover:bg-sky-900 text-white rounded-r' onClick={(e)=> {e.preventDefault(); handleAddInstaTag()}}><AddIcon /></button>
+                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="@MaryJane or #Rocking" value={newInstaTag}
+            onChange={(e) => setNewInstaTag(e.target.value)} />
+                    <button className='bg-gray-600 p-1 text-sm hover:bg-sky-900 text-white rounded-r' onClick={(e)=> {e.preventDefault(); addInstaTag(newInstaTag); setNewInstaTag('')}}><AddIcon /></button>
 
                 </div>
 
                 <div className='mb-4 mt-1'>
                     {
                         instaTags.length > 0 && instaTags.map( (item, index) => (
-                            <div className='bg-sky-700 mb-1 p-2 text-white w-1/2 flex justify-between' key={index}>
+                            <div className='bg-sky-700 mb-1 p-2 text-white w-3/4 flex justify-between' key={index}>
                                 { item }
 
-                                <button onClick={(e)=> { e.preventDefault(); handleDeleteInstaTags(index)}}>
+                                <button onClick={(e)=> { e.preventDefault(); removeInstaTag(index)}}>
                                     <ClearIcon />
                                 </button>
 
@@ -134,18 +105,19 @@ function Page3() {
                     X (Fomerly Twitter)
                 </label>
                 <div className='flex'>
-                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="@MaryJane or #Rocking" value={newXTags}
-            onChange={(e) => setNewXTags(e.target.value)} />
-                    <button className='bg-gray-600 p-1 text-sm hover:bg-sky-900 text-white rounded-r' onClick={(e)=> {e.preventDefault(); handleAddXTag()}}><AddIcon /></button>
+                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" 
+                    value={newXTag} placeholder="@MaryJane or #Rocking" 
+            onChange={(e) => setNewXTag(e.target.value)} />
+                    <button className='bg-gray-600 p-1 text-sm hover:bg-sky-900 text-white rounded-r' onClick={(e)=> {e.preventDefault(); addXTag(newXTag); setNewXTag('')}}><AddIcon /></button>
 
                 </div>
                 <div className='mb-4 mt-1'>
                     {
                         xTags.length > 0 && xTags.map( (item, index) => (
-                            <div className='bg-sky-700 mb-1 p-2 text-white w-1/2 flex justify-between' key={index}>
+                            <div className='bg-sky-700 mb-1 p-2 text-white w-3/4 flex justify-between' key={index}>
                                 { item }
 
-                                <button onClick={(e)=> { e.preventDefault(); handleDeleteXTags(index)}}>
+                                <button onClick={(e)=> { e.preventDefault(); removeXTag(index)}}>
                                     <ClearIcon />
                                 </button>
 
@@ -160,18 +132,19 @@ function Page3() {
                     Facebook
                 </label>
                 <div className='flex'>
-                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="@MaryJane or #Rocking" value={newFbTags}
-            onChange={(e) => setNewFbTags(e.target.value)} />
-                    <button className='bg-gray-600 p-1 text-sm hover:bg-sky-900 text-white rounded-r' onClick={(e)=> {e.preventDefault(); handleAddFbTag()}} ><AddIcon /></button>
+                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" 
+                    value={newFbTag} placeholder="@MaryJane or #Rocking" 
+            onChange={(e) => setNewFbTag(e.target.value)} />
+                    <button className='bg-gray-600 p-1 text-sm hover:bg-sky-900 text-white rounded-r' onClick={(e)=> {e.preventDefault(); addFbTag(newFbTag); setNewFbTag('')}} ><AddIcon /></button>
 
                 </div>
                 <div className='mb-4 mt-1'>
                     {
                         fbTags.length > 0 && fbTags.map( (item, index) => (
-                            <div className='bg-sky-700 mb-1 p-2 text-white w-1/2 flex justify-between' key={index}>
+                            <div className='bg-sky-700 mb-1 p-2 text-white w-3/4 flex justify-between' key={index}>
                                 { item }
 
-                                <button onClick={(e)=> { e.preventDefault(); handleDeleteFbTags(index)}}>
+                                <button onClick={(e)=> { e.preventDefault(); removeFbTag(index)}}>
                                     <ClearIcon />
                                 </button>
 
