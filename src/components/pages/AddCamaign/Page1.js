@@ -32,25 +32,33 @@ function Page1() {
         setImageSrc(null);
     };
 
-    const { updatePage } = useContext(InfluencerCampaignContext);
+    const { updatePage, updateTitle, updateImageSrc, updateObjective, updateIndustry, updateImageUrl } = useContext(InfluencerCampaignContext);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // if(title == null || imageSrc == null || objective == null ||
-        //     industry == null || industry.length < 1 ){
-        //         toast.error('All required Fields Must be filled', {
-        //             position: "top-right",
-        //             autoClose: 5000,
-        //             hideProgressBar: false,
-        //             closeOnClick: true,
-        //             pauseOnHover: true,
-        //             draggable: true,
-        //             progress: undefined,
-        //             theme: "colored",
-        //             });
-        //         return;
-        //     }
+        if(title == null || imageSrc == null || objective == null ||
+            industry == null || industry.length < 1 ){
+                toast.error('All required Fields Must be filled', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    });
+                return;
+            }
+
+            updateTitle(title);
+            updateImageSrc(imageSrc);
+            updateImageUrl(imageUrl);
+            updateObjective(objective);
+            updateIndustry(industry);
+
+
 
             updatePage(1);
    

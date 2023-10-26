@@ -53,6 +53,15 @@ export const InfluencerCampaignProvider = ({ children }) => {
         localStorage.setItem('numOfDays', newNumOfDays);
     }
 
+    const updateImageSrc = (newImageSrc) => {
+        setImageSrc(newImageSrc);
+        localStorage.setItem('imageSrc', newImageSrc);
+    };
+
+    const updateImageUrl = (newImageUrl) => {
+        setImageUrl(newImageUrl);
+        localStorage.setItem('imageUrl', newImageUrl);
+    };
 
     const updateTitle = (newTitle) => {
         setTitle(newTitle);
@@ -177,16 +186,6 @@ export const InfluencerCampaignProvider = ({ children }) => {
     const updateLocation = (newLocation) => {
         setLocation(newLocation);
         localStorage.setItem('location', newLocation);
-    };
-
-    const updateImageSrc = (newImageSrc) => {
-        setImageSrc(newImageSrc);
-        localStorage.setItem('imageSrc', newImageSrc);
-    };
-
-    const updateImageUrl = (newImageUrl) => {
-        setImageUrl(newImageUrl);
-        localStorage.setItem('imageUrl', newImageUrl);
     };
 
     const updatePage = (newPage) => {
