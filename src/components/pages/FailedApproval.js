@@ -10,7 +10,7 @@ function FailedApproval() {
 
     const handleSignOut = () => { 
         logout();
-        navigate('all_campaigns');
+        navigate('/company_login');
     }
 
   return (

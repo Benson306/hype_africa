@@ -1,10 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link } from 'react-router-dom'
 import CampaignIcon from '@mui/icons-material/Campaign';
 import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark';
 import PaidIcon from '@mui/icons-material/Paid';
+import { AuthContext } from '../utils/AuthContext';
+import Select from 'react-select';
+import MilitaryTechIcon from '@mui/icons-material/MilitaryTech';
 
 function Sidebar() {
     const sidebarCampaignItems =[
@@ -68,21 +71,83 @@ function Sidebar() {
         setIsOpen(!isOpen);
     }
 
+    const { company_id, addBrandId } = useContext(AuthContext)
+    const [brands, setBrands] = useState([]);
+
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    useEffect(()=>{
+
+        fetch(`${process.env.REACT_APP_API_URL}/all_brands/${company_id}`)
+        .then((response)=> response.json())
+        .then(response => {
+            setSelectedOption({value: response[0]._id, label: (
+                <div className='flex gap-4 items-center'>
+                    <img
+                    src={`${process.env.REACT_APP_API_URL}/uploads/${response[0].brand_logo}`}
+                    alt={response[0].brand_name}
+                    className='w-1/4'
+                    />
+                    <div className='text-xs lg:text-sm w-3/4'>{response[0].brand_name}</div>
+                </div>
+              )})
+            setBrands(response)
+        })
+        .catch(err => console.log(err))
+    },[])
+
+    const options = brands.map((brand) => ({
+    value: brand._id,
+    label: (
+        <div className='flex gap-4 items-center'>
+        <img
+            src={`${process.env.REACT_APP_API_URL}/uploads/${brand.brand_logo}`}
+            alt={brand.brand_name}
+            className='w-1/4 object-contain'
+        />
+        <div className='text-sm lg:text-sm w-3/4'>{brand.brand_name}</div>
+        </div>
+    ),
+    }));
+
+
+    useEffect(()=>{
+        if(selectedOption){
+        addBrandId(selectedOption.value)
+        }
+    },[selectedOption])
+
   return (
-    // <div className='min-h-screen bg-gradient-to-l from-slate-800 via-slate-800 to-slate-900' style={{ width: isOpen ? '320px': '50px', transition: 'width 0.5s ease'}} >
     <div
       className={`min-h-screen bg-gradient-to-l from-slate-800 via-slate-800 to-slate-900 ${
         isOpen ? 'w-64' : 'w-16'
       } transition-width duration-500 ease-in-out fixed top-0 left-0 z-100 overflow-hidden`}
     >
-        { isOpen && <Link to={"/all_campaigns"} >
-            <h1 className='text-white text-2xl text-center mt-5'>HypeAfrica</h1></Link> }
+        { isOpen && 
 
-        <MenuIcon htmlColor="#0284c7" style={{float: 'right', marginRight: 22, marginTop: 50, marginBottom: 20}} onClick={handleSidebar}/>
+        <div className='m-5'>
+          { brands.length > 0 && 
+          
+          <Select options={options} onChange={setSelectedOption} defaultValue={{value: brands[0]._id, label: (
+            <div className='flex gap-4 items-center'>
+                <img
+                src={`${process.env.REACT_APP_API_URL}/uploads/${brands[0].brand_logo}`}
+                alt={brands[0].brand_name}
+                className='w-1/4'
+                />
+                <div className='text-xs lg:text-sm w-3/4'>{brands[0].brand_name}</div>
+            </div>
+          )}}
+          /> }
+        </div>
 
-        {/* <div className="mt-28" style={{marginLeft: isOpen ? '30px' : '10px', marginRight:'10px'}}> */}
+
+        }
+
+        <MenuIcon htmlColor="#0284c7" style={{float: 'right', marginRight: 22, marginTop: 40, marginBottom: 20}} onClick={handleSidebar}/>
+
         <div
-        className={`mt-28 ml-4 lg:ml-${isOpen ? '12' : '8'} `}
+        className={`mt-24 ml-4 lg:ml-${isOpen ? '12' : '8'} `}
       >
             
 
@@ -100,6 +165,12 @@ function Sidebar() {
                     </Link>
                 ))
             }
+            <Link className="flex text-white py-2 align-middle gap-4 hover:text-blue-400" to={"/my_brands"}>
+                <MilitaryTechIcon />
+                <div style={{display: isOpen ? 'block' : 'none'}}>Manage My Brands</div> 
+            </Link>
+            
+
 
             <Link className="flex text-white py-2 align-middle gap-4 hover:text-blue-400" to={"/all_campaigns"}>
                 <BrandingWatermarkIcon />

@@ -8,7 +8,7 @@ function Login() {
     const [email,setEmail] = useState(null);
     const [password, setPassword] = useState(null);
 
-    const { id, addCompanyId } = useContext(AuthContext);
+    const { id, addCompanyId, addBrandId } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -54,26 +54,33 @@ function Login() {
                     theme: "colored"
                     });
 
-                    addCompanyId(response.uid);
+                    fetch(`${process.env.REACT_APP_API_URL}/all_brands/${response.uid}`)
+                    .then((newResponse)=> newResponse.json())
+                    .then(newResponse => {
+                        addBrandId(newResponse[0]._id)
+                        addCompanyId(response.uid);
+                        if(!response.isComplete){
+                            setTimeout(() => {
+                                navigate('/complete_profile');
+                              }, 2000);
+                        }else if(response.isComplete && response.isApproved == 0){ //pending approval
+                            setTimeout(() => {
+                                navigate('/approval_pending');
+                              }, 2000);
+                        }else if(response.isComplete && response.isApproved == 1){ //approved
+                            setTimeout(() => {
+                                navigate('/all_campaigns');
+                              }, 2000);
+                        }else if(response.isComplete && response.isApproved == 2){ //rejected approval
+                            setTimeout(() => {
+                                navigate('/rejected_application');
+                              }, 2000);
+                        }
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
 
-                    if(!response.isComplete){
-                        setTimeout(() => {
-                            navigate('/complete_profile');
-                          }, 2000);
-                    }else if(response.isComplete && response.isApproved == 0){ //pending approval
-                        setTimeout(() => {
-                            navigate('/approval_pending');
-                          }, 2000);
-                    }else if(response.isComplete && response.isApproved == 1){ //approved
-                        setTimeout(() => {
-                            navigate('/all_campaigns');
-                          }, 2000);
-                    }else if(response.isComplete && response.isApproved == 2){ //rejected approval
-                        setTimeout(() => {
-                            navigate('/rejected_application');
-                          }, 2000);
-                    }
-                    
             }else if(response === "Failed"){
                 toast.error('Failed. Check Your Credentials!', {
                     position: "top-right",

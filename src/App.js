@@ -20,6 +20,7 @@ import EditCampaign from './components/pages/EditCampaign';
 import PageNotFound from './components/PageNotFound';
 import ApprovalPending from './components/pages/ApprovalPending';
 import FailedApproval from './components/pages/FailedApproval';
+import MyBrands from './components/pages/MyBrands';
 
 function App() {
 
@@ -168,6 +169,13 @@ function App() {
                     <>
                       <Sidebar />
                       <Drafts />
+                    </>
+                  }/>
+
+                  <Route path='/my_brands' element={
+                    <>
+                      <Sidebar />
+                      <MyBrands />
                     </>
                   }/>
 
