@@ -18,10 +18,12 @@ import AddContentCampaign from './components/pages/AddContentCampaign';
 import ViewCampaign from './components/pages/ViewCampaign';
 import EditCampaign from './components/pages/EditCampaign';
 import PageNotFound from './components/PageNotFound';
+import ApprovalPending from './components/pages/ApprovalPending';
+import FailedApproval from './components/pages/FailedApproval';
 
 function App() {
 
-  const { id } = useContext(AuthContext);
+  const { company_id } = useContext(AuthContext);
 
   return (
     <div className="App">
@@ -30,7 +32,7 @@ function App() {
 
       <div className="flex">
             {
-              id == null ?
+              company_id == null ?
               <Routes>
                 <Route exact path='/' element={
                   <>
@@ -38,12 +40,12 @@ function App() {
                   </>
                 }/>
 
-                <Route path='/brand_login' element={
+                <Route path='/company_login' element={
                   <>
                     <Login />
                   </>
                 }/>
-                <Route path='/brand_signup' element={
+                <Route path='/company_signup' element={
                   <>
                     <SignUp />
                   </>
@@ -66,16 +68,29 @@ function App() {
                 </>
                 }/>
 
-                <Route path='/brand_login' element={
+                <Route path='/company_login' element={
                   <>
                     <Login />
                   </>
                 }/>
-                <Route path='/brand_signup' element={
+                <Route path='/company_signup' element={
                   <>
                     <SignUp />
                   </>
                 }/>
+
+                <Route path='/approval_pending' element={
+                    <>
+                      <ApprovalPending />
+                    </>
+                  }/>
+
+                  <Route path='/rejected_application' element={
+                    <>
+                      <FailedApproval />
+                    </>
+                  }/>
+
                 <Route path='/view_profile' element={
                     <>
                       <Sidebar />

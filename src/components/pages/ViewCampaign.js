@@ -7,7 +7,7 @@ import { AuthContext } from '../../utils/AuthContext';
 function ViewCampaign() {
     const { url } = useParams();
 
-    const { id } = useContext(AuthContext);
+    const { company_id } = useContext(AuthContext);
     const navigate =  useNavigate();
 
     const [data, setData] = useState([]);
@@ -15,7 +15,7 @@ function ViewCampaign() {
     const [dontSentences, setDontSentences] = useState([]);
 
     useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_URL}/get_campaign/${id}/${url}`)
+        fetch(`${process.env.REACT_APP_API_URL}/get_campaign/${company_id}/${url}`)
         .then(response => response.json())
         .then(result => {
             setData(result);
@@ -131,7 +131,7 @@ function ViewCampaign() {
         </div>
     }
     <div className='block lg:flex justify-center gap-10 mt-10 lg:mt-6'>
-        <Link to={`/edit_influencer_campaign/${id}/${url}`} className='bg-sky-500 p-2 lg:p-4  rounded-lg text-white text-center w-32 font-bold hover:bg-sky-900'>
+        <Link to={`/edit_influencer_campaign/${company_id}/${url}`} className='bg-sky-500 p-2 lg:p-4  rounded-lg text-white text-center w-32 font-bold hover:bg-sky-900'>
                 Edit
         </Link>
         <button onClick={()=> navigate("/all_campaigns")} className='border-2 border-red-500 ml-2 p-2 lg:p-4 w-32  rounded-lg hover:bg-red-500 hover:text-white for-bold'>

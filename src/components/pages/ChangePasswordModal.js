@@ -9,7 +9,7 @@ Modal.setAppElement('#root'); // Set the root element for accessibility
 
 function ChangePasswordModal({ isOpen, onRequestClose }) {
 
-    const { id } = useContext(AuthContext);
+    const { company_id } = useContext(AuthContext);
 
   const [oldPassword, setOldPassword] = useState(null);
   const [newPassword, setNewPassword] = useState(null);
@@ -66,7 +66,7 @@ function ChangePasswordModal({ isOpen, onRequestClose }) {
     }
 
 
-    fetch(`${process.env.REACT_APP_API_URL}/change_password/${id}`,{
+    fetch(`${process.env.REACT_APP_API_URL}/change_password/${company_id}`,{
         method:'PUT',
         headers:{
             'Content-Type':'application/json'
@@ -84,7 +84,7 @@ function ChangePasswordModal({ isOpen, onRequestClose }) {
         if(response === "success"){
             toast.success('Success!', {
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -95,7 +95,7 @@ function ChangePasswordModal({ isOpen, onRequestClose }) {
                
                 setTimeout(() => {
                     navigate('/all_campaigns');
-                    }, 2000);
+                    }, 1000);
                 
 
                 
@@ -134,7 +134,7 @@ function ChangePasswordModal({ isOpen, onRequestClose }) {
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       contentLabel="Change Password Modal"
-      className="modal bg-opacity-30 w-3/4 lg:w-1/2 m-auto mt-48"
+      className="modal bg-opacity-10 w-3/4 lg:w-1/2 m-auto mt-48"
     >
         <ToastContainer />
       <div className="bg-sky-900 p-4 rounded-xl">

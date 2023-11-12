@@ -9,7 +9,7 @@ function EditProfile() {
 
     const [data, setData] = useState(null);
 
-    const { id } = useContext(AuthContext);
+    const { company_id } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -19,20 +19,15 @@ function EditProfile() {
     const [companyName, setCompanyName] = useState(null);
     const [country, setCountry] = useState("kenya");
     const [city, setCity] = useState(null);
-    const [brandName, setBrandName] = useState(null);
-    const [about, setAbout] = useState(null);
     const [imageSrc, setImageSrc] = useState(null);
-
     const [imageUrl, setImageUrl] = useState(null);
-
     const [initialImageUrl, setInitialImageUrl] = useState(null);
 
     const handleDrop = (e) => {
         e.preventDefault();
         const file = e.target.files[0];
         setImageSrc(file);
-        setImageUrl(URL.createObjectURL(file))
-        
+        setImageUrl(URL.createObjectURL(file));
       };
     
       const handleDragOver = (e) => {
@@ -45,7 +40,7 @@ function EditProfile() {
     
 
     useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_URL}/profile/${id}`)
+        fetch(`${process.env.REACT_APP_API_URL}/company_profile/${company_id}`)
         .then((response)=> response.json())
         .then(response => {
             setData(response)
@@ -55,11 +50,9 @@ function EditProfile() {
             setCompanyName(response.companyName)
             setCountry(response.country)
             setCity(response.city)
-            setBrandName(response.brand_name)
-            setAbout(response.about)
-            setImageSrc(response.brand_logo)
-            setImageUrl(`${process.env.REACT_APP_API_URL}/uploads/${response.brand_logo}`)
-            setInitialImageUrl(`${process.env.REACT_APP_API_URL}/uploads/${response.brand_logo}`)
+            setImageSrc(response.logo)
+            setImageUrl(`${process.env.REACT_APP_API_URL}/uploads/${response.logo}`)
+            setInitialImageUrl(`${process.env.REACT_APP_API_URL}/uploads/${response.logo}`)
         } )
         .catch(err =>{
             toast.error('All Fields Must Be Filled', {
@@ -126,18 +119,16 @@ function EditProfile() {
 
         if(initialImageUrl === imageUrl){
             let updatedData = {
-                user_id: id,
+                company_id: company_id,
                 email,
                 phoneNumber,
                 country,
                 countryCode,
                 companyName,
-                city,
-                about,
-                brand_name: brandName
+                city
             }
 
-            fetch(`${process.env.REACT_APP_API_URL}/profileWithoutImage/${id}`,{
+            fetch(`${process.env.REACT_APP_API_URL}/updateProfileWithoutImage/${company_id}`,{
                 method: 'PUT',
                 headers:{
                     'Content-Type':'application/json'
@@ -184,12 +175,10 @@ function EditProfile() {
             formData.append('country', country);
             formData.append('companyName', companyName);
             formData.append('city', city)
-            formData.append('brand_name', brandName);
-            formData.append('about', about);
             formData.append('image', imageSrc); 
-            formData.append('user_id', id);
+            formData.append('company_id', company_id);
 
-            fetch(`${process.env.REACT_APP_API_URL}/profileWithImage/${id}`,{
+            fetch(`${process.env.REACT_APP_API_URL}/updateProfileWithImage/${company_id}`,{
                 method: 'PUT',
                 body:formData
             })
@@ -346,21 +335,6 @@ function EditProfile() {
                             value={companyName}
                             onChange={(e)=> setCompanyName(e.target.value)}
                             />
-                        </div>
-
-                        <div>
-                            <label for="brandName" class="block mb-2 text-sm font-medium text-sky-900">Your Brand Name <i className='text-red-500 text-xl'>*</i></label>
-                            <input type="brandName" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  required=""
-                            value={brandName}
-                            onChange={(e)=> setBrandName(e.target.value)}
-                            />
-                        </div>
-                        <div>
-                                <label for="email" class="block mb-2 text-sm font-medium text-sky-900">About Your Brand</label>
-                                <textarea type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required=""
-                                value={about}
-                                onChange={(e)=>setAbout(e.target.value)}
-                                ></textarea>
                         </div>
                         <div>
                             <label for="country" class="block mb-2 text-sm font-medium text-sky-900">Country <i className='text-red-500 text-xl'>*</i></label>

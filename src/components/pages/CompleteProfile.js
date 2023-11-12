@@ -12,9 +12,7 @@ function CompleteProfile() {
 
     const [brandName, setBrandName] = useState(null);
 
-    const [about, setAbout] = useState(null);
-
-    const { id } = useContext(AuthContext);
+    const { company_id } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -38,7 +36,7 @@ function CompleteProfile() {
   const handleSubmit = (e) =>{
     e.preventDefault();
 
-    if(brandName === null || imageSrc === null || about === null){
+    if(brandName === null || imageSrc === null){
         toast.error('All Fields Must Be Filled', {
             position: "top-right",
             autoClose: 5000,
@@ -56,12 +54,11 @@ function CompleteProfile() {
     // Create a FormData object to send the data
     const formData = new FormData();
     formData.append('brandName', brandName);
-    formData.append('about', about);
     formData.append('image', imageSrc); 
-    formData.append('user_id', id);
+    formData.append('company_id', company_id);
 
 
-    fetch(`${process.env.REACT_APP_API_URL}/complete_profile`,{
+    fetch(`${process.env.REACT_APP_API_URL}/add_brand`,{
         method: 'POST',
         body: formData
     })
@@ -79,9 +76,19 @@ function CompleteProfile() {
                 theme: "colored"
                 });
 
-                setTimeout(() => {
-                    navigate('/all_campaigns');
-                  }, 2000);
+                if(response.isApproved == 0){ //pending approval
+                    setTimeout(() => {
+                        navigate('/approval_pending');
+                      }, 2000);
+                }else if(response.isApproved == 1){ //approved
+                    setTimeout(() => {
+                        navigate('/all_campaigns');
+                      }, 2000);
+                }else if(response.isApproved == 2){ //rejected approval
+                    setTimeout(() => {
+                        navigate('/rejected_application');
+                      }, 2000);
+                }
         }else{
             toast.error('Failed. Server Error!', {
                 position: "top-right",
@@ -123,7 +130,7 @@ function CompleteProfile() {
                 <div class="rounded-lg shadow dark:border md:mt-0  xl:p-0 bg-gray-800 border-gray-700 w-5/6 lg:w-1/2">
                     <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl text-white">
-                            Complete Your Profile
+                            Add a Brand
                         </h1>
                         <form class="space-y-4 md:space-y-6">
                             <div>
@@ -205,12 +212,6 @@ function CompleteProfile() {
                                         </label>
                                     )}
                                     </div>
-                            </div>
-                            <div>
-                                <label for="email" class="block mb-2 text-sm font-medium text-white">About Your Brand</label>
-                                <textarea type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-4 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Short Description about your brand" required="" 
-                                onChange={(e)=>setAbout(e.target.value)}
-                                ></textarea>
                             </div>
 
     

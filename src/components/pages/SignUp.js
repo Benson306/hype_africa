@@ -11,8 +11,27 @@ function SignUp() {
     const  [country, setCountry] = useState("kenya");
     const [city, setCity] = useState(null);
     const [password, setPassword] = useState(null);
+    const [imageSrc, setImageSrc] = useState(null);
+    const [imageUrl, setImageUrl] = useState(null);
 
     const navigate = useNavigate();
+
+    const handleDrop = (e) => {
+        e.preventDefault();
+        const file = e.target.files[0];
+        setImageSrc(file);
+        setImageUrl(URL.createObjectURL(file))
+        
+      };
+    
+      const handleDragOver = (e) => {
+        e.preventDefault();
+      };
+    
+      const handleDelete = () => {
+        setImageSrc(null);
+      };
+
 
     const handleSubmit = (e)=>{
         e.preventDefault();
@@ -22,10 +41,10 @@ function SignUp() {
 
         const phonePattern = /^\d{9}$/;
         
-        if(email === null || countryCode === null || phoneNumber === null || companyName === null || country === null || city === null || password === null ){
+        if(email === null || countryCode === null || phoneNumber === null || companyName === null || country === null || city === null || password === null || imageSrc === null){
             toast.error('All Fields Must Be Filled', {
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -39,7 +58,7 @@ function SignUp() {
         if(!emailPattern.test(email)){
             toast.error('Email must be in the correct format', {
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -53,7 +72,7 @@ function SignUp() {
         if(!phonePattern.test(phoneNumber)){
             toast.error('Phone Number must be exactly 9 digits long', {
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -67,7 +86,7 @@ function SignUp() {
         if(!passwordPattern.test(password)){
             toast.error('Password must be at least 6 characters long with 1 digit in it', {
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -78,21 +97,19 @@ function SignUp() {
             return;
         }
 
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('phoneNumber', phoneNumber);
+        formData.append('companyName', companyName);
+        formData.append('countryCode', countryCode);
+        formData.append('country', country);
+        formData.append('city', city);
+        formData.append('password', password);
+        formData.append('image', imageSrc);
 
-        fetch(`${process.env.REACT_APP_API_URL}/brand_signup`,{
+        fetch(`${process.env.REACT_APP_API_URL}/company_signup`,{
             method:'POST',
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:JSON.stringify({
-                email,
-                phoneNumber,
-                companyName,
-                countryCode,
-                country,
-                city,
-                password
-            })
+            body: formData
         })
         .then(response => response.json())
         .then((response)=>{
@@ -100,7 +117,7 @@ function SignUp() {
             if(response === "success"){
                 toast.success('Success!', {
                     position: "top-right",
-                    autoClose: 5000,
+                    autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -110,12 +127,12 @@ function SignUp() {
                     });
 
                     setTimeout(() => {
-                        navigate('/brand_login');
+                        navigate('/company_login');
                       }, 2000);
             }else if(response === "Failed"){
                 toast.error('Failed. Server Error!', {
                     position: "top-right",
-                    autoClose: 5000,
+                    autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -126,7 +143,7 @@ function SignUp() {
             }else{
                 toast.error('Email Has Been Used!', {
                     position: "top-right",
-                    autoClose: 5000,
+                    autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -139,7 +156,7 @@ function SignUp() {
         .catch(err =>{
             toast.error('Failed. Server Error!', {
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -191,6 +208,82 @@ function SignUp() {
                             onChange={(e)=> setCompanyName(e.target.value)}
                             />
                         </div>
+
+                        <div>
+                                <label for="email" class="block mb-2 text-sm font-medium text-white">Company Logo</label>
+
+                                <div
+                                    className="flex items-center justify-center w-full"
+                                    onDrop={handleDrop}
+                                    onDragOver={handleDragOver}
+                                    >
+                                    {imageSrc ? (
+                                        <div className="w-full h-64 relative">
+                                        <img
+                                            src={imageUrl}
+                                            alt="Preview"
+                                            className="w-full h-full object-contain rounded-lg"
+                                        />
+                                        <button
+                                            className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-2"
+                                            onClick={handleDelete}
+                                        >
+                                            <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="w-4 h-4"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                            >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M6 18L18 6M6 6l12 12"
+                                            />
+                                            </svg>
+                                        </button>
+                                        </div>
+                                    ) : (
+                                        <label
+                                        htmlFor="dropzone-file"
+                                        className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-gray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 "
+                                        >
+                                        <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                            <svg
+                                            className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
+                                            aria-hidden="true"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 20 16"
+                                            >
+                                            <path
+                                                stroke="currentColor"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
+                                            />
+                                            </svg>
+                                            <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                                            <span className="font-semibold">Click to upload</span> or drag and
+                                            drop
+                                            </p>
+                                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                                            SVG, PNG, JPG or GIF (MAX. 800x400px)
+                                            </p>
+                                        </div>
+                                        <input
+                                            id="dropzone-file"
+                                            type="file"
+                                            className="hidden"
+                                            onChange={(e) =>{ setImageSrc(e.target.files[0]); setImageUrl(URL.createObjectURL(e.target.files[0]) )}}
+                                        />
+                                        </label>
+                                    )}
+                                    </div>
+                            </div>
+
                         <div>
                             <label for="country" class="block mb-2 text-sm font-medium text-white">Country <i className='text-red-500 text-xl'>*</i></label>
                             <select type="country" name="country" id="country" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Hype Africa" required="" 
@@ -216,7 +309,7 @@ function SignUp() {
                             Proceed
                         </button>
                         <p class="text-sm  text-gray-100">
-                            I have an account? <Link to="/brand_login" className="font-medium hover:underline text-sky-500"> Sign In</Link>
+                            I have an account? <Link to="/company_login" className="font-medium hover:underline text-sky-500"> Sign In</Link>
                         </p>
                     </form>
                 </div>

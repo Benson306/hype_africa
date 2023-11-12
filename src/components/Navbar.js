@@ -10,7 +10,7 @@ import ChangePasswordModal from './pages/ChangePasswordModal';
 
 function Navbar() {
 
-  const { id, addId, logout } = useContext(AuthContext);
+  const { company_id, addCompanyId, logout } = useContext(AuthContext);
 
   const [show, setShow] = useState(false);
 
@@ -26,7 +26,7 @@ function Navbar() {
   const handleLogout = () =>{
     handleShow();
     logout();
-    navigate("/brand_login")
+    navigate("/company_login")
   }
 
   const [isModalOpen, setModalOpen] = useState(false);
@@ -41,7 +41,7 @@ function Navbar() {
   };
 
   useEffect(()=>{
-      fetch(`${process.env.REACT_APP_API_URL}/profile/${id}`)
+      fetch(`${process.env.REACT_APP_API_URL}/company_profile/${company_id}`)
       .then((response)=> response.json())
       .then(response => setData(response))
       .catch(err => console.log(err))
@@ -73,11 +73,11 @@ function Navbar() {
           <div class="" role="none">
             {/* <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" --> */}
             <div className='flex justify-center align-middle gap-4 p-4'>
-              <img src={`${process.env.REACT_APP_API_URL}/uploads/${data.brand_logo}`} className='shadow rounded-full max-w-full h-auto align-middle border-2 border-sky-900'  width={"50px"}/>
+              <img src={`${process.env.REACT_APP_API_URL}/uploads/${data.logo}`} className='shadow rounded-full max-w-full h-auto align-middle border-2 border-sky-900'  width={"50px"}/>
 
               <div className=''>
-                <div className='font-sans text-xl capitalize'>{data.brand_name}</div>
-                <div className='font-serif capitalize'>{data.companyName}</div>
+                <div className='font-sans text-xl capitalize'>{data.companyName}</div>
+                <div className='font-serif'>{data.email}</div>
               </div>
 
 

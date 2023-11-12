@@ -8,7 +8,7 @@ function Login() {
     const [email,setEmail] = useState(null);
     const [password, setPassword] = useState(null);
 
-    const { id, addId } = useContext(AuthContext);
+    const { id, addCompanyId } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ function Login() {
             return;
         }
 
-        fetch(`${process.env.REACT_APP_API_URL}/brand_login`,{
+        fetch(`${process.env.REACT_APP_API_URL}/company_login`,{
             method:'POST',
             headers:{
                 'Content-Type':'application/json'
@@ -42,12 +42,10 @@ function Login() {
         .then(response => response.json())
         .then((response)=>{
 
-            console.log(response)
-
             if(response.status === "success"){
                 toast.success('Success!', {
                     position: "top-right",
-                    autoClose: 5000,
+                    autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -56,23 +54,30 @@ function Login() {
                     theme: "colored"
                     });
 
-                    addId(response.uid);
+                    addCompanyId(response.uid);
 
-                    if(response.isComplete){
-                        setTimeout(() => {
-                            navigate('/all_campaigns');
-                          }, 2000);
-                    }else{
+                    if(!response.isComplete){
                         setTimeout(() => {
                             navigate('/complete_profile');
                           }, 2000);
+                    }else if(response.isComplete && response.isApproved == 0){ //pending approval
+                        setTimeout(() => {
+                            navigate('/approval_pending');
+                          }, 2000);
+                    }else if(response.isComplete && response.isApproved == 1){ //approved
+                        setTimeout(() => {
+                            navigate('/all_campaigns');
+                          }, 2000);
+                    }else if(response.isComplete && response.isApproved == 2){ //rejected approval
+                        setTimeout(() => {
+                            navigate('/rejected_application');
+                          }, 2000);
                     }
-
                     
             }else if(response === "Failed"){
                 toast.error('Failed. Check Your Credentials!', {
                     position: "top-right",
-                    autoClose: 5000,
+                    autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -86,7 +91,7 @@ function Login() {
         .catch(err =>{
             toast.error('Failed. Server Error!', {
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 3000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -103,7 +108,6 @@ function Login() {
         <ToastContainer />
         <div class="flex flex-col items-center justify-center px-2 py-8 mx-auto md:h-screen lg:py-0">
             <div class="flex items-center mb-6 text-2xl font-semibold text-gray-900">
-                {/* <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" /> */}
                 Hype Africa    
             </div>
             <div class="rounded-lg shadow dark:border md:mt-0  xl:p-0 bg-gray-800 border-gray-700 w-5/6 lg:w-2/6">
@@ -140,7 +144,7 @@ function Login() {
                             >Sign in
                         </button>
                         <p class="text-sm  text-gray-100">
-                            Don’t have an account yet? <Link to="/brand_signup" className="font-medium hover:underline text-sky-500"> Sign up</Link>
+                            Don’t have an account yet? <Link to="/company_signup" className="font-medium hover:underline text-sky-500"> Sign up</Link>
                         </p>
                     </form>
                 </div>

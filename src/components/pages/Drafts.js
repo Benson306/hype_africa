@@ -7,13 +7,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function Drafts() {
 
-  const { id } = useContext(AuthContext);
+  const { company_id } = useContext(AuthContext);
     const navigate =  useNavigate('navigate');
 
     const [data, setData] = useState([]);
 
     useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_URL}/get_campaigns/${id}/draft`)
+        fetch(`${process.env.REACT_APP_API_URL}/get_campaigns/${company_id}/draft`)
         .then(response => response.json())
         .then(result => {
             setData(result);
@@ -24,7 +24,7 @@ function Drafts() {
     },[data])
 
     const handleDelete = (campaign_id) => {
-      fetch(`${process.env.REACT_APP_API_URL}/del_campaign/${id}/${campaign_id}`,{
+      fetch(`${process.env.REACT_APP_API_URL}/del_campaign/${company_id}/${campaign_id}`,{
         method:'DELETE'
       })
       .then((res)=> res.json())
@@ -97,7 +97,7 @@ function Drafts() {
                               {item.startDate}
                           </td>
                           <td scope="col" class="px-3 py-1 lg:px-6 lg:py-3">
-                              <Link to={`/edit_influencer_campaign/${id}/${item._id}`} className='bg-blue-600 hover:bg-blue-500 text-white rounded-lg shadow-md p-4'>
+                              <Link to={`/edit_influencer_campaign/${company_id}/${item._id}`} className='bg-blue-600 hover:bg-blue-500 text-white rounded-lg shadow-md p-4'>
                                 Complete Creation
                               </Link>
                           </td>

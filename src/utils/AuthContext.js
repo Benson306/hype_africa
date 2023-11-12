@@ -4,38 +4,38 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 
-    const [id, setId] = useState(null);
+    const [company_id, setCompanyId] = useState(null);
 
-    const addId = (id) =>{
-        setId(id);
+    const addCompanyId = (company_id) =>{
+        setCompanyId(company_id);
 
-        localStorage.setItem('id', id);
+        localStorage.setItem('company_id', company_id);
     }
 
     const logout = () => {
-        setId(null);
-        localStorage.removeItem('id');
+        setCompanyId(null);
+        localStorage.removeItem('company_id');
     }
 
-    const isIdSet = async () => {
+    const isCompanyIdSet = async () => {
         try {
-            let id = localStorage.getItem('id');
+            let company_id = localStorage.getItem('company_id');
 
-            if(id){
-                setId(id);
+            if(company_id){
+                setCompanyId(company_id);
             }
         }
         catch(e){
-            console.log('Error Setting Id');
+            console.log('Error Setting Company Id');
         }
     }
 
     useEffect(()=>{
-        isIdSet();
+        isCompanyIdSet();
     },[]);
 
     return (
-        <AuthContext.Provider value={{ id, addId, logout}}>
+        <AuthContext.Provider value={{ company_id, addCompanyId, logout}}>
             { children }
         </AuthContext.Provider>
     )

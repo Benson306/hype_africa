@@ -8,13 +8,13 @@ import 'react-toastify/dist/ReactToastify.css';
 
 function AllCampaigns() {
 
-    const { id } = useContext(AuthContext);
+    const { company_id } = useContext(AuthContext);
     const navigate =  useNavigate('navigate');
 
     const [data, setData] = useState([]);
 
     useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_URL}/get_campaigns/${id}/all`)
+        fetch(`${process.env.REACT_APP_API_URL}/get_campaigns/${company_id}/all`)
         .then(response => response.json())
         .then(result => {
             setData(result);
@@ -25,7 +25,7 @@ function AllCampaigns() {
     },[])
 
     const handleDelete = (campaign_id) => {
-        fetch(`${process.env.REACT_APP_API_URL}/del_campaign/${id}/${campaign_id}`,{
+        fetch(`${process.env.REACT_APP_API_URL}/del_campaign/${company_id}/${campaign_id}`,{
           method:'DELETE'
         })
         .then((res)=> res.json())
@@ -86,7 +86,7 @@ function AllCampaigns() {
                                     </div>
                                     <div class="flex items-center justify-between align-middle">
                                         <span class="text-2xl font-bold text-sky-900 dark:text-white">$ {item.budget}</span>
-                                        <Link to={`/edit_influencer_campaign/${id}/${item._id}`} class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit Campaign</Link>
+                                        <Link to={`/edit_influencer_campaign/${company_id}/${item._id}`} class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit Campaign</Link>
                                     </div>
                                 </div>
                             </div>

@@ -9,12 +9,12 @@ import { useNavigate } from 'react-router-dom';
 function ViewProfile() {
     const [data, setData] = useState(null);
 
-    const { id } = useContext(AuthContext);
+    const { company_id } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
     useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_URL}/profile/${id}`)
+        fetch(`${process.env.REACT_APP_API_URL}/company_profile/${company_id}`)
         .then((response)=> response.json())
         .then(response => setData(response))
         .catch(err =>{
@@ -43,43 +43,29 @@ function ViewProfile() {
 
                 { data && <div className='w-full shadow-lg rounded-lg p-10 bg-white'>
 
-                <img src={`${process.env.REACT_APP_API_URL}/uploads/${data.brand_logo}`} className='shadow rounded-lg mx-auto  max-w-full h-auto  align-middle border-1 border-sky-900 mb-10 '  width={"200px"}/>
+                <img src={`${process.env.REACT_APP_API_URL}/uploads/${data.logo}`} className='shadow rounded-lg mx-auto  max-w-full h-auto  align-middle border-1 border-sky-900 mb-10 '  width={"200px"}/>
 
                     <div className='block lg:flex gap-52 mb-5'> 
 
                         <div className='mx-auto'>
+                            <span className='font-bold mb-2'>Company Name</span>
+                            <p className='capitalize mb-4 text-xl'>{data.companyName}</p>
+
                             <span className='font-bold mb-2'>Email</span>
                             <p className='mb-4 text-xl'>{data.email}</p>
 
                             <span className='font-bold mb-2'>Phone Number</span>
                             <p className='capitalize mb-4 text-xl'>{data.countryCode} {data.phoneNumber}</p>
-
-                            <span className='font-bold mb-2'>Country</span>
-                            <p className='mb-4 capitalize text-xl'>{data.country}</p>
-
-                            
-
                         </div>
 
                         <div className='mx-auto'>
-                            <span className='font-bold mb-2'>Brand Name</span>
-                            <p className='capitalize mb-4 text-xl'>{data.brand_name}</p>
-
-                            <span className='font-bold mb-2'>Company Name</span>
-                            <p className='capitalize mb-4 text-xl'>{data.companyName}</p>
+                            <span className='font-bold mb-2'>Country</span>
+                            <p className='mb-4 capitalize text-xl'>{data.country}</p>
 
                             <span className='font-bold mb-2'>City</span>
                             <p className='capitalize mb-4 text-xl'>{data.city}</p>
                         </div>
 
-                    </div>
-                    <hr></hr>
-
-                    <div className='flex justify-center mt-4'>
-                        <div>
-                            <span className='font-bold'>About The Brand</span>
-                            <p className='capitalize mb-4 text-lg text-center'>{data.about}</p>
-                        </div>
                     </div>
 
 
