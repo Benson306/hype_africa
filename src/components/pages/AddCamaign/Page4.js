@@ -14,10 +14,10 @@ function Page4() {
     const { navigate } = useNavigate();
 
     // Define minimum and maximum values
-    const minValue = 1;
-    const maxValue = 250;
+    const minValue = 1000;
+    const maxValue = 100000;
 
-    const [rangeValue, setRangeValue] = useState(1);
+    const [rangeValue, setRangeValue] = useState(1000);
 
     // Event handler for the range input change
     const handleRangeChange = (event) => {
@@ -131,10 +131,11 @@ function Page4() {
                 value={rangeValue}
                 min={minValue}
                 max={maxValue}
+                step={100}
                 onChange={handleRangeChange}
             />
 
-            <p>Amount: $<b> {rangeValue}</b></p>
+            <p>Amount: Ksh<b> {rangeValue}</b></p>
         </div>
 
         <div class="w-3/4 lg::w-1/4 mb-6 ">
