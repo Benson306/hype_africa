@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
             let brand_id = localStorage.getItem('brand_id');
 
             if(brand_id){
-                setBrandId(company_id);
+                setBrandId(brand_id);
             }
         }
         catch(e){

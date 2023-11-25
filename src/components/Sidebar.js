@@ -71,8 +71,11 @@ function Sidebar() {
         setIsOpen(!isOpen);
     }
 
-    const { company_id, addBrandId } = useContext(AuthContext)
+    const { company_id, addBrandId, brand_id } = useContext(AuthContext)
+
     const [brands, setBrands] = useState([]);
+
+    const [currentBrand, setCurrentBrand] = useState([]);
 
     const [selectedOption, setSelectedOption] = useState(null);
 
@@ -81,14 +84,18 @@ function Sidebar() {
         fetch(`${process.env.REACT_APP_API_URL}/all_brands/${company_id}`)
         .then((response)=> response.json())
         .then(response => {
-            setSelectedOption({value: response[0]._id, label: (
+
+            let newArray = response.filter( resp => resp._id == brand_id )
+            setCurrentBrand(newArray);
+
+            setSelectedOption({value: newArray[0]._id, label: (
                 <div className='flex gap-4 items-center'>
                     <img
-                    src={`${process.env.REACT_APP_API_URL}/uploads/${response[0].brand_logo}`}
-                    alt={response[0].brand_name}
+                    src={`${process.env.REACT_APP_API_URL}/uploads/${newArray[0].brand_logo}`}
+                    alt={newArray[0].brand_name}
                     className='w-1/4'
                     />
-                    <div className='text-xs lg:text-sm w-3/4'>{response[0].brand_name}</div>
+                    <div className='text-xs lg:text-sm w-3/4'>{newArray[0].brand_name}</div>
                 </div>
               )})
             setBrands(response)
@@ -128,14 +135,14 @@ function Sidebar() {
         <div className='m-5'>
           { brands.length > 0 && 
           
-          <Select options={options} onChange={setSelectedOption} defaultValue={{value: brands[0]._id, label: (
+          <Select options={options} onChange={setSelectedOption} defaultValue={{value: currentBrand[0]._id, label: (
             <div className='flex gap-4 items-center'>
                 <img
-                src={`${process.env.REACT_APP_API_URL}/uploads/${brands[0].brand_logo}`}
-                alt={brands[0].brand_name}
+                src={`${process.env.REACT_APP_API_URL}/uploads/${currentBrand[0].brand_logo}`}
+                alt={currentBrand[0].brand_name}
                 className='w-1/4'
                 />
-                <div className='text-xs lg:text-sm w-3/4'>{brands[0].brand_name}</div>
+                <div className='text-xs lg:text-sm w-3/4'>{currentBrand[0].brand_name}</div>
             </div>
           )}}
           /> }
