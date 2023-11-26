@@ -21,6 +21,7 @@ import PageNotFound from './components/PageNotFound';
 import ApprovalPending from './components/pages/ApprovalPending';
 import FailedApproval from './components/pages/FailedApproval';
 import MyBrands from './components/pages/MyBrands';
+import CreatorGroups from './components/pages/CreatorGroups';
 
 function App() {
 
@@ -176,6 +177,13 @@ function App() {
                     <>
                       <Sidebar />
                       <MyBrands />
+                    </>
+                  }/>
+
+                  <Route path='/creator_groups' element={
+                    <>
+                      <Sidebar />
+                      <CreatorGroups />
                     </>
                   }/>
 

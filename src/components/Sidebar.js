@@ -174,16 +174,16 @@ function Sidebar() {
             }
             <Link className="flex text-white py-2 align-middle gap-4 hover:text-blue-400" to={"/my_brands"}>
                 <MilitaryTechIcon />
-                <div style={{display: isOpen ? 'block' : 'none'}}>Manage My Brands</div> 
+                <div style={{display: isOpen ? 'block' : 'none'}}>MY BRANDS</div> 
             </Link>
             
 
 
-            <Link className="flex text-white py-2 align-middle gap-4 hover:text-blue-400" to={"/all_campaigns"}>
+            <Link className="flex text-white py-2 align-middle gap-4 hover:text-blue-400" to={"/creator_groups"}>
                 <BrandingWatermarkIcon />
-                <div style={{display: isOpen ? 'block' : 'none'}}>BRAND-FANS</div> 
+                <div style={{display: isOpen ? 'block' : 'none'}}>CREATOR GROUPS</div> 
             </Link>
-            {
+            {/* {
                 sidebarBrandItems.map(item=>(
                     <Link onClick={() => handleSidebar()} className="flex text-white text-sm py-2 ml-8 lg:ml-10 mr-1 align-middle gap-4 hover:text-blue-200" to={item.route}>
 
@@ -192,7 +192,7 @@ function Sidebar() {
 
                     </Link>
                 ))
-            }
+            } */}
 
             <Link className="flex text-white py-2 align-middle gap-4 hover:text-blue-400" to={"/all_campaigns"}>
                 <PaidIcon />
