@@ -1,22 +1,29 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Navbar from '../Navbar'
 import { useState } from 'react';
 import { useEffect } from 'react';
 import Select from 'react-select';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { AuthContext } from '../../utils/AuthContext';
 
 function CreatorGroups() {
 
     const [modalOpen, setModalOpen] = useState(false);
+
+    const { brand_id } = useContext(AuthContext)
   
     const openModal = () => {
       setModalOpen(true);
     };
   
     const closeModal = () => {
-      setModalOpen(false);
+        setSelectedCreators([]);
+        setModalOpen(false);
     };
 
     const [creators, setCreators] =  useState([]);
+    const [groupName, setGroupName] = useState(null);
 
     useEffect(()=>{
         fetch(`${process.env.REACT_APP_API_URL}/get_all_creators`)
@@ -27,7 +34,13 @@ function CreatorGroups() {
         .catch(err => console.log(err))
     },[])
 
-    const [selectedOption, setSelectedOption] = useState(null);
+    const [selectedCreators, setSelectedCreators] = useState([]);
+
+    const handleSelectChange = (selectedOption) => {
+        if(!selectedCreators.includes(selectedOption.value)){
+            setSelectedCreators([...selectedCreators, selectedOption.value]);
+        }
+    };
 
     const options = creators.map((creator) => ({
         value: creator._id,
@@ -40,19 +53,151 @@ function CreatorGroups() {
         ),
         }));
 
+        const handleRemove = (id) => {
+            const updatedSelected = selectedCreators.filter( item =>  item !== id);
+            setSelectedCreators(updatedSelected);
+        }
+
+        const handleSubmit = () => {
+            if(groupName === null){
+                toast.error('Add a Group name', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    });
+                return;
+            }
+
+            if(selectedCreators.length < 2){
+                toast.error('Select at least 2 creators', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    });
+                return;
+            }
+
+            fetch(`${process.env.REACT_APP_API_URL}/creator_groups`,{
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    brand_id,
+                    groupName,
+                    selectedCreators 
+                })
+            })
+            .then((response)=> {
+                if(response.ok){
+                    toast.success('Success', {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                        });
+                    closeModal();
+                }else{
+                    toast.error("You have a creators' group with the same name.", {
+                        position: "top-right",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "colored",
+                        });
+                }
+            })
+            .catch(err =>{
+                toast.error('Failed. Server Error', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    });
+            })
+            
+        }
+
+
+        const [groups, setGroups] = useState([]);
+
+        useEffect(()=>{
+            fetch(`${process.env.REACT_APP_API_URL}/creator_groups`)
+            .then(response => response.json())
+            .then(response => {
+                setGroups(response);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        })
+        
+
+        const handleDeleteGroup = (id) => {
+            fetch(`${process.env.REACT_APP_API_URL}/creator_groups/${id}`,{
+                method: 'DELETE'
+            })
+            .then(()=>{
+                toast.success('Deleted', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    });
+            })
+            .catch(err =>{
+                toast.error('Failed. Server Error', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    });
+            })
+        }
+
   return (
     <div className='w-full min-h-screen bg-neutral-300'>
         <Navbar />
+        <ToastContainer />
 
         <div className='p-4 ml-16'>
             Creator Groups
         
 
-        <div className='ml-20 mt-5'>
+        <div className='w-5/6 mt-5 flex justify-start lg:justify-end mx-auto'>
             <button onClick={()=> openModal()} className='bg-blue-800 text-white p-3 rounded-lg'>+ New Creators Group </button>
         </div>
 
-        <div class="relative overflow-x-auto mt-4 w-5/6 mx-auto">
+        <div class=" overflow-x-auto mt-4 w-full lg:w-5/6 mx-auto">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                     <tr>
@@ -62,29 +207,43 @@ function CreatorGroups() {
                         <th scope="col" class="px-6 py-3">
                             No. of Members
                         </th>
-                        <th scope="col" class="px-6 py-3">
+                        {/* <th scope="col" class="px-6 py-3">
                             Total Cost Per Campaign
-                        </th>
+                        </th> */}
                         <th scope="col" class="px-6 py-3">
-                            Edit
+                            Delete
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    {
+                        
+                        groups.length < 1 && <tr><td colSpan='3' className='text-center text-black mt-2'>You Have No Creator Groups</td></tr>
+                    }
+                    { 
+                    
+                    groups.map( group => (
+                    <tr key={group._id} class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            Apple MacBook Pro 17"
+                            {group.groupName}
                         </th>
                         <td class="px-6 py-4">
-                            Silver
+                            {group.selectedCreators.length}
                         </td>
                         <td class="px-6 py-4">
-                            Laptop
+                            <button onClick={(e)=>{
+                                e.preventDefault();
+                                handleDeleteGroup(group._id);
+                            }} className='p-2 rounded-lg bg-red-600 text-white'>
+                                Delete
+                            </button>
                         </td>
-                        <td class="px-6 py-4">
+                        {/* <td class="px-6 py-4">
                             $2999
-                        </td>
-                    </tr>
+                        </td> */}
+                    </tr> 
+                    ))
+                    }
                    
                 </tbody>
             </table>
@@ -112,27 +271,58 @@ function CreatorGroups() {
                 <form className='mt-5'>
                     <label>Group Name:</label>
 
-                    <input type="text" className='mt-2 p-4 rounded border border-gray-400 w-full mb-5' placeholder='Group Name' />
+                    <input type="text" onChange={e => setGroupName(e.target.value)} className='mt-2 p-4 rounded border border-gray-400 w-full mb-5' placeholder='Group Name' />
                     <br />
-
-                    <label>Select Members:</label>
-
-                    { creators.length > 0 && 
-                    
-                    <Select className='mt-2' options={options} onChange={setSelectedOption} defaultValue={{value: creators[0]._id, label: (
-                        <div className='block'>
-                            <div className='font-bold'>{ creators[0].firstName } { creators[0].lastName}</div>
+            <div className='flex flex-wrap text-sm mb-4'>
+                {
+                    selectedCreators.map( select => {
+                    let single = creators.filter(crt => crt._id === select)
+        
+                    return (
+                    <div key={select} className='bg-gray-200 shadow-md m-1 p-2 rounded-lg flex items-center gap-4'>
+                        <div>
+                            <div className=''>
+                                {single[0].firstName} {single[0].lastName}
+                            </div>
                             <div className='capitalize'>{ creators[0].creatorType } - Ksh. { creators[0].averageEarning} </div>
-                            <div className='flex flex-wrap gap-2'>{ creators[0].industries.map( ind => ( <div className='p-2 bg-gray-300 rounded-md text-sm text-black'>{ind}</div>))}</div>
-                        </div> 
-                    )}}
-                    /> }
+                        </div>
 
-                    <button className='bg-blue-700 hover:bg-blue-500 text-white p-3 mt-5 rounded-lg float-right'>Save Group</button>   
-                </form>
+                        <button className="text-red-800" onClick={e => {
+                            e.preventDefault();
+                            handleRemove(select)
+                            }
+                        }>
+                            X
+                        </button>
+                        
+                    </div>
+                    )
+                    })   
+                }
             </div>
-        </div>
-        </div>
+                    
+
+            <label>Select Members:</label>
+
+            { creators.length > 0 && 
+            
+            <Select className='mt-2' options={options} onChange={handleSelectChange} defaultValue={{value: creators[0]._id, label: (
+                <div className='block'>
+                    <div className='font-bold'>{ creators[0].firstName } { creators[0].lastName}</div>
+                    <div className='capitalize'>{ creators[0].creatorType } - Ksh. { creators[0].averageEarning} </div>
+                    <div className='flex flex-wrap gap-2'>{ creators[0].industries.map( ind => ( <div className='p-2 bg-gray-300 rounded-md text-sm text-black'>{ind}</div>))}</div>
+                </div> 
+            )}}
+            /> }
+
+            <button onClick={e => {
+                e.preventDefault();
+                handleSubmit();
+            }} className='bg-blue-700 hover:bg-blue-500 text-white p-3 mt-5 rounded-lg float-right'>Save Group</button>   
+        </form>
+    </div>
+</div>
+</div>
       )}
     </div>
   )
