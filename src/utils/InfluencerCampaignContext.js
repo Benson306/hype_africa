@@ -31,7 +31,20 @@ export const InfluencerCampaignProvider = ({ children }) => {
     const [imageSrc, setImageSrc] = useState(null);
     const [imageUrl, setImageUrl] = useState(null);
 
+    const [allParticipants, setAllParticipants] = useState(true);
+    const [creatorGroupsSelected, setCreatorGroupsSelected] = useState([]);
+
     const [page, setPage] = useState(0);
+
+    const updateAllParticipants = (value) => {
+        setAllParticipants(value);
+        localStorage.setItem('allParticipants', value);
+    }
+
+    const updateCreatorGroupsSelected = (value) => {
+        setCreatorGroupsSelected(value);
+        localStorage.setItem('creatorGroupsSelected', JSON.stringify(value));
+    }
 
     const updateBudget = (newBudget) => {
         setBudget(newBudget);
@@ -207,6 +220,15 @@ export const InfluencerCampaignProvider = ({ children }) => {
 
     useEffect(() => {
         // Retrieve values from local storage and set them as the initial state
+        const savedAllParticipants = localStorage.getItem('allParticipants');
+        if(savedAllParticipants){
+            setAllParticipants(savedAllParticipants);
+        }
+        const savedCreatorGroupsSelected= localStorage.getItem('creatorGroupsSelected');
+        if(savedCreatorGroupsSelected){
+            setCreatorGroupsSelected(JSON.parse(savedCreatorGroupsSelected));
+        }
+
         const savedBudget = localStorage.getItem('budget');
         if(savedBudget){
             setBudget(savedBudget);
@@ -323,7 +345,7 @@ export const InfluencerCampaignProvider = ({ children }) => {
         }
     }, []);
 
-    const { id } = useContext(AuthContext);
+    const { company_id, brand_id } = useContext(AuthContext);
 
     //const navigate = useNavigate();
 
@@ -331,17 +353,18 @@ export const InfluencerCampaignProvider = ({ children }) => {
 
         const formData = new FormData();
         formData.append('status',type);
-        formData.append('id', id);
+        formData.append('company_id', company_id);
+        formData.append('brand_id', brand_id);
         formData.append('title', title);
         formData.append('cover', imageSrc);
         formData.append('objective', objective);
         formData.append('industry', industry);
         formData.append('call_to_action', callToAction);
-        formData.append('dos', dos);
-        formData.append('donts', donts);
-        formData.append('instagramTags', instaTags);
-        formData.append('xTags', xTags);
-        formData.append('fbTags', fbTags);
+        formData.append('dos', JSON.stringify(dos));
+        formData.append('donts', JSON.stringify(donts));
+        formData.append('instagramTags', JSON.stringify(instaTags));
+        formData.append('xTags', JSON.stringify(xTags));
+        formData.append('fbTags', JSON.stringify(fbTags));
         formData.append('gender', preferedGender);
         formData.append('minAge', minAge);
         formData.append('maxAge', maxAge);
@@ -353,6 +376,8 @@ export const InfluencerCampaignProvider = ({ children }) => {
         formData.append('startDate', startDate)
         formData.append('endDate', endDate);
         formData.append('numberOfDays', numOfDays);
+        formData.append('creatorGroupsSelected', JSON.stringify(creatorGroupsSelected));
+        formData.append('allParticipants', allParticipants);
 
         fetch(`${process.env.REACT_APP_API_URL}/add_influencer_campaign`,{
             method: 'POST',
@@ -374,9 +399,32 @@ export const InfluencerCampaignProvider = ({ children }) => {
 
                 clearStorage();
                 
+            }else{
+                toast.error('Failed Server Error!', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored"
+                });
             }
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+            console.log(err)
+            toast.error('Failed Server Error!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "colored"
+            });
+        })
     }
 
     const clearStorage = () => {
@@ -403,6 +451,8 @@ export const InfluencerCampaignProvider = ({ children }) => {
         localStorage.removeItem('fbFollowersNeeded')
         localStorage.removeItem('location')
         localStorage.removeItem('page')
+        localStorage.removeItem('allParticipants')
+        localStorage.removeItem('creatorGroupsSelected')
     }
 
     return <InfluencerCampaignContext.Provider value={{
@@ -416,6 +466,7 @@ export const InfluencerCampaignProvider = ({ children }) => {
         startDate, numOfDays,endDate, 
         imageSrc, imageUrl,
         page,
+        allParticipants, creatorGroupsSelected,
         updatePage,
         updateBudget,
         updateStartDate,
@@ -444,6 +495,8 @@ export const InfluencerCampaignProvider = ({ children }) => {
         updateLocation,
         updateImageSrc,
         updateImageUrl,
+        updateAllParticipants,
+        updateCreatorGroupsSelected,
         handleSubmit,
         clearStorage
 

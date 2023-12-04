@@ -10,10 +10,10 @@ import ProgressBar from '../../ProgressBar';
 
 function Page4() {
 
-    const { updateBudget, updateStartDate, updateEndDate, updateNumOfDays, handleSubmit } = useContext(InfluencerCampaignContext);
+    const { updateBudget, updateStartDate, updateEndDate, updateNumOfDays, handleSubmit, updateAllParticipants, updateCreatorGroupsSelected, allParticipants } = useContext(InfluencerCampaignContext);
     const { brand_id } = useContext(AuthContext);
 
-    const { navigate } = useNavigate();
+    const navigate  = useNavigate();
 
     // Define minimum and maximum values
     const minValue = 1000;
@@ -103,6 +103,7 @@ function Page4() {
         updateStartDate(startDate);
         updateEndDate(endDate);
         updateNumOfDays(numOfDays);
+        updateCreatorGroupsSelected(selectedGroups);
 
         handleSubmit(type);
 
@@ -134,7 +135,7 @@ function Page4() {
             .catch(err => {
                 console.log(err);
             })
-        },[])
+        },[brand_id])
 
         const [selectedGroups, setSelectedGroups] = useState([]);
 
@@ -150,8 +151,6 @@ function Page4() {
         
             setSelectedGroups(updatedSelection);
           };
-
-          const [all, setAll] = useState(true);
 
   return (
     <div className='w-full min-h-screen bg-neutral-300'>
@@ -169,14 +168,17 @@ function Page4() {
             <div class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">Who would you like to invite into this campaign?</div>
             <div className='text-sm tracking-wide'>Would you like to publicly post your campaign to the Neza Creator Community or privately invite your Creator Groups to submit content?</div>
             
-            <div className='flex gap-2 mt-4' onClick={() => {setShowGroups(false); setAll(true)}}>
-                <input type='radio' checked={all} id="all" name="participant" value="all" />
+            <div className='flex gap-2 mt-4' onClick={() => {setShowGroups(false); updateAllParticipants(true); setSelectedGroups([])}}>
+                <input type='radio' checked={allParticipants} id="all" name="participant" value="all" />
                 <label for="all">Neza Creator Community</label>
             </div>
-            <div className='flex gap-2' onClick={() => {setAll(false); setShowGroups(true)}}>
+            <div className='flex gap-2' onClick={() => {updateAllParticipants(false); setShowGroups(true)}}>
                 <input type='radio' name="participant" value="creator-group" id="creator-group"/>
                 <label for="creator-group">My Creator Groups</label>
             </div>
+            {
+                showGroups && groups.length <1 && <div className='mt-2 ml-7 bg-gray-200 p-2 w-1/2 text-sm text-center'>You have not created any creator groups on this brand</div>
+            }
 
             {
                 showGroups && groups.length > 0 && 
@@ -191,11 +193,11 @@ function Page4() {
                             <div className='font-bold'>
                                 { group.groupName}
                             </div>
-                            <div>
+                            <div className='text-xs'>
                                 {group.selectedCreators.length} members
                             </div>
-                            <div className='flex gap-4'>
-                                <div>Total Cost Per Day :</div>
+                            <div className='flex gap-2 text-xs'>
+                                <div>Total Cost Per Campaign :</div>
                                 <div>Ksh.{totalCost}</div>
                             </div>
                             <input
