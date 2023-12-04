@@ -6,6 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../../utils/AuthContext';
 import { InfluencerCampaignContext } from '../../../utils/InfluencerCampaignContext';
+import ProgressBar from '../../ProgressBar';
 
 function Page3() {
 
@@ -62,7 +63,8 @@ function Page3() {
       <ToastContainer />
 
     <form class="w-5/6 lg:w-1/2 bg-slate-50 mx-auto mt-20 p-5 shadow-md rounded-lg mb-2">
-        <div className='mb-5'>
+        <ProgressBar percent={60} />
+        <div className='mb-5 mt-10'>
             <h1 className='text-lg lg:text-2xl p-2 uppercase'>Social Media</h1>
 
             <hr />

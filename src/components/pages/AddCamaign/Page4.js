@@ -6,10 +6,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../../utils/AuthContext';
 import { InfluencerCampaignContext } from '../../../utils/InfluencerCampaignContext';
+import ProgressBar from '../../ProgressBar';
 
 function Page4() {
 
     const { updateBudget, updateStartDate, updateEndDate, updateNumOfDays, handleSubmit } = useContext(InfluencerCampaignContext);
+    const { brand_id } = useContext(AuthContext);
 
     const { navigate } = useNavigate();
 
@@ -109,16 +111,103 @@ function Page4() {
           }, 1000);
     }
 
+    const [creators, setCreators] =  useState([]);
+    useEffect(()=>{
+        fetch(`${process.env.REACT_APP_API_URL}/get_all_creators`)
+        .then(response => response.json())
+        .then(response => {
+            setCreators(response);
+        })
+        .catch(err => console.log(err))
+    },[])
+
+    const [showGroups, setShowGroups] = useState(false);
+
+    const [groups, setGroups] = useState([]);
+
+        useEffect(()=>{
+            fetch(`${process.env.REACT_APP_API_URL}/creator_groups/${brand_id}`)
+            .then(response => response.json())
+            .then(response => {
+                setGroups(response);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        },[])
+
+        const [selectedGroups, setSelectedGroups] = useState([]);
+
+        const handleCheckboxToggle = (groupId) => {
+            const updatedSelection = [...selectedGroups];
+        
+            const index = updatedSelection.indexOf(groupId);
+            if (index > -1) {
+              updatedSelection.splice(index, 1);
+            } else {
+              updatedSelection.push(groupId);
+            }
+        
+            setSelectedGroups(updatedSelection);
+          };
+
+          const [all, setAll] = useState(true);
+
   return (
     <div className='w-full min-h-screen bg-neutral-300'>
       <ToastContainer />
 
     <form class="w-5/6 lg:w-1/2 bg-slate-50 mx-auto mt-20 p-5 shadow-md rounded-lg mb-2">
-        <div className='mb-5'>
-            <h1 className='text-lg lg:text-2xl p-2 uppercase'>Budget And Duration</h1>
+        <ProgressBar percent={80} />
+        <div className='mb-5 mt-10'>
+            <h1 className='text-lg lg:text-2xl p-2 uppercase'>Participants, Budget And Duration</h1>
 
             <hr />
         </div>
+
+        <div className='mb-10'>
+            <div class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">Who would you like to invite into this campaign?</div>
+            <div className='text-sm tracking-wide'>Would you like to publicly post your campaign to the Neza Creator Community or privately invite your Creator Groups to submit content?</div>
+            
+            <div className='flex gap-2 mt-4' onClick={() => {setShowGroups(false); setAll(true)}}>
+                <input type='radio' checked={all} id="all" name="participant" value="all" />
+                <label for="all">Neza Creator Community</label>
+            </div>
+            <div className='flex gap-2' onClick={() => {setAll(false); setShowGroups(true)}}>
+                <input type='radio' name="participant" value="creator-group" id="creator-group"/>
+                <label for="creator-group">My Creator Groups</label>
+            </div>
+
+            {
+                showGroups && groups.length > 0 && 
+                groups.map( group => {
+                    let totalCost = 0;
+                    group.selectedCreators.map( creator => {
+                        let single = creators.filter( crt => crt._id == creator)
+                        totalCost += Number(single[0].averageEarning)
+                    })
+                    return (
+                        <div key={group._id} className='mt-2 ml-7 bg-gray-200 p-4 w-1/2 text-sm'>
+                            <div className='font-bold'>
+                                { group.groupName}
+                            </div>
+                            <div>
+                                {group.selectedCreators.length} members
+                            </div>
+                            <div className='flex gap-4'>
+                                <div>Total Cost Per Day :</div>
+                                <div>Ksh.{totalCost}</div>
+                            </div>
+                            <input
+                                type='checkbox'
+                                onChange={(e) =>{ handleCheckboxToggle(group._id)} }
+                            />
+                        </div>
+                    )
+            }) 
+            }
+        </div>
+        
 
         <div class="w-full md:w-1/3 mb-6 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
@@ -244,7 +333,7 @@ function Page4() {
             </button> }
 
             { schedule && <button 
-            className='border-2 border-lime-600 shadow-md text-bold rounded p-2 mt-10 hover:bg-lime-800 bg-lime-600 text-white' 
+            className='border-2 border-green-600 shadow-md text-bold rounded p-2 mt-10 hover:bg-green-800 bg-green-600 text-white' 
             onClick={(e)=>{ handleSubmitForm(e, "schedule")}}
             >
                 SCHEDULE
