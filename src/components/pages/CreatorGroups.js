@@ -10,6 +10,15 @@ import { AuthContext } from '../../utils/AuthContext';
 function CreatorGroups() {
 
     const [modalOpen, setModalOpen] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
+
+    const openEditModal = () => {
+        setEditModalOpen(true);
+      };
+    
+      const closeEditModal = () => {
+          setEditModalOpen(false);
+      };
 
     const { brand_id } = useContext(AuthContext)
   
@@ -143,7 +152,7 @@ function CreatorGroups() {
         const [groups, setGroups] = useState([]);
 
         useEffect(()=>{
-            fetch(`${process.env.REACT_APP_API_URL}/creator_groups`)
+            fetch(`${process.env.REACT_APP_API_URL}/creator_groups/${brand_id}`)
             .then(response => response.json())
             .then(response => {
                 setGroups(response);
@@ -184,6 +193,56 @@ function CreatorGroups() {
             })
         }
 
+        const [viewData, setViewData] = useState(null);
+        const [editGroupName, setEditGroupName] = useState(null);
+
+        const handleRemoveCreatorFromGroup = (id) => {
+            const updatedSelected = viewData.selectedCreators.filter(item => item !== id);
+            let newViewData = {
+                ...viewData, selectedCreators: updatedSelected
+            }
+            setViewData(newViewData);
+        }
+
+        const handleEdit = () => {
+            fetch(`${process.env.REACT_APP_API_URL}/creator_groups/${viewData._id}`,{
+                method: 'PUT',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({
+                    groupName: editGroupName,
+                    selectedCreators: viewData.selectedCreators,
+                    brand_id: brand_id,
+                })
+            })
+            .then(()=>{
+                toast.success('Success', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    });
+                    closeEditModal();
+            })
+            .catch(err =>{
+                toast.error('Failed. Server Error', {
+                    position: "top-right",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                    });
+            })
+        }
+
   return (
     <div className='w-full min-h-screen bg-neutral-300'>
         <Navbar />
@@ -207,9 +266,9 @@ function CreatorGroups() {
                         <th scope="col" class="px-6 py-3">
                             No. of Members
                         </th>
-                        {/* <th scope="col" class="px-6 py-3">
-                            Total Cost Per Campaign
-                        </th> */}
+                        <th scope="col" class="px-6 py-3">
+                            View
+                        </th>
                         <th scope="col" class="px-6 py-3">
                             Delete
                         </th>
@@ -231,6 +290,16 @@ function CreatorGroups() {
                             {group.selectedCreators.length}
                         </td>
                         <td class="px-6 py-4">
+                        <button onClick={(e)=>{
+                                e.preventDefault();
+                                setViewData(group);
+                                setEditGroupName(group.groupName);
+                                openEditModal();
+                            }} className='p-2 rounded-lg bg-blue-600 text-white'>
+                                View
+                            </button>
+                        </td>
+                        <td class="px-6 py-4">
                             <button onClick={(e)=>{
                                 e.preventDefault();
                                 handleDeleteGroup(group._id);
@@ -238,9 +307,6 @@ function CreatorGroups() {
                                 Delete
                             </button>
                         </td>
-                        {/* <td class="px-6 py-4">
-                            $2999
-                        </td> */}
                     </tr> 
                     ))
                     }
@@ -255,75 +321,133 @@ function CreatorGroups() {
         {modalOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-gray-800 bg-opacity-80">
 
-          <div className="bg-white p-5 rounded-lg shadow-lg lg:w-1/2">
-            <div className='flex justify-end mb-1 lg:mb-5'>
-                <button
-                    onClick={closeModal}
-                    className="text-white bg-red-500 hover:bg-red-600 px-2 py-1 rounded-full text-sm flex flex-end"
-                >
-                    X
-                </button>
-            </div>
-
-            <div className='w-full'>
-                <div className='mb-2 text-center'>Create Content/Influencer Creator Group</div>
-                <hr />
-                <form className='mt-5'>
-                    <label>Group Name:</label>
-
-                    <input type="text" onChange={e => setGroupName(e.target.value)} className='mt-2 p-4 rounded border border-gray-400 w-full mb-5' placeholder='Group Name' />
-                    <br />
-            <div className='flex flex-wrap text-sm mb-4'>
-                {
-                    selectedCreators.map( select => {
-                    let single = creators.filter(crt => crt._id === select)
-        
-                    return (
-                    <div key={select} className='bg-gray-200 shadow-md m-1 p-2 rounded-lg flex items-center gap-4'>
-                        <div>
-                            <div className=''>
-                                {single[0].firstName} {single[0].lastName}
-                            </div>
-                            <div className='capitalize'>{ creators[0].creatorType } - Ksh. { creators[0].averageEarning} </div>
-                        </div>
-
-                        <button className="text-red-800" onClick={e => {
-                            e.preventDefault();
-                            handleRemove(select)
-                            }
-                        }>
+                <div className="bg-white p-5 rounded-lg shadow-lg lg:w-1/2">
+                    <div className='flex justify-end mb-1 lg:mb-5'>
+                        <button
+                            onClick={closeModal}
+                            className="text-white bg-red-500 hover:bg-red-600 px-2 py-1 rounded-full text-sm flex flex-end"
+                        >
                             X
                         </button>
-                        
                     </div>
-                    )
-                    })   
-                }
+
+                    <div className='w-full'>
+                        <div className='mb-2 text-center'>Create Content/Influencer Creator Group</div>
+                        <hr />
+                        <form className='mt-5'>
+                            <label>Group Name:</label>
+
+                            <input type="text" onChange={e => setGroupName(e.target.value)} className='mt-2 p-4 rounded border border-gray-400 w-full mb-5' placeholder='Group Name' />
+                            <br />
+                            <div className='flex flex-wrap text-sm mb-4'>
+                                {
+                                    selectedCreators.map( select => {
+                                    let single = creators.filter(crt => crt._id === select)
+                        
+                                    return (
+                                    <div key={select} className='bg-gray-200 shadow-md m-1 p-2 rounded-lg flex items-center gap-4'>
+                                        <div>
+                                            <div className=''>
+                                                {single[0].firstName} {single[0].lastName}
+                                            </div>
+                                            <div className='capitalize'>{ creators[0].creatorType } - Ksh. { creators[0].averageEarning} </div>
+                                        </div>
+
+                                        <button className="text-red-800" onClick={e => {
+                                            e.preventDefault();
+                                            handleRemove(select);
+                                            }
+                                        }>
+                                            X
+                                        </button>
+                                        
+                                    </div>
+                                    )
+                                    })   
+                                }
+                            </div>
+                                
+
+                            <label>Select Members:</label>
+
+                            { creators.length > 0 && 
+                            
+                            <Select className='mt-2' options={options} onChange={handleSelectChange} defaultValue={{value: creators[0]._id, label: (
+                                <div className='block'>
+                                    <div className='font-bold'>{ creators[0].firstName } { creators[0].lastName}</div>
+                                    <div className='capitalize'>{ creators[0].creatorType } - Ksh. { creators[0].averageEarning} </div>
+                                    <div className='flex flex-wrap gap-2'>{ creators[0].industries.map( ind => ( <div className='p-2 bg-gray-300 rounded-md text-sm text-black'>{ind}</div>))}</div>
+                                </div> 
+                            )}}
+                            /> }
+
+                            <button onClick={e => {
+                                e.preventDefault();
+                                handleSubmit();
+                            }} className='bg-blue-700 hover:bg-blue-500 text-white p-3 mt-5 rounded-lg float-right'>Save Group</button>   
+                        </form>
+                    </div>
+                </div>
             </div>
+        )}
+
+    {editModalOpen && (
+            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 bg-gray-800 bg-opacity-80">
+
+                <div className="bg-white p-5 rounded-lg shadow-lg lg:w-1/2">
+                    <div className='flex justify-end mb-1 lg:mb-5'>
+                        <button
+                            onClick={() => { setEditGroupName(null); setViewData(null); closeEditModal() }}
+                            className="text-white bg-red-500 hover:bg-red-600 px-2 py-1 rounded-full text-sm flex flex-end"
+                        >
+                            X
+                        </button>
+                    </div>
+
+                    <div className='w-full'>
+                        <hr />
+                        <div>Group Name:</div>
+                        <div className='flex'>
+                            <input type='text' onChange={e=> setEditGroupName(e.target.value)} className='mt-2 p-4 rounded border border-gray-400 w-full mb-5' value={editGroupName}/>
+                        </div>
+                        <br />
+                        <div className='flex flex-wrap text-sm mb-4'>
+                            {
+                                viewData.selectedCreators.map( newSelect => {
+                                let single = creators.filter(crt => crt._id === newSelect)
                     
+                                return (
+                                <div key={newSelect} className='bg-gray-200 shadow-md m-1 p-2 rounded-lg flex items-center gap-4'>
+                                    <div>
+                                        <div className=''>
+                                            {single[0].firstName} {single[0].lastName}
+                                        </div>
+                                        <div className='capitalize'>{ creators[0].creatorType } - Ksh. { creators[0].averageEarning} </div>
+                                    </div>
 
-            <label>Select Members:</label>
+                                    <button className="text-red-800" onClick={e => {
+                                        e.preventDefault();
+                                        handleRemoveCreatorFromGroup(single[0]._id);
+                                        }
+                                    }>
+                                        X
+                                    </button>
+                                    
+                                </div>
+                                )
+                                })   
+                            }
+                        </div>
 
-            { creators.length > 0 && 
-            
-            <Select className='mt-2' options={options} onChange={handleSelectChange} defaultValue={{value: creators[0]._id, label: (
-                <div className='block'>
-                    <div className='font-bold'>{ creators[0].firstName } { creators[0].lastName}</div>
-                    <div className='capitalize'>{ creators[0].creatorType } - Ksh. { creators[0].averageEarning} </div>
-                    <div className='flex flex-wrap gap-2'>{ creators[0].industries.map( ind => ( <div className='p-2 bg-gray-300 rounded-md text-sm text-black'>{ind}</div>))}</div>
-                </div> 
-            )}}
-            /> }
-
-            <button onClick={e => {
-                e.preventDefault();
-                handleSubmit();
-            }} className='bg-blue-700 hover:bg-blue-500 text-white p-3 mt-5 rounded-lg float-right'>Save Group</button>   
-        </form>
-    </div>
-</div>
-</div>
-      )}
+                        <button onClick={(e)=>{
+                            e.preventDefault();
+                            handleEdit();
+                        }} className='bg-blue-500 p-2 text-white rounded-lg float-right'>Save</button>
+                            
+                    </div>
+                </div>
+            </div>
+            )}
     </div>
   )
 }
