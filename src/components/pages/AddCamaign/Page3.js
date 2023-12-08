@@ -64,8 +64,8 @@ function Page3() {
 
     <form class="w-5/6 lg:w-1/2 bg-slate-50 mx-auto mt-20 p-5 shadow-md rounded-lg mb-2">
         <ProgressBar percent={60} />
-        <div className='mb-5 mt-10'>
-            <h1 className='text-lg lg:text-2xl p-2 uppercase'>Social Media</h1>
+        <div className='mb-5 mt-5'>
+            <h1 className='text-lg lg:text-xl uppercase mb-2'>Social Media</h1>
 
             <hr />
         </div>
@@ -75,12 +75,12 @@ function Page3() {
         </label>
 
         <div class="flex flex-wrap -mx-3 mb-2">
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+            <div class="w-full md:w-1/3 px-3 mb-3 md:mb-0">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
                     Instagram
                 </label>
                 <div className='flex'>
-                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="@MaryJane or #Rocking" value={newInstaTag}
+                    <input class="text-sm appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l  py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" placeholder="@MaryJane or #Rocking" value={newInstaTag}
             onChange={(e) => setNewInstaTag(e.target.value)} />
                     <button className='bg-gray-600 p-1 text-sm hover:bg-sky-900 text-white rounded-r' onClick={(e)=> {e.preventDefault(); addInstaTag(newInstaTag); setNewInstaTag('')}}><AddIcon /></button>
 
@@ -89,10 +89,10 @@ function Page3() {
                 <div className='mb-4 mt-1'>
                     {
                         instaTags.length > 0 && instaTags.map( (item, index) => (
-                            <div className='bg-sky-700 mb-1 p-2 text-white w-3/4 flex justify-between' key={index}>
-                                { item }
+                            <div className='bg-sky-700 mb-1 p-1 text-white w-3/4 flex justify-between items-center text-sm rounded-lg' key={index}>
+                                <div className='w-5/6 overflow-hidden'>{ item }</div>
 
-                                <button onClick={(e)=> { e.preventDefault(); removeInstaTag(index)}}>
+                                <button className='w-1/6' onClick={(e)=> { e.preventDefault(); removeInstaTag(index)}}>
                                     <ClearIcon />
                                 </button>
 
@@ -102,12 +102,12 @@ function Page3() {
                 </div>
             </div>
             
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+            <div class="w-full md:w-1/3 px-3 mb-3 md:mb-0">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
                     X (Fomerly Twitter)
                 </label>
                 <div className='flex'>
-                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" 
+                    <input class="text-sm appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l  py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" 
                     value={newXTag} placeholder="@MaryJane or #Rocking" 
             onChange={(e) => setNewXTag(e.target.value)} />
                     <button className='bg-gray-600 p-1 text-sm hover:bg-sky-900 text-white rounded-r' onClick={(e)=> {e.preventDefault(); addXTag(newXTag); setNewXTag('')}}><AddIcon /></button>
@@ -116,10 +116,10 @@ function Page3() {
                 <div className='mb-4 mt-1'>
                     {
                         xTags.length > 0 && xTags.map( (item, index) => (
-                            <div className='bg-sky-700 mb-1 p-2 text-white w-3/4 flex justify-between' key={index}>
-                                { item }
+                            <div className='bg-sky-700 mb-1 p-1 text-white w-3/4 flex justify-between items-center rounded-lg text-sm' key={index}>
+                                <div className='w-5/6 overflow-hidden'>{ item }</div>
 
-                                <button onClick={(e)=> { e.preventDefault(); removeXTag(index)}}>
+                                <button className='w-1/6' onClick={(e)=> { e.preventDefault(); removeXTag(index)}}>
                                     <ClearIcon />
                                 </button>
 
@@ -129,12 +129,12 @@ function Page3() {
                 </div>
             </div>
 
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+            <div class="w-full md:w-1/3 px-3 mb-3 md:mb-0">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
                     Facebook
                 </label>
                 <div className='flex'>
-                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" 
+                    <input class=" text-sm appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l  py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="text" 
                     value={newFbTag} placeholder="@MaryJane or #Rocking" 
             onChange={(e) => setNewFbTag(e.target.value)} />
                     <button className='bg-gray-600 p-1 text-sm hover:bg-sky-900 text-white rounded-r' onClick={(e)=> {e.preventDefault(); addFbTag(newFbTag); setNewFbTag('')}} ><AddIcon /></button>
@@ -143,10 +143,10 @@ function Page3() {
                 <div className='mb-4 mt-1'>
                     {
                         fbTags.length > 0 && fbTags.map( (item, index) => (
-                            <div className='bg-sky-700 mb-1 p-2 text-white w-3/4 flex justify-between' key={index}>
-                                { item }
+                            <div className='bg-sky-700 mb-1 p-1 text-white w-3/4 flex justify-between items-center rounded-lg text-sm' key={index}>
+                                <div className='w-5/6 overflow-hidden'>{ item }</div>
 
-                                <button onClick={(e)=> { e.preventDefault(); removeFbTag(index)}}>
+                                <button className='w-1/6' onClick={(e)=> { e.preventDefault(); removeFbTag(index)}}>
                                     <ClearIcon />
                                 </button>
 
@@ -157,16 +157,13 @@ function Page3() {
             </div>
         </div>
 
-        <div class="flex flex-wrap gap-4 -mx-3 mb-6 ">
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0 ">
-            <label class="block uppercase tracking-wide text-white text-xs font-bold mb-2" for="grid-city">
-                Prefered Gender of Creators
-            </label>
-            <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
+        <div class="flex flex-wrap gap-4 -mx-3 mb-3 items-end">
+            <div class="w-full md:w-1/3 px-3 mb-3 md:mb-0 ">
+            <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="grid-city">
                 Prefered Gender of Creators
             </label>
             <div class="relative">
-                <select class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" onChange={(e)=> setPreferedGender(e.target.value)}>
+                <select class="block  text-sm appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700  py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state" onChange={(e)=> setPreferedGender(e.target.value)}>
                     <option value=""></option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
@@ -178,24 +175,24 @@ function Page3() {
             </div>
             </div>
             
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+            <div class="w-full md:w-1/3 px-3 mb-3 md:mb-0">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
                     Age of Creators
                 </label>
 
                 <div className='flex gap-4'>
                     <div>
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
+                    <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="grid-zip">
                         Minimum Age
                     </label>
-                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" min={18} max={100} type="number" placeholder="43" onChange={e => setMinAge(e.target.value)}/>
+                    <input class=" text-sm appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded  py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" min={18} max={100} type="number" placeholder="43" onChange={e => setMinAge(e.target.value)}/>
                     </div>
 
                     <div>
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
+                    <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="grid-zip">
                         Maximum Age
                     </label>
-                    <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" min={18} max={100}  type="number" placeholder="50" onChange={e => setMaxAge(e.target.value)} />
+                    <input class=" text-sm appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded  py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-zip" min={18} max={100}  type="number" placeholder="50" onChange={e => setMaxAge(e.target.value)} />
                     </div>
 
                 </div>
@@ -210,35 +207,35 @@ function Page3() {
                     Followers needed for creators:
         </label>
 
-        <div class="flex flex-wrap -mx-3 mb-6">
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+        <div class="flex flex-wrap -mx-3 mb-3">
+            <div class="w-full md:w-1/3 px-3 mb-3 md:mb-0">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-city">
                 Instagram
             </label>
-            <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="31000" onChange={(e)=> setInstaFollowersNeeded(e.target.value)}/>
+            <input class=" text-sm appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded  py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="31000" onChange={(e)=> setInstaFollowersNeeded(e.target.value)}/>
         </div>
             
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+            <div class="w-full md:w-1/3 px-3 mb-3 md:mb-0">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
                 X (Fomerly Twitter)
             </label>
-            <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="12000" onChange={(e)=> setXFollowersNeeded(e.target.value)} />
+            <input class=" text-sm appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded  py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="12000" onChange={(e)=> setXFollowersNeeded(e.target.value)} />
             </div>
 
-            <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+            <div class="w-full md:w-1/3 px-3 mb-3 md:mb-0">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
                 Facebook
             </label>
-            <input class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="1500" onChange={(e)=> setFbFollowersNeeded(e.target.value)} />
+            <input class=" text-sm appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded  py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-city" type="number" placeholder="1500" onChange={(e)=> setFbFollowersNeeded(e.target.value)} />
             </div>
         </div>
 
         <div className='flex justify-between mx-5'>
-            <button className='p-4 bg-red-600 hover:bg-red-400 text-white rounded-lg'>
+            <button className='p-2 bg-red-600 hover:bg-red-400 text-white rounded-lg text-sm'>
                 Save As Draft
             </button>
 
-            <button onClick={(e)=> handleSubmit(e)} className='p-4 bg-blue-600 hover:bg-blue-400 text-white rounded-lg lg:w-20'>
+            <button onClick={(e)=> handleSubmit(e)} className='p-2 bg-blue-600 hover:bg-blue-400 text-white rounded-lg lg:w-20 text-sm'>
                 Next
             </button>
         </div>

@@ -11,7 +11,7 @@ import Select from 'react-select';
 
 function AddInfluencerCampaign() {
 
-    const { page, updatePage, clearStorage } = useContext(InfluencerCampaignContext);
+    const { page, clearStorage, resetAllStates } = useContext(InfluencerCampaignContext);
 
     const { company_id, addBrandId, brand_id } = useContext(AuthContext)
     const [brands, setBrands] = useState([]);
@@ -69,7 +69,7 @@ function AddInfluencerCampaign() {
   return (
     <div className='w-full min-h-screen bg-neutral-300'>
 
-        <div className="fixed bg-gray-200 shadow-md p-2 w-full flex justify-between">
+        <div className="fixed bg-gray-200 shadow-md p-2 w-full flex justify-between items-center">
                 <div className='align-middle p-1 ml-5 lg:ml-10'>
                 { brands.length > 0 && 
                 
@@ -87,8 +87,8 @@ function AddInfluencerCampaign() {
                 </div>
 
 
-                <div className='gap-4 lg:gap-8 flex justify-end mr-5 mt-2'>
-                    <Link onClick={()=> {updatePage(0); clearStorage()}} to={"/all_campaigns"} className='bg-red-600 hover:bg-transparent text-white hover:text-red-700 border-2 border-red-600 border-solid p-1 lg:p-2 rounded-md lg:rounded-lg flex gap-1  align-middle text-sm h-10'>
+                <div className='gap-4 lg:gap-8 flex justify-end mr-5 mt-2 text-sm'>
+                    <Link onClick={()=> { resetAllStates(); clearStorage()}} to={"/all_campaigns"} className='bg-red-600 hover:bg-transparent text-white hover:text-red-700 border border-red-600 border-solid p-1 rounded-md lg:rounded-lg flex gap-1  align-middle text-sm'>
                             CLOSE
                     </Link>
                 </div>

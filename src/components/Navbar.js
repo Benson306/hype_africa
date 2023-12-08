@@ -93,7 +93,7 @@ function Navbar() {
 
               
 
-            <button onClick={()=> handleLogout()} class="flex justify-center text-gray-700 w-full px-4 py-2 text-left text-sm hover:text-sky-900" role="menuitem" tabindex="-1" id="menu-item-3">Sign out</button>
+            <button onClick={()=> handleLogout()} class="flex justify-center text-gray-700 w-full px-2 py-1 text-left text-sm hover:text-sky-900" role="menuitem" tabindex="-1" id="menu-item-3">Sign out</button>
           </div>
         </div>
 

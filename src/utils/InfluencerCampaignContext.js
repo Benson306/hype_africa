@@ -36,6 +36,34 @@ export const InfluencerCampaignProvider = ({ children }) => {
 
     const [page, setPage] = useState(0);
 
+    function resetAllStates() {
+        setStartDate(new Date());
+        setNumOfDays(1);
+        setEndDate(new Date());
+        setBudget(1);
+        setTitle(null);
+        setObjective(null);
+        setIndustry(null);
+        setCallToAction(null);
+        setDos([]);
+        setDonts([]);
+        setInstaTags([]);
+        setXTags([]);
+        setFbTags([]);
+        setPreferedGender(null);
+        setMinAge(0);
+        setMaxAge(0);
+        setInstaFollowersNeeded(null);
+        setXFollowersNeeded(null);
+        setFbFollowersNeeded(null);
+        setLocation(null);
+        setImageSrc(null);
+        setImageUrl(null);
+        setAllParticipants(true);
+        setCreatorGroupsSelected([]);
+        setPage(0);
+      }
+
     const updateAllParticipants = (value) => {
         setAllParticipants(value);
         localStorage.setItem('allParticipants', value);
@@ -397,6 +425,7 @@ export const InfluencerCampaignProvider = ({ children }) => {
                     theme: "colored"
                 });
 
+                resetAllStates();
                 clearStorage();
                 
             }else{
@@ -498,7 +527,8 @@ export const InfluencerCampaignProvider = ({ children }) => {
         updateAllParticipants,
         updateCreatorGroupsSelected,
         handleSubmit,
-        clearStorage
+        clearStorage,
+        resetAllStates
 
     }}>
         < ToastContainer />

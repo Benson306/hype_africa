@@ -103,7 +103,24 @@ function Page4() {
         updateStartDate(startDate);
         updateEndDate(endDate);
         updateNumOfDays(numOfDays);
-        updateCreatorGroupsSelected(selectedGroups);
+
+        if(allParticipants !== true){
+            if(selectedGroups.length > 1){
+                updateCreatorGroupsSelected(selectedGroups);
+            }else{
+                toast.error('You have not selected any creators groups', {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "colored",
+                });
+                return;
+            }
+        }
 
         handleSubmit(type);
 
@@ -158,8 +175,8 @@ function Page4() {
 
     <form class="w-5/6 lg:w-1/2 bg-slate-50 mx-auto mt-20 p-5 shadow-md rounded-lg mb-2">
         <ProgressBar percent={80} />
-        <div className='mb-5 mt-10'>
-            <h1 className='text-lg lg:text-2xl p-2 uppercase'>Participants, Budget And Duration</h1>
+        <div className='mb-5 mt-5'>
+            <h1 className='text-lg lg:text-xl uppercase mb-1'>Participants, Budget And Duration</h1>
 
             <hr />
         </div>
@@ -168,11 +185,11 @@ function Page4() {
             <div class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">Who would you like to invite into this campaign?</div>
             <div className='text-sm tracking-wide'>Would you like to publicly post your campaign to the Neza Creator Community or privately invite your Creator Groups to submit content?</div>
             
-            <div className='flex gap-2 mt-4' onClick={() => {setShowGroups(false); updateAllParticipants(true); setSelectedGroups([])}}>
+            <div className='flex gap-2 mt-4 text-sm' onClick={() => {setShowGroups(false); updateAllParticipants(true); setSelectedGroups([])}}>
                 <input type='radio' checked={allParticipants} id="all" name="participant" value="all" />
                 <label for="all">Neza Creator Community</label>
             </div>
-            <div className='flex gap-2' onClick={() => {updateAllParticipants(false); setShowGroups(true)}}>
+            <div className='flex gap-2 text-sm' onClick={() => {updateAllParticipants(false); setShowGroups(true)}}>
                 <input type='radio' name="participant" value="creator-group" id="creator-group"/>
                 <label for="creator-group">My Creator Groups</label>
             </div>
@@ -211,7 +228,7 @@ function Page4() {
         </div>
         
 
-        <div class="w-full md:w-1/3 mb-6 ">
+        <div class="w-full md:w-1/3 mb-3 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-first-name">
                         Estimated Budget ($):
             </label>
@@ -226,22 +243,22 @@ function Page4() {
                 onChange={handleRangeChange}
             />
 
-            <p>Amount: Ksh<b> {rangeValue}</b></p>
+            <p className='text-sm'>Amount: Ksh<b> {rangeValue}</b></p>
         </div>
 
-        <div class="w-3/4 lg::w-1/4 mb-6 ">
+        <div class="w-3/4 lg::w-1/4 mb-3 ">
             <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
                 Number of Days
             </label>
 
-            <div className="flex">
+            <div className="flex text-sm">
                 <button 
                 className='bg-sky-900 w-8 p-1 flex justify-center text-center text-white' 
                 onClick={(e) => { e.preventDefault() ;decrement() }}
                 style={{alignItems: 'center'}}
                 >-</button>
                 <input
-                className="appearance-none block w-2/6 bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500cflex text-center"
+                className="appearance-none block w-2/6 bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-2 px-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500cflex text-center"
                 type="number"
                 id="numOfDays"
                 onChange={handleNumOfDaysChange}
@@ -266,7 +283,7 @@ function Page4() {
                 Start Date
             </label>
 
-            <div className='flex gap-4'>
+            <div className='flex gap-4 text-sm'>
                 <div>
                     {startDate.toISOString().split('T')[0]}
                 </div>
@@ -278,7 +295,7 @@ function Page4() {
 
 
             <button 
-            className='border-2 border-blue-300 text-bold rounded p-2 mt-3 hover:bg-blue-600 text-black hover:text-white' 
+            className='border-2 border-blue-600 text-bold rounded p-2 mt-3 hover:bg-blue-600 text-black hover:text-white text-sm' 
             onClick={(e)=>{ e.preventDefault(); setSchedule(true)}}
             >
                 SCHEDULE FOR LATER
@@ -296,12 +313,12 @@ function Page4() {
         
         <div>
 
-            <div class="w-full md:w-1/3 mb-6 ">
+            <div class="w-full md:w-1/3 mb-3 text-sm ">
                 <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="grid-zip">
                     Start Date
                 </label>
                 <input
-                class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                class="tetx-sm appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                 type="date"
                 id="startDate"
                 value={startDate.toISOString().split('T')[0]}
@@ -316,7 +333,7 @@ function Page4() {
                 Ending Date
             </label>
 
-            <div class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
+            <div class="text-sm appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded-l py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500">
                 {endDate.toISOString().split('T')[0]}
             </div>
 
@@ -328,21 +345,21 @@ function Page4() {
         <div className='flex justify-center gap-4 lg:gap-10 flex-wrap'>
 
             {!schedule && <button 
-            className='border-2 border-slate-600 hover:border-slate-600 text-bold rounded p-2 mt-10 bg-sky-900 hover:bg-lime-600 text-white' 
+            className='text-sm border-2 border-sky-600 hover:border-sky-900 text-bold rounded p-2 mt-10 bg-sky-600 hover:bg-sky-900 text-white' 
             onClick={(e)=> handleSubmitForm(e, "publish")}
             >
                 PUBLISH NOW
             </button> }
 
             { schedule && <button 
-            className='border-2 border-green-600 shadow-md text-bold rounded p-2 mt-10 hover:bg-green-800 bg-green-600 text-white' 
+            className='text-sm border-2 border-green-600 hover:border-green-800 shadow-md text-bold rounded p-2 mt-10 hover:bg-green-800 bg-green-600 text-white' 
             onClick={(e)=>{ handleSubmitForm(e, "schedule")}}
             >
                 SCHEDULE
             </button> }
 
             <button 
-            className='border-2 border-red-700 text-bold rounded p-2 mt-10 bg-red-700 hover:bg-red-900 text-white' 
+            className='text-sm border-2 border-red-700 hover:border-red-900 text-bold rounded p-2 mt-10 bg-red-700 hover:bg-red-900 text-white' 
             onClick={(e)=> handleDraft(e)}
             >
                 Save To Drafts
