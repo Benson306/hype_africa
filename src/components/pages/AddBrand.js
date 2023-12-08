@@ -3,8 +3,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AuthContext } from '../../utils/AuthContext';
+import Navbar from '../Navbar';
 
-function CompleteProfile() {
+function AddBrand() {
 
     const [imageSrc, setImageSrc] = useState(null);
 
@@ -71,7 +72,7 @@ function CompleteProfile() {
         if(response.status == 'success'){
             toast.success('Success!', {
                 position: "top-right",
-                autoClose: 2000,
+                autoClose: 500,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -80,23 +81,14 @@ function CompleteProfile() {
                 theme: "colored"
                 });
 
-                if(response.isApproved == 0){ //pending approval
-                    setTimeout(() => {
-                        navigate('/approval_pending');
-                      }, 2000);
-                }else if(response.isApproved == 1){ //approved
-                    setTimeout(() => {
-                        navigate('/all_campaigns');
-                      }, 2000);
-                }else if(response.isApproved == 2){ //rejected approval
-                    setTimeout(() => {
-                        navigate('/rejected_application');
-                      }, 2000);
-                }
+                setTimeout(() => {
+                    navigate('/my_brands');
+                    }, 1000);
+                
         }else{
             toast.error('Failed. Server Error!', {
                 position: "top-right",
-                autoClose: 2000,
+                autoClose: 1000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -125,21 +117,18 @@ function CompleteProfile() {
 
     return (
         <div className='w-full min-h-screen bg-neutral-300'>
+            <Navbar />
             <ToastContainer />
             <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto  my-10 lg:py-0 ">
-                <div class="flex items-center mb-6 text-2xl font-semibold text-gray-900 ">
-                    {/* <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo" /> */}
-                    Neza    
-                </div>
                 <div class="rounded-lg shadow dark:border md:mt-0  xl:p-0 bg-gray-800 border-gray-700 w-5/6 lg:w-1/2">
                     <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                        <h1 class="text-xl font-bold leading-tight tracking-tight md:text-2xl text-white">
+                        <h1 class="text-lg font-bold leading-tight tracking-tight md:text-2xl text-white">
                             Add a Brand
                         </h1>
                         <form class="space-y-4 md:space-y-6">
                             <div>
                                 <label for="email" class="block mb-2 text-sm font-medium text-white">Brand Name</label>
-                                <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Hype Africa" required="" 
+                                <input type="email" name="email" id="email" class="text-xs bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Hype Africa" required="" 
                                 onChange={(e)=> setBrandName(e.target.value)}
                                 />
                             </div>
@@ -222,14 +211,8 @@ function CompleteProfile() {
                             <button className="w-full text-white bg-sky-700 hover:bg-sky-900 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 focus:ring-primary-800 mt-5"
                             onClick={(e)=>handleSubmit(e)}
                             >
-                                    Complete Profile
+                                    Add Brand
                             </button>
-                            <p class="text-sm  text-gray-100">
-                                <button onClick={(e)=>{
-                                    e.preventDefault();
-                                    handleLogout();
-                                }} className="font-medium hover:underline text-red-500">Sign Out ?</button>
-                            </p>
                         </form>
                     </div>
                 </div>
@@ -238,4 +221,4 @@ function CompleteProfile() {
         )
 }
 
-export default CompleteProfile
+export default AddBrand

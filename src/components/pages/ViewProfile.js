@@ -49,29 +49,29 @@ function ViewProfile() {
 
                         <div className='mx-auto'>
                             <span className='font-bold mb-2'>Company Name</span>
-                            <p className='capitalize mb-4 text-xl'>{data.companyName}</p>
+                            <p className='capitalize mb-4 text-xs'>{data.companyName}</p>
 
                             <span className='font-bold mb-2'>Email</span>
-                            <p className='mb-4 text-xl'>{data.email}</p>
+                            <p className='mb-4 text-xs'>{data.email}</p>
 
                             <span className='font-bold mb-2'>Phone Number</span>
-                            <p className='capitalize mb-4 text-xl'>{data.countryCode} {data.phoneNumber}</p>
+                            <p className='capitalize mb-4 text-xs'>{data.countryCode} {data.phoneNumber}</p>
                         </div>
 
                         <div className='mx-auto'>
                             <span className='font-bold mb-2'>Country</span>
-                            <p className='mb-4 capitalize text-xl'>{data.country}</p>
+                            <p className='mb-4 capitalize text-xs'>{data.country}</p>
 
                             <span className='font-bold mb-2'>City</span>
-                            <p className='capitalize mb-4 text-xl'>{data.city}</p>
+                            <p className='capitalize mb-4 text-xs'>{data.city}</p>
                         </div>
 
                     </div>
 
 
-                    <div className='flex justify-center mt-4'>
-                        <button onClick={()=>{navigate("/edit_profile")}} className='w-full bg-sky-700 p-2 lg:p-4 rounded-xl text-white hover:bg-sky-500 flex justify-center items-center gap-4'> 
-                        <EditIcon /> Edit Profile</button>
+                    <div className='flex justify-center mt-4 text-sm'>
+                        <button onClick={()=>{navigate("/edit_profile")}} className='w-full bg-sky-700 p-2 rounded-xl text-white hover:bg-sky-500 flex justify-center items-center gap-2'> 
+                        <EditIcon size={10} /> Edit Profile</button>
                     </div>
 
                 </div> }

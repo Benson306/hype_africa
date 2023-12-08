@@ -253,7 +253,7 @@ function CreatorGroups() {
         
 
         <div className='w-5/6 mt-5 flex justify-start lg:justify-end mx-auto'>
-            <button onClick={()=> openModal()} className='bg-blue-800 text-white p-3 rounded-lg'>+ New Creators Group </button>
+            <button onClick={()=> openModal()} className='bg-blue-800 text-white p-2 text-sm rounded-lg'>+ New Creators Group </button>
         </div>
 
         <div class=" overflow-x-auto mt-4 w-full lg:w-5/6 mx-auto">
@@ -277,7 +277,7 @@ function CreatorGroups() {
                 <tbody>
                     {
                         
-                        groups.length < 1 && <tr><td colSpan='3' className='text-center text-black mt-2'>You Have No Creator Groups</td></tr>
+                        groups.length < 1 && <tr className='mt-5'><td colSpan='4' className='text-center text-black mt-5'>You Have No Creator Groups</td></tr>
                     }
                     { 
                     
@@ -325,7 +325,7 @@ function CreatorGroups() {
                     <div className='flex justify-end mb-1 lg:mb-5'>
                         <button
                             onClick={closeModal}
-                            className="text-white bg-red-500 hover:bg-red-600 px-2 py-1 rounded-full text-sm flex flex-end"
+                            className="text-white text-xs bg-red-500 hover:bg-red-600 px-2 py-1 rounded-full  flex flex-end"
                         >
                             X
                         </button>
@@ -334,10 +334,10 @@ function CreatorGroups() {
                     <div className='w-full'>
                         <div className='mb-2 text-center'>Create Content/Influencer Creator Group</div>
                         <hr />
-                        <form className='mt-5'>
+                        <form className='mt-5 text-sm'>
                             <label>Group Name:</label>
 
-                            <input type="text" onChange={e => setGroupName(e.target.value)} className='mt-2 p-4 rounded border border-gray-400 w-full mb-5' placeholder='Group Name' />
+                            <input type="text" onChange={e => setGroupName(e.target.value)} className='mt-2 p-2 rounded border border-gray-400 w-full mb-5' placeholder='Group Name' />
                             <br />
                             <div className='flex flex-wrap text-sm mb-4'>
                                 {
@@ -384,7 +384,7 @@ function CreatorGroups() {
                             <button onClick={e => {
                                 e.preventDefault();
                                 handleSubmit();
-                            }} className='bg-blue-700 hover:bg-blue-500 text-white p-3 mt-5 rounded-lg float-right'>Save Group</button>   
+                            }} className='bg-blue-700 hover:bg-blue-500 text-white p-2 mt-5 rounded-lg float-right'>Save Group</button>   
                         </form>
                     </div>
                 </div>

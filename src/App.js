@@ -22,6 +22,7 @@ import ApprovalPending from './components/pages/ApprovalPending';
 import FailedApproval from './components/pages/FailedApproval';
 import MyBrands from './components/pages/MyBrands';
 import CreatorGroups from './components/pages/CreatorGroups';
+import AddBrand from './components/pages/AddBrand';
 
 function App() {
 
@@ -139,7 +140,7 @@ function App() {
                     </>
                   }/>
 
-                  <Route path='/view_campaign/:url' element={
+                  <Route path='/view_campaign/:id' element={
                     <>
                       <Sidebar />
                       <ViewCampaign />
@@ -177,6 +178,13 @@ function App() {
                     <>
                       <Sidebar />
                       <MyBrands />
+                    </>
+                  }/>
+
+                  <Route path='/add_brand' element={
+                    <>
+                      <Sidebar />
+                      <AddBrand />
                     </>
                   }/>
 

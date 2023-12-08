@@ -120,13 +120,14 @@ function Sidebar() {
 
     useEffect(()=>{
         if(selectedOption){
-        addBrandId(selectedOption.value)
+            addBrandId(selectedOption.value) 
         }
     },[selectedOption])
 
+
   return (
     <div
-      className={`min-h-screen bg-gradient-to-l from-slate-800 via-slate-800 to-slate-900 ${
+      className={`text -sm min-h-screen bg-gradient-to-l from-slate-800 via-slate-800 to-slate-900 ${
         isOpen ? 'w-64' : 'w-16'
       } transition-width duration-500 ease-in-out fixed top-0 left-0 z-100 overflow-hidden`}
     >
@@ -158,13 +159,13 @@ function Sidebar() {
       >
             
 
-            <Link onClick={handleSidebar} className="flex text-white py-2 align-middle gap-4 hover:text-blue-400" to={"/all_campaigns"}>
+            <Link onClick={handleSidebar} className="flex text-white py-2 align-middle gap-4 hover:text-blue-400 text-sm" to={"/all_campaigns"}>
                 <CampaignIcon />
                 <div style={{display: isOpen ? 'block' : 'none'}}>CAMPAIGNS</div> 
             </Link>
             {
                 sidebarCampaignItems.map(item=>(
-                    <Link onClick={() => handleSidebar()} className="flex text-white text-sm py-2 ml-8 lg:ml-10 mr-1 align-middle gap-4 hover:text-blue-200" to={item.route}>
+                    <Link onClick={() => handleSidebar()} className="flex text-white text-xs py-2 ml-8 lg:ml-10 mr-1 align-middle gap-4 hover:text-blue-200" to={item.route}>
 
                         {item.icon}
                     <div style={{display: isOpen ? 'block' : 'none'}}>{item.label}</div> 
@@ -172,14 +173,14 @@ function Sidebar() {
                     </Link>
                 ))
             }
-            <Link onClick={handleSidebar} className="flex text-white py-2 align-middle gap-4 hover:text-blue-400" to={"/my_brands"}>
+            <Link onClick={handleSidebar} className="flex text-white text-sm py-2 align-middle gap-4 hover:text-blue-400" to={"/my_brands"}>
                 <MilitaryTechIcon />
                 <div style={{display: isOpen ? 'block' : 'none'}}>MY BRANDS</div> 
             </Link>
             
 
 
-            <Link onClick={handleSidebar} className="flex text-white py-2 align-middle gap-4 hover:text-blue-400" to={"/creator_groups"}>
+            <Link onClick={handleSidebar} className="flex text-white text-sm py-2 align-middle gap-4 hover:text-blue-400" to={"/creator_groups"}>
                 <BrandingWatermarkIcon />
                 <div style={{display: isOpen ? 'block' : 'none'}}>CREATOR GROUPS</div> 
             </Link>
@@ -194,13 +195,13 @@ function Sidebar() {
                 ))
             } */}
 
-            <Link onClick={handleSidebar} className="flex text-white py-2 align-middle gap-4 hover:text-blue-400" to={"/all_campaigns"}>
+            <Link onClick={handleSidebar} className="flex text-white text-sm py-2 align-middle gap-4 hover:text-blue-400" to={"/all_campaigns"}>
                 <PaidIcon />
                 <div style={{display: isOpen ? 'block' : 'none'}}>PAYMENTS</div> 
             </Link>
             {
                 sidebarPaymentItems.map(item=>(
-                    <Link onClick={() => handleSidebar()} className="flex text-white text-sm py-2 ml-8 lg:ml-10  mr-1 align-middle gap-4 hover:text-blue-200" to={item.route}>
+                    <Link onClick={() => handleSidebar()} className="flex text-xs text-white py-2 ml-8 lg:ml-10  mr-1 align-middle gap-4 hover:text-blue-200" to={item.route}>
 
                         {item.icon}
                     <div style={{display: isOpen ? 'block' : 'none'}}>{item.label}</div> 

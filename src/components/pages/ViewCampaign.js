@@ -5,9 +5,9 @@ import KeyboardBackspaceIcon from '@mui/icons-material/KeyboardBackspace';
 import { AuthContext } from '../../utils/AuthContext';
 
 function ViewCampaign() {
-    const { url } = useParams();
+    const { id } = useParams();
 
-    const { company_id } = useContext(AuthContext);
+    const { brand_id, company_id } = useContext(AuthContext);
     const navigate =  useNavigate();
 
     const [data, setData] = useState([]);
@@ -15,12 +15,16 @@ function ViewCampaign() {
     const [dontSentences, setDontSentences] = useState([]);
 
     useEffect(()=>{
-        fetch(`${process.env.REACT_APP_API_URL}/get_campaign/${company_id}/${url}`)
+        fetch(`${process.env.REACT_APP_API_URL}/get_campaign/${id}`)
         .then(response => response.json())
         .then(result => {
+            console.log(result);
             setData(result);
             setDoSentences(result.dos.split(','));
             setDontSentences(result.donts.split(','));
+        })
+        .catch(err => {
+            console.log(err);
         })
     },[])
 
@@ -37,7 +41,7 @@ function ViewCampaign() {
         data && 
         <div className='mt-5'>
             <div className='flex justify-end mb-3'>
-                <div className='capitalize text-sm bg-lime-700 w-20 rounded-lg text-white p-2 '>{data.status}</div>
+                <div className='text-xs capitalize bg-green-700 rounded-xl text-white p-2'>{data.status}</div>
             </div>
                     
 
@@ -45,83 +49,83 @@ function ViewCampaign() {
                     <div>
                     <img src={`${process.env.REACT_APP_API_URL}/uploads/${data.cover}`} class="p-0 rounded-lg w-72 lg:w-96 flex mb-5"  alt="product image" />
 
-                        <div className='text-gray-500 text-md'>Campaign Title</div>
-                        <div className='capitalize text-lg font-bold mb-2'>{data.title}</div>
+                        <div className='text-gray-500 text-sm'>Campaign Title</div>
+                        <div className='text-xs capitalize   font-bold mb-2'>{data.title}</div>
 
-                        <div className='text-gray-500 text-md'>Campaign Objective</div>
-                        <div className='capitalize text-lg font-bold mb-2'>{data.objective}</div>
+                        <div className='text-gray-500 text-sm'>Campaign Objective</div>
+                        <div className='text-xs capitalize   font-bold mb-2'>{data.objective}</div>
 
-                        <div className='text-gray-500 text-md'>Industry</div>
-                        <div className='capitalize text-lg font-bold mb-2'>{data.industry}</div>
+                        <div className='text-gray-500 text-sm'>Industry</div>
+                        <div className='text-xs capitalize   font-bold mb-2'>{data.industry}</div>
 
-                        <div className='text-gray-500 text-md'>Call To action</div>
-                        <div className='capitalize text-lg font-bold mb-2'>{data.call_to_action}</div>
+                        <div className='text-gray-500 text-sm'>Call To action</div>
+                        <div className='text-xs capitalize   font-bold mb-2'>{data.call_to_action}</div>
 
-                        <div className='text-gray-500 text-md'>Budget</div>
-                        <div className='capitalize text-lg font-bold mb-2'>$ {data.budget}</div>
+                        <div className='text-gray-500 text-sm'>Budget</div>
+                        <div className='text-xs capitalize   font-bold mb-2'>$ {data.budget}</div>
 
-                        <div className='text-gray-500 text-md'>DO' s</div>
+                        <div className='text-gray-500 text-sm'>DO' s</div>
                         {   doSentences.map( sentence => (
-                            <div className='capitalize text-lg font-bold mb-2'>{sentence}</div>
+                            <div className='text-xs capitalize   font-bold mb-2'>{sentence}</div>
                         )) }
 
                         
                     </div>
 
                     <div>
-                        <div className='text-gray-500 text-md'>DONT' s</div>
+                        <div className='text-gray-500 text-sm'>DONT' s</div>
                         {   dontSentences.map( sentence => (
-                            <div className='capitalize text-lg font-bold mb-2'>{sentence}</div>
+                            <div className='text-xs capitalize   font-bold mb-2'>{sentence}</div>
                         )) }
 
-                        <div className='text-gray-500 text-md'>Start Date</div>
-                        <div className='capitalize text-lg font-bold font-mono mb-2'>{ data.startDate }</div>
+                        <div className='text-gray-500 text-sm'>Start Date</div>
+                        <div className='text-xs capitalize   font-bold font-mono mb-2'>{ data.startDate }</div>
 
-                        <div className='text-gray-500 text-md'>Duration</div>
-                        <div className='capitalize text-lg font-bold mb-2'>{data.numberOfDays} Days</div>
+                        <div className='text-gray-500 text-sm'>Duration</div>
+                        <div className='text-xs capitalize   font-bold mb-2'>{data.numberOfDays} Days</div>
 
-                        <div className='text-gray-500 text-md'>End Date</div>
-                        <div className='capitalize text-lg font-bold mb-2 font-mono'>{data.endDate}</div>
+                        <div className='text-gray-500 text-sm'>End Date</div>
+                        <div className='text-xs capitalize   font-bold mb-2 font-mono'>{data.endDate}</div>
 
-                        <div className='text-gray-500 text-md'>Prefered Gender of Creators</div>
-                        <div className='capitalize text-lg font-bold mb-2'>{data.gender}</div>
+                        <div className='text-gray-500 text-sm'>Prefered Gender of Creators</div>
+                        <div className='text-xs capitalize   font-bold mb-2'>{data.gender}</div>
 
-                        <div className='text-gray-500 text-md'>Prefered Location of Creators</div>
-                        <div className='capitalize text-lg font-bold mb-2'>{data.location}</div>
+                        <div className='text-gray-500 text-sm'>Prefered Location of Creators</div>
+                        <div className='text-xs capitalize   font-bold mb-2'>{data.location}</div>
 
-                        <div className='text-gray-500 text-md'>Prefered Age of Creators</div>
-                        <div className='capitalize text-lg font-bold mb-2'>{data.minAge} - { data.maxAge}</div>
+                        <div className='text-gray-500 text-sm'>Prefered Age of Creators</div>
+                        <div className='text-xs capitalize   font-bold mb-2'>{data.minAge} - { data.maxAge}</div>
 
-                        <div className='text-gray-500 text-md'>No. of followers Required</div>
-                        <div className='flex'>
-                            <div className='capitalize text-lg font-bold font-mono ml-4'>Instagram: </div>
-                            <div className='ml-2'>{data.instaFollowers}</div>
+                        <div className='text-gray-500 text-sm'>No. of followers Required</div>
+                        <div className='flex items-center'>
+                            <div className='text-xs capitalize   font-bold font-mono ml-4'>Instagram: </div>
+                            <div className='ml-2 text-xs'>{data.instaFollowers}</div>
                         </div>
 
-                        <div className='flex'>
-                            <div className='capitalize text-lg font-bold font-mono ml-4'>Facebook: </div>
-                            <div className='ml-2'>{data.fbFollowers}</div>
+                        <div className='flex items-center'>
+                            <div className='text-xs capitalize   font-bold font-mono ml-4'>Facebook: </div>
+                            <div className='ml-2 text-xs'>{data.fbFollowers}</div>
                         </div>
 
-                        <div className='flex'>
-                            <div className='capitalize text-lg font-bold font-mono ml-4'>X: </div>
-                            <div className='ml-2'>{data.xFollowers}</div>
+                        <div className='flex items-center'>
+                            <div className='text-xs capitalize   font-bold font-mono ml-4'>X: </div>
+                            <div className='ml-2 text-xs'>{data.xFollowers}</div>
                         </div>
 
-                        <div className='text-gray-500 text-md'>Accounts/Hashtags To be Tagged</div>
-                        <div className='flex'>
-                            <div className='capitalize text-lg font-bold font-mono ml-4'>Instagram: </div>
-                            <div className='ml-2'>{data.instagramTags}</div>
+                        <div className='text-gray-500 text-sm'>Accounts/Hashtags To be Tagged</div>
+                        <div className='flex items-center'>
+                            <div className='text-xs capitalize font-bold font-mono ml-4'>Instagram: </div>
+                            <div className='ml-2 text-xs'>{data.instagramTags}</div>
                         </div>
 
-                        <div className='flex'>
-                            <div className='capitalize text-lg font-bold font-mono ml-4'>Facebook: </div>
-                            <div className='ml-2'>{data.fbTags}</div>
+                        <div className='flex items-center'>
+                            <div className='text-xs capitalize font-bold font-mono ml-4'>Facebook: </div>
+                            <div className='ml-2 text-xs'>{data.fbTags}</div>
                         </div>
 
-                        <div className='flex'>
-                            <div className='capitalize text-lg font-bold font-mono ml-4'>X: </div>
-                            <div className='ml-2'>{data.xTags}</div>
+                        <div className='flex items-center'>
+                            <div className='text-xs capitalize font-bold font-mono ml-4'>X: </div>
+                            <div className='ml-2 text-xs'>{data.xTags}</div>
                         </div>
 
                     </div>
@@ -130,11 +134,11 @@ function ViewCampaign() {
 
         </div>
     }
-    <div className='block lg:flex justify-center gap-10 mt-10 lg:mt-6'>
-        <Link to={`/edit_influencer_campaign/${company_id}/${url}`} className='bg-sky-500 p-2 lg:p-4  rounded-lg text-white text-center w-32 font-bold hover:bg-sky-900'>
+    <div className='block lg:flex justify-center gap-10 mt-10 lg:mt-6 text-sm'>
+        <Link to={`/edit_influencer_campaign/${company_id}/${id}`} className='bg-sky-900 p-2  rounded-lg text-white text-center w-32 font-bold hover:bg-sky-800'>
                 Edit
         </Link>
-        <button onClick={()=> navigate("/all_campaigns")} className='border-2 border-red-500 ml-2 p-2 lg:p-4 w-32  rounded-lg hover:bg-red-500 hover:text-white for-bold'>
+        <button onClick={()=> navigate("/all_campaigns")} className='border border-red-500 ml-2 text-xs p-2 w-32  rounded-lg hover:bg-red-500 hover:text-white for-bold'>
                 Close
         </button>
     </div>

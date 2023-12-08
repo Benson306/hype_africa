@@ -12,20 +12,30 @@ function MyBrands() {
       const { company_id } =  useContext(AuthContext);
 
       const [brands, setBrands] = useState([]);
+      const [campaigns, setCamapigns] = useState([]);
 
       useEffect(()=>{
         fetch(`${process.env.REACT_APP_API_URL}/all_brands/${company_id}`)
         .then(response => response.json())
         .then(response => {
-          setBrands(response);
-        })
+      
+            fetch(`${process.env.REACT_APP_API_URL}/get_all_campaigns`)
+            .then(newResponse => newResponse.json())
+            .then(newResponse => {
+              setBrands(response);
+              setCamapigns(newResponse);
+            })
+            .catch(err => {
+              console.log(err);
+            })
         .catch(err => {
           console.log(err);
         })
       })
+    })
 
       const handleDelete = (brand_id) => {
-        fetch(`${process.env.REACT_APP_API_URL}/del_brand/${company_id}/${brand_id}`,{
+        fetch(`${process.env.REACT_APP_API_URL}/brand/${brand_id}`,{
           method:'DELETE'
         })
         .then((res)=> res.json())
@@ -65,6 +75,7 @@ function MyBrands() {
 
     const [brandName, setBrandName] =  useState(null);
     const [brandLogo, setBrandLogo] = useState(null);
+    const [selectedCampaigns, setSelectedCampaign] = useState([]);
   
 
   return (
@@ -75,30 +86,37 @@ function MyBrands() {
 
         <h1 className='text-sm mb-3 p-3 uppercase font-bold text-gray-700'>My Brands</h1>
 
+        <div className='w-5/6 mt-5 flex justify-start lg:justify-end mx-auto mb-5'>
+            <Link to={"/add_brand"} className='bg-blue-800 text-white p-2 text-sm rounded-lg'>+ Add Brand </Link>
+        </div>
+
         <div className='flex gap-4 flex-wrap'>
 
         { brands.map( brand => (  
         
-        <Link onClick={(e)=>{ openModal(brand.brand_name, brand.brand_logo) } } class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-          <img src={`${process.env.REACT_APP_API_URL}/uploads/${brand.brand_logo}`} class="p-0 rounded-t-lg h-52 m-auto "  alt="No image Uploaded"  />
+        <Link onClick={(e)=>{
+          let brandCampaigns = campaigns.filter(campaign => campaign.brand_id == brand._id)
+          setSelectedCampaign(brandCampaigns);
+          openModal(brand.brand_name, brand.brand_logo);
+         } } class="w-full lg:w-1/4 border border-gray-200 rounded-lg shadow bg-slate-800">
+          <img src={`${process.env.REACT_APP_API_URL}/uploads/${brand.brand_logo}`} class="p-0 rounded-t-lg h-32 w-full m-auto "  alt="No image Uploaded"  />
           
-
-          <div class="bg-neutral-400">
-              <div className='flex justify-between brands-center gap-4 mt-3 px-5 pb-2'>
-                  <h5 class="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mt-2">{brand.brand_name}</h5>
-                  <Link to={"#"} onClick={()=> handleDelete(brand._id)} className='mt-2 z-1 bg-sky-100 rounded-full p-2'>
-                      <DeleteIcon style={{color: 'red'}} />
+              <div className='flex justify-between items-center gap-4 mt-3 px-5'>
+                  <h5 class="text-md font-semibold tracking-tight text-white">{brand.brand_name}</h5>
+                  <Link to={"#"} onClick={()=> handleDelete(brand._id)} className=' z-100 rounded-full p-2'>
+                      <DeleteIcon style={{color: '#cc0000'}} />
                   </Link>
               </div>
 
-              <div className="px-5 pb-2 text-md font-semibold mr-2 py-0.5 rounded text-sky-900 capitalize flex gap-2">
-                  No of Campaigns: <div className='text-black'>21</div>
+              <div className="px-5 text-md font-semibold mr-2 rounded text-sky-500 capitalize flex items-center gap-2 text-sm">
+                  No of Campaigns: <div className='text-white'>{
+                      campaigns.filter(campaign => campaign.brand_id == brand._id).length
+                  }</div>
               </div>
 
-              <div class="flex brands-center justify-between align-middle mt-2 px-5 pb-5">
-                  <Link to={`/edit_influencer_campaign/${company_id}/${brand._id}`} class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Edit Brand</Link>
+              <div class="flex brands-center justify-between align-middle mt-3 ml-5 my-5 text-xs">
+                  <Link to={`/edit_influencer_campaign/${company_id}/${brand._id}`} class="text-white bg-blue-700 hover:bg-blue-800  rounded-lg p-2 text-center ">Edit Brand</Link>
               </div>
-          </div>
         </Link> ))
       }
 
@@ -112,7 +130,7 @@ function MyBrands() {
             <div className='flex justify-end mb-1 lg:mb-5'>
                 <button
                     onClick={closeModal}
-                    className="text-white bg-red-500 hover:bg-red-600 px-2 py-1 rounded-full text-sm flex flex-end"
+                    className="text-white bg-red-500 hover:bg-red-600 px-2 py-1 rounded-full text-xs flex flex-end"
                 >
                     X
                 </button>
@@ -121,10 +139,20 @@ function MyBrands() {
             <div className='w-full'>
 
               <img src={`${process.env.REACT_APP_API_URL}/uploads/${brandLogo}`} class="p-2 rounded-t-lg h-52 m-auto border border-gray-300"  alt="No image Uploaded"  />
-              <div className='text-2xl mb-2 text-center mt-2 font-bold'>{brandName}</div>
+              <div className='text-md mb-2 text-center mt-2 font-bold'>{brandName}</div>
               <hr />
 
-              <div className='mt-5 underline'>Campaigns</div>
+              <div className='mt-5 text-xs mb-2 text-sky-500 block'>Campaigns</div>
+
+              {
+                selectedCampaigns.length >0  ? selectedCampaigns.map(select => (
+                  <div className='text-black hover:text-sky-400'>
+                    <Link to={`/view_campaign/${select._id}`} className='text-xs'>
+                        { select.title }
+                    </Link>
+                </div>
+                )) : <div className='text-black text-xs'>You have no campaigns on this brand</div>
+              }
 
               
             </div>

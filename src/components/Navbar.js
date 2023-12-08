@@ -55,7 +55,7 @@ function Navbar() {
         
         
         <div className='flex gap-4'>
-        <Link to={"/choose_campaign"} className='bg-sky-900 text-white p-1 lg:p-2 rounded-md lg:rounded-lg flex items-center gap-1 text-xs lg:text-sm'>
+        <Link to={"/choose_campaign"} className='bg-sky-900 text-white p-1 lg:p-2 rounded-md lg:rounded-lg flex items-center gap-1 text-xs'>
           <AddIcon sx={{fontSize: 20}}/>
           <div>Create Campaign</div>
         </Link>
@@ -75,17 +75,17 @@ function Navbar() {
               <img src={`${process.env.REACT_APP_API_URL}/uploads/${data.logo}`} className='shadow rounded-full max-w-full h-auto align-middle border-2 border-sky-900'  width={"50px"}/>
 
               <div className=''>
-                <div className='font-sans text-xl capitalize'>{data.companyName}</div>
-                <div className='font-serif'>{data.email}</div>
+                <div className='font-sans text-md capitalize'>{data.companyName}</div>
+                <div className='font-serif text-xs '>{data.email}</div>
               </div>
 
 
             </div>
-            <button onClick={()=>{ handleShow(); navigate('/view_profile')}} className='flex justify-center bg-neutal-100 border-2 border-sky-900 hover:bg-sky-900 hover:text-white text-sm  p-2  mx-auto w-3/4 rounded-2xl'>View Profile</button>
+            <button onClick={()=>{ handleShow(); navigate('/view_profile')}} className='flex justify-center bg-neutal-100 border border-sky-900 hover:bg-sky-900 hover:text-white text-sm  p-2  mx-auto w-3/4 rounded-xl'>View Profile</button>
 
                 <button
                     type="button"
-                    className="flex justify-center text-red-700 w-full px-4 py-2 text-left text-sm hover:text-red-500 mt-2"
+                    className="flex justify-center text-red-700 w-full px-4 py-2 text-left text-xs hover:text-red-500 mt-2"
                     onClick={() => { openModal() ; handleShow() } }
                   >
                     Change Password
@@ -93,7 +93,7 @@ function Navbar() {
 
               
 
-            <button onClick={()=> handleLogout()} class="flex justify-center text-gray-700 w-full px-2 py-1 text-left text-sm hover:text-sky-900" role="menuitem" tabindex="-1" id="menu-item-3">Sign out</button>
+            <button onClick={()=> handleLogout()} class="flex justify-center text-gray-700 w-full px-2 py-1 text-left text-xs hover:text-sky-900" role="menuitem" tabindex="-1" id="menu-item-3">Sign out</button>
           </div>
         </div>
 
