@@ -68,7 +68,7 @@ function Navbar() {
       {
           show &&
       
-        <div className="absolute right-0 z-10 mt-10 w-72 origin-top-right rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none mr-2 transition-all duration-500 ease-in-out bg-neutral-100" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+        <div className="absolute right-0 z-10 mt-10 w-72 origin-top-right rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none mr-1 transition-all duration-500 ease-in-out bg-neutral-100" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
           <div class="" role="none">
             {/* <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" --> */}
             <div className='flex justify-center align-middle gap-4 p-4'>
@@ -81,7 +81,7 @@ function Navbar() {
 
 
             </div>
-            <button onClick={()=>{ handleShow(); navigate('/view_profile')}} className='flex justify-center bg-neutal-100 border border-sky-900 hover:bg-sky-900 hover:text-white text-sm  p-2  mx-auto w-3/4 rounded-xl'>View Profile</button>
+            <button onClick={()=>{ handleShow(); navigate('/view_profile')}} className='flex justify-center bg-neutal-100 border border-sky-900 hover:bg-sky-900 hover:text-white text-xs  p-2  mx-auto w-3/4 rounded-xl'>View Profile</button>
 
                 <button
                     type="button"
@@ -93,7 +93,7 @@ function Navbar() {
 
               
 
-            <button onClick={()=> handleLogout()} class="flex justify-center text-gray-700 w-full px-2 py-1 text-left text-xs hover:text-sky-900" role="menuitem" tabindex="-1" id="menu-item-3">Sign out</button>
+            <button onClick={()=> handleLogout()} class="flex justify-center text-gray-700 w-full px-2 py-1 text-left text-xs hover:text-sky-900 mb-2" role="menuitem" tabindex="-1" id="menu-item-3">Sign out</button>
           </div>
         </div>
 
