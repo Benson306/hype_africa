@@ -45,7 +45,7 @@ function Login() {
             if(response.status === "success"){
                 toast.success('Success!', {
                     position: "top-right",
-                    autoClose: 3000,
+                    autoClose: 1000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -57,25 +57,35 @@ function Login() {
                     fetch(`${process.env.REACT_APP_API_URL}/all_brands/${response.uid}`)
                     .then((newResponse)=> newResponse.json())
                     .then(newResponse => {
-                        addBrandId(newResponse[0]._id)
-                        addCompanyId(response.uid);
-                        if(!response.isComplete){
+
+                        if(newResponse.length < 1){
                             setTimeout(() => {
                                 navigate('/complete_profile');
-                              }, 2000);
-                        }else if(response.isComplete && response.isApproved == 0){ //pending approval
-                            setTimeout(() => {
-                                navigate('/approval_pending');
-                              }, 2000);
-                        }else if(response.isComplete && response.isApproved == 1){ //approved
-                            setTimeout(() => {
-                                navigate('/all_campaigns');
-                              }, 2000);
-                        }else if(response.isComplete && response.isApproved == 2){ //rejected approval
-                            setTimeout(() => {
-                                navigate('/rejected_application');
-                              }, 2000);
+                                addCompanyId(response.uid);
+                              }, 1500);
+                        }else{
+                            addBrandId(newResponse[0]._id) 
+                            addCompanyId(response.uid);
+
+                            if(!response.isComplete){
+                                setTimeout(() => {
+                                    navigate('/complete_profile');
+                                  }, 2000);
+                            }else if(response.isComplete && response.isApproved == 0){ //pending approval
+                                setTimeout(() => {
+                                    navigate('/approval_pending');
+                                  }, 2000);
+                            }else if(response.isComplete && response.isApproved == 1){ //approved
+                                setTimeout(() => {
+                                    navigate('/all_campaigns');
+                                  }, 2000);
+                            }else if(response.isComplete && response.isApproved == 2){ //rejected approval
+                                setTimeout(() => {
+                                    navigate('/rejected_application');
+                                  }, 2000);
+                            }
                         }
+                       
                     })
                     .catch(err => {
                         console.log(err)

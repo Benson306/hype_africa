@@ -12,7 +12,7 @@ function CompleteProfile() {
 
     const [brandName, setBrandName] = useState(null);
 
-    const { company_id } = useContext(AuthContext);
+    const { company_id, logout } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -32,6 +32,10 @@ function CompleteProfile() {
     setImageSrc(null);
   };
 
+  const handleLogout = () =>{
+    logout();
+    navigate("/company_login")
+  }
 
   const handleSubmit = (e) =>{
     e.preventDefault();
@@ -39,7 +43,7 @@ function CompleteProfile() {
     if(brandName === null || imageSrc === null){
         toast.error('All Fields Must Be Filled', {
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -67,7 +71,7 @@ function CompleteProfile() {
         if(response.status == 'success'){
             toast.success('Success!', {
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -92,7 +96,7 @@ function CompleteProfile() {
         }else{
             toast.error('Failed. Server Error!', {
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -105,7 +109,7 @@ function CompleteProfile() {
     .catch(err =>{
         toast.error('Failed. Server Error!', {
             position: "top-right",
-            autoClose: 5000,
+            autoClose: 2000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: true,
@@ -221,7 +225,10 @@ function CompleteProfile() {
                                     Complete Profile
                             </button>
                             <p class="text-sm  text-gray-100">
-                                Go to Home? <Link to="/" className="font-medium hover:underline text-sky-500"> Homepage</Link>
+                                <button onClick={(e)=>{
+                                    e.preventDefault();
+                                    handleLogout();
+                                }} className="font-medium hover:underline text-red-500">Sign Out ?</button>
                             </p>
                         </form>
                     </div>
